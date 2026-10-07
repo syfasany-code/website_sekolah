@@ -42,11 +42,11 @@
                                     <i class="mdi mdi-eye"></i> <spanclass="d-none d-md-inline ms-1">Detail</spanclass=>
                                 </a>
                                 <?php if(strcasecmp(auth()->user()->role, 'admin') === 0): ?>
-                                    <a href="<?php echo e(route('admin.siswa.addEdit', $item->id)); ?>" class="btn btn-sm btn-warning">
+                                    <a href="<?php echo e(route('admin.siswa.addEdit', $item->id_siswa)); ?>" class="btn btn-sm btn-warning">
                                         Edit
                                     </a>
 
-                                    <form action="<?php echo e(route('admin.siswa.delete', $item->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                    <form action="<?php echo e(route('admin.siswa.delete', $item->id_siswa)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
                                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>

@@ -32,7 +32,7 @@
                         <div class="avatar-wrapper mb-3">
                             @if (!empty($ekskul->gambar) && file_exists(public_path('storage/' . $ekskul->gambar)))
                                 <img src="{{ asset('storage/' . $ekskul->gambar) }}"
-                                     alt="{{ $ekstrakulikuler->nama_ekskul }}"
+                                     alt="{{ $ekskul->nama_ekskul }}"
                                      class="rounded shadow-sm border img-fluid"
                                      style="max-height: 200px; width: 100%; object-fit: cover;">
                             @else

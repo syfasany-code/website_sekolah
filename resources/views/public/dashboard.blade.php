@@ -335,38 +335,6 @@
             overflow: hidden;
         }
 
-        /* Extracurricular Pills */
-        .extra-pill {
-            background-color: #FFF;
-            border: 1px solid #CBD5E1;
-            padding: 14px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            color: var(--primary-navy);
-            transition: all 0.2s;
-        }
-
-        .extra-pill:hover {
-            background-color: var(--primary-navy);
-            color: #FFF;
-            border-color: var(--primary-navy);
-            transform: translateY(-2px);
-        }
-
-        .extra-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background-color: rgba(218, 165, 32, 0.15);
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* Footer */
         .main-footer {
             background-color: var(--primary-dark-navy);
@@ -570,7 +538,7 @@
             <div class="row align-items-center gy-4">
                 <div class="col-lg-5" data-aos="fade-right" data-aos-duration="800">
                     <div class="principal-img-container">
-                        <img src="{{  asset('images/kepalasekolah.jpg') }}" alt="Kepala Sekolah" class="img-fluid w-100" style="height: 480px; object-fit: cover;">
+                        <img src="{{ asset('images/kepalasekolah.jpg') }}" alt="Kepala Sekolah" class="img-fluid w-100" style="height: 480px; object-fit: cover;">
                         <div class="principal-info-overlay">
                             <h4 class="mb-0 text-white fw-bold" style="font-family: var(--font-heading);">Ngadiya, S.Pd., M.M.</h4>
                             <small class="text-warning fw-semibold">Kepala Sekolah SMA Negeri 1 Yogyakarta</small>
@@ -613,7 +581,7 @@
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
                         <div class="custom-card">
                             @if($item->gambar)
-                                <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="{{ $item->judul }}" style="height: 200px; object-fit: cover;">
+                                <img src="{{ asset('storage/berita/' . $item->gambar) }}" class="card-img-top" alt="{{ $item->judul }}" style="height: 200px; object-fit: cover;">
                             @else
                                 <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Berita" style="height: 200px; object-fit: cover;">
                             @endif
@@ -637,7 +605,7 @@
         </div>
     </section>
 
-    <!-- Prestasi Siswa -->
+    <!-- Prestasi Siswa (Dengan Gambar) -->
     <section id="prestasi" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center mx-auto" style="max-width: 700px;" data-aos="fade-up">
@@ -647,17 +615,28 @@
                 <p class="text-muted fs-6">Raihan medali dan penghargaan dari para siswa SMA Negeri 1 Yogyakarta di tingkat regional, nasional, maupun internasional.</p>
             </div>
 
-            <div class="row g-3 mt-3">
+            <div class="row g-4 mt-3">
                 @forelse ($prestasis as $item)
                     <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
-                        <div class="p-3 bg-white rounded-3 shadow-sm border border-start border-4 border-warning d-flex align-items-center gap-3">
-                            <div class="flex-shrink-0 bg-warning text-dark p-3 rounded-circle fw-bold">
-                                <i class="fas fa-trophy fa-lg"></i>
-                            </div>
-                            <div>
-                                <span class="badge bg-danger mb-1">{{ $item->tingkat ?? 'Nasional' }}</span>
-                                <h6 class="mb-0 fw-bold fs-6">{{ $item->nama_prestasi ?? $item->judul }}</h6>
-                                <small class="text-muted">{{ $item->nama_siswa ?? $item->pemenang }} ({{ $item->kelas ?? '-' }})</small>
+                        <div class="custom-card">
+                            @if(isset($item->foto) && $item->foto)
+                                <img src="{{ asset('storage/' . $item->foto) }}" class="card-img-top" alt="{{ $item->nama_prestasi ?? $item->judul }}" style="height: 200px; object-fit: cover;">
+                            @elseif(isset($item->gambar) && $item->gambar)
+                                <img src="{{ asset('storage/prestasi/' . $item->gambar) }}" class="card-img-top" alt="{{ $item->nama_prestasi ?? $item->judul }}" style="height: 200px; object-fit: cover;">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Prestasi" style="height: 200px; object-fit: cover;">
+                            @endif
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-danger">{{ $item->tingkat ?? 'Nasional' }}</span>
+                                    <span class="date-badge"><i class="fas fa-trophy text-warning me-1"></i> Juara</span>
+                                </div>
+                                <h5 class="card-title fw-bold text-dark mb-2" style="font-family: var(--font-heading); font-size: 1.15rem;">
+                                    {{ $item->nama_prestasi ?? $item->judul }}
+                                </h5>
+                                <p class="card-text text-muted small mb-0">
+                                    <i class="fas fa-user me-1 text-secondary"></i> {{ $item->nama_siswa ?? $item->pemenang }} ({{ $item->kelas ?? '-' }})
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -668,7 +647,7 @@
         </div>
     </section>
 
-    <!-- Ekstrakurikuler -->
+    <!-- Ekstrakurikuler & Organisasi (Dengan Gambar) -->
     <section id="ekstrakurikuler" class="py-5">
         <div class="container py-4">
             <div class="text-center mx-auto mb-4" style="max-width: 650px;" data-aos="fade-up">
@@ -677,12 +656,25 @@
                 <div class="section-divider mx-auto"></div>
             </div>
 
-            <div class="row g-3">
+            <div class="row g-4">
                 @forelse ($ekskuls as $item)
-                    <div class="col-6 col-md-4 col-lg-3" data-aos="flip-up" data-aos-delay="{{ $loop->index * 50 }}">
-                        <div class="extra-pill">
-                            <div class="extra-icon"><i class="{{ $item->ikon ?? 'fas fa-star' }}"></i></div>
-                            <span>{{ $item->nama_ekskul ?? $item->nama }}</span>
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}">
+                        <div class="custom-card text-center">
+                            @if(isset($item->foto) && $item->foto)
+                                <img src="{{ asset('storage/' . $item->foto) }}" class="card-img-top" alt="{{ $item->nama_ekskul ?? $item->nama }}" style="height: 180px; object-fit: cover;">
+                            @elseif(isset($item->gambar) && $item->gambar)
+                                <img src="{{ asset('storage/' . $item->gambar) }}" class="card-img-top" alt="{{ $item->nama_ekskul ?? $item->nama }}" style="height: 180px; object-fit: cover;">
+                            @else
+                                <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Ekskul" style="height: 180px; object-fit: cover;">
+                            @endif
+                            <div class="card-body p-3">
+                                <h6 class="fw-bold text-dark mb-1" style="font-family: var(--font-heading);">
+                                    {{ $item->nama_ekskul ?? $item->nama }}
+                                </h6>
+                                @if(isset($item->deskripsi) || isset($item->keterangan))
+                                    <p class="text-muted small mb-0">{{ Str::limit($item->deskripsi ?? $item->keterangan, 60) }}</p>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @empty
@@ -726,7 +718,7 @@
         </div>
     </section>
 
-    <!-- Section Kontak (Dukungan Kontak Langsung Tanpa Form) -->
+    <!-- Section Kontak -->
     <section id="kontak" class="py-5">
         <div class="container py-4">
             <div class="row g-5">
@@ -767,7 +759,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Kontak Cepat (Tanpa Membutuhkan Route Form) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800">
                     <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border">
                         <h4 class="fw-bold text-dark mb-2" style="font-family: var(--font-heading);">Layanan Informasi & Kontak</h4>
@@ -881,6 +872,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- AOS Library JS -->
+    <script src="{{ asset('aos/aos.css') }}"></script>
     <script src="{{ asset('aos/aos.js') }}"></script>
     <script>
         AOS.init({

@@ -335,38 +335,6 @@
             overflow: hidden;
         }
 
-        /* Extracurricular Pills */
-        .extra-pill {
-            background-color: #FFF;
-            border: 1px solid #CBD5E1;
-            padding: 14px 20px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            color: var(--primary-navy);
-            transition: all 0.2s;
-        }
-
-        .extra-pill:hover {
-            background-color: var(--primary-navy);
-            color: #FFF;
-            border-color: var(--primary-navy);
-            transform: translateY(-2px);
-        }
-
-        .extra-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            background-color: rgba(218, 165, 32, 0.15);
-            color: var(--accent-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         /* Footer */
         .main-footer {
             background-color: var(--primary-dark-navy);
@@ -613,7 +581,7 @@
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
                         <div class="custom-card">
                             <?php if($item->gambar): ?>
-                                <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>" class="card-img-top" alt="<?php echo e($item->judul); ?>" style="height: 200px; object-fit: cover;">
+                                <img src="<?php echo e(asset('storage/berita/' . $item->gambar)); ?>" class="card-img-top" alt="<?php echo e($item->judul); ?>" style="height: 200px; object-fit: cover;">
                             <?php else: ?>
                                 <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Berita" style="height: 200px; object-fit: cover;">
                             <?php endif; ?>
@@ -637,7 +605,7 @@
         </div>
     </section>
 
-    <!-- Prestasi Siswa -->
+    <!-- Prestasi Siswa (Dengan Gambar) -->
     <section id="prestasi" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center mx-auto" style="max-width: 700px;" data-aos="fade-up">
@@ -647,17 +615,29 @@
                 <p class="text-muted fs-6">Raihan medali dan penghargaan dari para siswa SMA Negeri 1 Yogyakarta di tingkat regional, nasional, maupun internasional.</p>
             </div>
 
-            <div class="row g-3 mt-3">
+            <div class="row g-4 mt-3">
                 <?php $__empty_1 = true; $__currentLoopData = $prestasis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                     <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="<?php echo e($loop->index * 100); ?>">
-                        <div class="p-3 bg-white rounded-3 shadow-sm border border-start border-4 border-warning d-flex align-items-center gap-3">
-                            <div class="flex-shrink-0 bg-warning text-dark p-3 rounded-circle fw-bold">
-                                <i class="fas fa-trophy fa-lg"></i>
-                            </div>
-                            <div>
-                                <span class="badge bg-danger mb-1"><?php echo e($item->tingkat ?? 'Nasional'); ?></span>
-                                <h6 class="mb-0 fw-bold fs-6"><?php echo e($item->nama_prestasi ?? $item->judul); ?></h6>
-                                <small class="text-muted"><?php echo e($item->nama_siswa ?? $item->pemenang); ?> (<?php echo e($item->kelas ?? '-'); ?>)</small>
+                        <div class="custom-card">
+                            <?php if(isset($item->foto) && $item->foto): ?>
+                                <img src="<?php echo e(asset('storage/' . $item->foto)); ?>" class="card-img-top" alt="<?php echo e($item->nama_prestasi ?? $item->judul); ?>" style="height: 200px; object-fit: cover;">
+                            <?php elseif(isset($item->gambar) && $item->gambar): ?>
+                                <img src="<?php echo e(asset('storage/prestasi/' . $item->gambar)); ?>" class="card-img-top" alt="<?php echo e($item->nama_prestasi ?? $item->judul); ?>" style="height: 200px; object-fit: cover;">
+                            <?php else: ?>
+                                <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Prestasi" style="height: 200px; object-fit: cover;">
+                            <?php endif; ?>
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="badge bg-danger"><?php echo e($item->tingkat ?? 'Nasional'); ?></span>
+                                    <span class="date-badge"><i class="fas fa-trophy text-warning me-1"></i> Juara</span>
+                                </div>
+                                <h5 class="card-title fw-bold text-dark mb-2" style="font-family: var(--font-heading); font-size: 1.15rem;">
+                                    <?php echo e($item->nama_prestasi ?? $item->judul); ?>
+
+                                </h5>
+                                <p class="card-text text-muted small mb-0">
+                                    <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_siswa ?? $item->pemenang); ?> (<?php echo e($item->kelas ?? '-'); ?>)
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -668,7 +648,7 @@
         </div>
     </section>
 
-    <!-- Ekstrakurikuler -->
+    <!-- Ekstrakurikuler & Organisasi (Dengan Gambar) -->
     <section id="ekstrakurikuler" class="py-5">
         <div class="container py-4">
             <div class="text-center mx-auto mb-4" style="max-width: 650px;" data-aos="fade-up">
@@ -677,12 +657,26 @@
                 <div class="section-divider mx-auto"></div>
             </div>
 
-            <div class="row g-3">
+            <div class="row g-4">
                 <?php $__empty_1 = true; $__currentLoopData = $ekskuls; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                    <div class="col-6 col-md-4 col-lg-3" data-aos="flip-up" data-aos-delay="<?php echo e($loop->index * 50); ?>">
-                        <div class="extra-pill">
-                            <div class="extra-icon"><i class="<?php echo e($item->ikon ?? 'fas fa-star'); ?>"></i></div>
-                            <span><?php echo e($item->nama_ekskul ?? $item->nama); ?></span>
+                    <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 50); ?>">
+                        <div class="custom-card text-center">
+                            <?php if(isset($item->foto) && $item->foto): ?>
+                                <img src="<?php echo e(asset('storage/' . $item->foto)); ?>" class="card-img-top" alt="<?php echo e($item->nama_ekskul ?? $item->nama); ?>" style="height: 180px; object-fit: cover;">
+                            <?php elseif(isset($item->gambar) && $item->gambar): ?>
+                                <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>" class="card-img-top" alt="<?php echo e($item->nama_ekskul ?? $item->nama); ?>" style="height: 180px; object-fit: cover;">
+                            <?php else: ?>
+                                <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Ekskul" style="height: 180px; object-fit: cover;">
+                            <?php endif; ?>
+                            <div class="card-body p-3">
+                                <h6 class="fw-bold text-dark mb-1" style="font-family: var(--font-heading);">
+                                    <?php echo e($item->nama_ekskul ?? $item->nama); ?>
+
+                                </h6>
+                                <?php if(isset($item->deskripsi) || isset($item->keterangan)): ?>
+                                    <p class="text-muted small mb-0"><?php echo e(Str::limit($item->deskripsi ?? $item->keterangan, 60)); ?></p>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
@@ -726,7 +720,7 @@
         </div>
     </section>
 
-    <!-- Section Kontak (Dukungan Kontak Langsung Tanpa Form) -->
+    <!-- Section Kontak -->
     <section id="kontak" class="py-5">
         <div class="container py-4">
             <div class="row g-5">
@@ -767,7 +761,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Kontak Cepat (Tanpa Membutuhkan Route Form) -->
                 <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800">
                     <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border">
                         <h4 class="fw-bold text-dark mb-2" style="font-family: var(--font-heading);">Layanan Informasi & Kontak</h4>
@@ -881,6 +874,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- AOS Library JS -->
+    <script src="<?php echo e(asset('aos/aos.css')); ?>"></script>
     <script src="<?php echo e(asset('aos/aos.js')); ?>"></script>
     <script>
         AOS.init({

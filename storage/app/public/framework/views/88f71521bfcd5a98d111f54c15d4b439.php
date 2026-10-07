@@ -85,7 +85,11 @@
                                                 <a href="<?php echo e(route('admin.guru.addEdit', $item->id)); ?>" class="btn btn-sm btn-warning">
                                                     Edit
                                                 </a>
-                                                
+                                                <form action="<?php echo e(route('admin.guru.delete', $item->id_guru)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                    <?php echo csrf_field(); ?>
+                                                    <?php echo method_field('DELETE'); ?>
+                                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                                </form>
                                             <?php endif; ?>
                                         </div>
                                     </td>

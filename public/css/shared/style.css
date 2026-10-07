@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------
  [Master Stylesheet]
 
-  Project:	Star Admin Free 
+  Project:	Star Admin Free
   Version:	3.5
 -------------------------------------------------------------------*/
 /*-------------------------------------------------------------------
@@ -3232,7 +3232,7 @@ input[type="button"].btn-block {
   margin-right: 1rem;
   font-size: 1.25rem;
   line-height: inherit;
-  white-space: nowrap; 
+  white-space: nowrap;
   margin: 0 !important;
   padding: 0 !important;
 }
@@ -8256,10 +8256,10 @@ pre {
   max-width: 100%; }
   .documentation .content-wrapper {
     padding-top: 0;
-    min-height: calc(100vh - 63px); 
+    min-height: calc(100vh - 63px);
     background: #f5f7fb;
     min-height: 100%;
-    padding: 30px !important; 
+    padding: 30px !important;
   }
 
 .doc-table-contents,
@@ -9932,7 +9932,7 @@ html, body {
 .main-panel {
     flex: 1;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     margin-left: 240px;
     height: 100vh;
     overflow-y: auto;
@@ -10025,4 +10025,46 @@ body.admin-page .sidebar {
     left: 0;
     width: 240px;
     height: calc(100vh - 70px);
+}
+
+/* ==============================
+   RAPIIKAN SEMUA DATATABLES
+   ============================== */
+
+table.dataTable {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+/* Header */
+table.dataTable thead th {
+    text-align: center !important;
+    vertical-align: middle !important;
+    border-top: 1px solid #dee2e6 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+/* Isi tabel */
+table.dataTable tbody td {
+    text-align: center !important;
+    vertical-align: middle !important;
+    border-bottom: 1px solid #dee2e6 !important;
+    white-space: nowrap;
+}
+
+/* Foto / Avatar */
+table.dataTable tbody td img,
+table.dataTable tbody td .rounded-circle {
+    display: block;
+    margin: 0 auto !important;
+}
+
+/* Tombol */
+table.dataTable tbody td .btn {
+    vertical-align: middle !important;
+}
+
+/* Hilangkan garis bawaan yang bentrok */
+table.dataTable.no-footer {
+    border-bottom: none !important;
 }

@@ -83,11 +83,11 @@
                                                 <a href="{{ route('admin.guru.addEdit', $item->id) }}" class="btn btn-sm btn-warning">
                                                     Edit
                                                 </a>
-                                                {{-- <form action="{{ route('admin.guru.delete', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <form action="{{ route('admin.guru.delete', $item->id_guru) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
-                                                </form> --}}
+                                                </form>
                                             @endif
                                         </div>
                                     </td>
