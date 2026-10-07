@@ -1,0 +1,87 @@
+@extends('layouts.admin')
+
+@section('title', 'Detail Siswa')
+
+@section('content')
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+                <!-- HEADER -->
+                <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <a href="{{ route('admin.siswa.index') }}" class="btn btn-icon btn-light btn-sm mr-3" title="Kembali">
+                            <i class="mdi mdi-arrow-left"></i>
+                        </a>
+                        <h5 class="mb-0 font-weight-bold text-dark">Detail Data Siswa</h5>
+                    </div>
+
+                    <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($siswa->id_siswa)) }}"
+                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
+                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
+                    </a>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4">
+
+                    <!-- PROFIL HEADER -->
+                    <div class="text-center mb-4 pb-3 border-bottom">
+                        <div class="avatar-wrapper mb-3">
+                            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 70px; height: 70px; font-size: 28px;">
+                                <i class="mdi mdi-account"></i>
+                            </div>
+                        </div>
+                        <h4 class="font-weight-bold text-dark mb-1">
+                            {{ $siswa->nama_siswa }}
+                        </h4>
+                        <span class="badge badge-light border text-muted px-3 py-2 rounded-pill">
+                            <i class="mdi mdi-card-account-details-outline mr-1"></i> NISN: {{ $siswa->nisn }}
+                        </span>
+                    </div>
+
+                    <!-- DETAIL INFORMASI -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">NISN</small>
+                                <span class="font-weight-medium text-dark h6 mb-0">{{ $siswa->nisn }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Jenis Kelamin</small>
+                                <span class="badge badge-primary px-3 py-2 font-weight-medium">
+                                    {{ $siswa->jenis_kelamin }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Tahun Masuk</small>
+                                <span class="font-weight-medium text-dark h6 mb-0">{{ $siswa->tahun_masuk }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Tanggal Terdaftar</small>
+                                <span class="font-weight-medium text-dark h6 mb-0">
+                                    {{ \Carbon\Carbon::parse($siswa->created_at)->translatedFormat('d F Y') }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection

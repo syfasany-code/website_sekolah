@@ -1,0 +1,98 @@
+@extends('layouts.admin')
+
+@section('title', 'Detail Ekstrakulikuler')
+
+@section('content')
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+                <!-- HEADER -->
+                <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <a href="{{ route('admin.ekstrakulikuler.index') }}" class="btn btn-icon btn-light btn-sm mr-3" title="Kembali">
+                            <i class="mdi mdi-arrow-left"></i>
+                        </a>
+                        <h5 class="mb-0 font-weight-bold text-dark">Detail Ekstrakulikuler</h5>
+                    </div>
+
+                    <a href="{{ route('admin.ekstrakulikuler.addEdit', Crypt::encrypt($ekskul->id_ekstrakulikuler)) }}"
+                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
+                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
+                    </a>
+                </div>
+
+                <!-- BODY -->
+                <div class="card-body p-4">
+
+                    <!-- PROFIL HEADER & FOTO/GAMBAR -->
+                    <div class="text-center mb-4 pb-3 border-bottom">
+                        <div class="avatar-wrapper mb-3">
+                            @if (!empty($ekskul->gambar) && file_exists(public_path('storage/' . $ekskul->gambar)))
+                                <img src="{{ asset('storage/' . $ekskul->gambar) }}"
+                                     alt="{{ $ekstrakulikuler->nama_ekskul }}"
+                                     class="rounded shadow-sm border img-fluid"
+                                     style="max-height: 200px; width: 100%; object-fit: cover;">
+                            @else
+                                <div class="bg-success text-white rounded d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 90px; height: 90px; font-size: 40px;">
+                                    <i class="mdi mdi-run"></i>
+                                </div>
+                            @endif
+                        </div>
+                        <h4 class="font-weight-bold text-dark mb-1">
+                            {{ $ekskul->nama_ekskul }}
+                        </h4>
+                        <span class="badge badge-light border text-muted px-3 py-2 rounded-pill">
+                            <i class="mdi mdi-account-tie mr-1"></i> Pembina: {{ $ekskul->pembina ?? '-' }}
+                        </span>
+                    </div>
+
+                    <!-- DETAIL INFORMASI EKSTRAKULIKULER -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Nama Ekstrakulikuler</small>
+                                <span class="font-weight-medium text-dark h6 mb-0">{{ $ekskul->nama_ekskul }}</span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Pembina Ekskul</small>
+                                <span class="badge badge-success px-3 py-2 font-weight-medium" style="font-size: 13px;">
+                                    <i class="mdi mdi-account-star mr-1"></i> {{ $ekskul->pembina ?? '-' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        @if(isset($ekstrakulikuler->jadwal_latihan))
+                        <div class="col-md-12 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Jadwal Latihan</small>
+                                <span class="font-weight-medium text-dark h6 mb-0">
+                                    <i class="mdi mdi-clock-outline mr-1 text-primary"></i> {{ $eksul->jadwal_latihan }}
+                                </span>
+                            </div>
+                        </div>
+                        @endif
+
+                        <div class="col-md-12 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-2" style="font-size: 11px;">Deskripsi / Kegiatan</small>
+                                <p class="text-dark mb-0" style="white-space: pre-line; line-height: 1.6;">
+                                    {{ $ekskul->deskripsi ?? 'Belum ada deskripsi untuk ekstrakulikuler ini.' }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@endsection
