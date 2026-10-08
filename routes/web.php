@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
 
+// Route Halaman Publik Guru
+Route::get('/guru', [GuruController::class, 'publicGuru'])->name('public.guru');
+Route::get('/guru/{id}', [GuruController::class, 'publicShow'])->name('public.guru.show');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login-proses', [AuthController::class, 'prosesLogin'])->name('proses.login');
@@ -24,10 +28,11 @@ Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->nam
 Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::resource('profil', ProfilSekolahController::class)->names('admin.profil');
-    Route::post('/profil-sekolah/update', [ProfilSekolahController::class, 'index'])->name('admin.profil-sekolah.update');
-    Route::get('/profil', [ProfilSekolahController::class, 'index'])->name('admin.profil');
-    Route::get('/admin/profil', [ProfilSekolahController::class, 'edit'])->name('admin.profil-sekolah.edit');
+    Route::get('/profil-sekolah', [ProfilSekolahController::class, 'index'])->name('admin.profil');
+    Route::get('/profil-sekolah/edit', [ProfilSekolahController::class, 'edit'])->name('admin.profil.edit');
+
+    // Gunakan POST di route
+    Route::post('/profil-sekolah/update', [ProfilSekolahController::class, 'update'])->name('admin.profil.update');
 
     Route::prefix('berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('admin.berita.index');

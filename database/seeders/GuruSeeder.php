@@ -16,7 +16,6 @@ class GuruSeeder extends Seeder
             'nama_guru' => 'Ida Haerani S.Pd',
             'nip' => '328899776655',
             'mapel' => 'IPA',
-            'foto' => 'ida.png'
         ]);
     }
 }

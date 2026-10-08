@@ -21,7 +21,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle text-center">
+                        <table class="table table-bordered table-striped datatable" style="width:100%">
 
                             <thead class="table-light">
                                 <tr>

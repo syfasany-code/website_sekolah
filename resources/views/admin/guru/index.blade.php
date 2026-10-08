@@ -23,7 +23,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
 
-                        <table class="table table-hover align-middle text-center">
+                        <table class="table table-bordered table-striped datatable" style="width:100%">
 
                             <thead class="table-light">
                                 <tr>
@@ -80,13 +80,13 @@
                                                 <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ms-1">Detail</span>
                                             </a>
                                             @if(strcasecmp(auth()->user()->role, 'admin') === 0)
-                                                <a href="{{ route('admin.guru.addEdit', $item->id) }}" class="btn btn-sm btn-warning">
+                                                <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}" class="btn btn-warning">
                                                     Edit
                                                 </a>
-                                                <form action="{{ route('admin.guru.delete', $item->id_guru) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger">Hapus</button>
                                                 </form>
                                             @endif
                                         </div>

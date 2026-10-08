@@ -201,11 +201,18 @@
     <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 
     <script>
-        $(document).ready(function() {
-            $('table').DataTable();
-            $.fn.dataTable.ext.errMode = 'none';
+    $(document).ready(function() {
+        // Matikan popup error bawaan DataTables
+        $.fn.dataTable.ext.errMode = 'none';
+
+        // Targetkan semua tabel yang punya class "datatable"
+        $('.datatable').DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            "destroy": true
         });
-    </script>
+    });
+</script>
     @stack('scripts')
 </body>
 </html>

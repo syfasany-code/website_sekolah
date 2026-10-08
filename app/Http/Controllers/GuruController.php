@@ -6,133 +6,170 @@ use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class GuruController extends Controller
 {
+    /**
+     * Menampilkan semua data guru
+     */
     public function index()
     {
         $guru = Guru::latest()->get();
+
         return view('admin.guru.index', compact('guru'));
     }
 
+    /**
+     * Menampilkan form tambah / edit guru
+     */
     public function addEdit($id = null)
     {
-        // Cek hak akses role
-        if (auth()->user()->role !== 'admin') {
-            abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengelola data guru.');
-        }
+        $guru = null;
 
-        try {
-            $guru = $id
-                ? Guru::findOrFail(Crypt::decrypt($id))
-                : null;
-        } catch (\Exception $e) {
-            return redirect()
-                ->route('admin.guru.index')
-                ->with('error', 'Data guru tidak ditemukan.');
+        if ($id) {
+            try {
+                $decryptedId = Crypt::decrypt($id);
+                $guru = Guru::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
+                return redirect()
+                    ->route('admin.guru.index')
+                    ->with('error', 'ID tidak valid atau data guru tidak ditemukan.');
+            }
         }
 
         return view('admin.guru.form', compact('guru'));
     }
 
-
+    /**
+     * Menampilkan detail guru
+     */
     public function show($id)
     {
         try {
-            // Dekripsi ID dari URL
             $decryptedId = Crypt::decrypt($id);
-
-            // Cari data guru berdasarkan ID
             $guru = Guru::findOrFail($decryptedId);
-        } catch (\Exception $e) {
+
+            return view('admin.guru.show', compact('guru'));
+        } catch (DecryptException $e) {
             return redirect()
                 ->route('admin.guru.index')
-                ->with('error', 'Data guru tidak ditemukan.');
+                ->with('error', 'ID tidak valid atau data guru tidak ditemukan.');
         }
-
-        return view('admin.guru.show', compact('guru'));
     }
 
+    /**
+     * Menyimpan data guru baru / memperbarui guru
+     */
     public function save(Request $request, $id = null)
     {
+        $guru = null;
+        $decryptedId = null;
+
         if ($id) {
             try {
-                $id = Crypt::decrypt($id);
-                $guru = Guru::findOrFail($id);
-            } catch (\Exception $e) {
+                $decryptedId = Crypt::decrypt($id);
+                $guru = Guru::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
                 return redirect()
                     ->route('admin.guru.index')
-                    ->with('error', 'Data guru tidak ditemukan.');
+                    ->with('error', 'Gagal memperbarui data: ID tidak valid.');
             }
-        } else {
+        }
+
+        if (!$guru) {
             $guru = new Guru();
         }
 
-        // VALIDASI
+        // Primary key disesuaikan (default: id_guru)
+        $primaryKey = $guru->getKeyName() ?? 'id_guru';
+
         $request->validate([
             'nama_guru' => 'required|string|max:40',
+            'nip'       => [
+                'nullable',
+                'string',
+                'max:30',
+                'unique:guru,nip,' . ($decryptedId ?? 'NULL') . ',' . $primaryKey,
+            ],
             'mapel'     => 'required|string|max:40',
-            'nip'       => 'nullable|unique:guru,nip,' . ($id ?? 'NULL') . ',id_guru',
             'foto'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // SIMPAN DATA
         $guru->nama_guru = $request->nama_guru;
         $guru->nip       = $request->nip;
         $guru->mapel     = $request->mapel;
 
-        // 🔥 UPLOAD FOTO (VERSI PALING AMAN)
+        // Upload Foto
         if ($request->hasFile('foto')) {
-
-            // hapus foto lama (kalau ada)
             if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
                 Storage::disk('public')->delete($guru->foto);
             }
 
-            // ambil file
             $file = $request->file('foto');
+            $namaFile = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
 
-            // buat nama unik
-            $namaFile = time() . '_' . $file->getClientOriginalName();
-
-            // simpan ke storage/app/public/guru
-            $file->storeAs('guru', $namaFile, 'public');
-
-            // simpan path ke DB
-            $guru->foto = 'guru/' . $namaFile;
+            $path = $file->storeAs('guru', $namaFile, 'public');
+            $guru->foto = $path;
         }
 
         $guru->save();
 
         return redirect()
             ->route('admin.guru.index')
-            ->with('success', $id ? 'Data guru berhasil diperbarui.' : 'Data guru berhasil disimpan.');
+            ->with('success', $decryptedId ? 'Data guru berhasil diperbarui.' : 'Data guru berhasil ditambahkan.');
     }
 
+    /**
+     * Menghapus guru
+     */
     public function destroy($id)
     {
         try {
-                $guru = Guru::findOrFail(Crypt::decrypt($id));
-        } catch (\Exception $e) {
-                return redirect()
-                    ->route('admin.guru.index')
-                    ->with('error', 'data guru tidak ditemukan.');
-        }
+            $decryptedId = Crypt::decrypt($id);
+            $guru = Guru::findOrFail($decryptedId);
 
-        if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
+            if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
                 Storage::disk('public')->delete($guru->foto);
-        }
+            }
 
-        $guru->delete();
+            $guru->delete();
 
-        return redirect()
+            return redirect()
                 ->route('admin.guru.index')
                 ->with('success', 'Data guru berhasil dihapus.');
+        } catch (DecryptException $e) {
+            return redirect()
+                ->route('admin.guru.index')
+                ->with('error', 'Gagal menghapus data: ID tidak valid.');
+        }
     }
 
+    /**
+     * Menampilkan guru pada halaman public
+     */
     public function publicGuru()
     {
-        $guru = Guru::all();
+        $guru = Guru::latest()->get();
+
         return view('public.guru', compact('guru'));
+    }
+
+    /**
+     * Menampilkan detail 1 guru pada halaman PUBLIK
+     * Mengakses file: resources/views/public/guru/show.blade.php
+     */
+    public function publicShow($id)
+    {
+        try {
+            // Dekripsi ID jika dikirim dari route terenkripsi (misal: Crypt::encrypt($id))
+            $decryptedId = Crypt::decrypt($id);
+            $guru = Guru::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            // Jika ID yang dikirim berupa angka biasa (misal: /guru/4)
+            $guru = Guru::where('id_guru', $id)->firstOrFail();
+        }
+
+        return view('public.guru.show', compact('guru'));
     }
 }

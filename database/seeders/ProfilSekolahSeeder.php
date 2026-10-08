@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ProfilSekolah;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ProfilSekolahSeeder extends Seeder
@@ -25,6 +24,6 @@ class ProfilSekolahSeeder extends Seeder
  Melaksanakan pembinaan karakter religius melalui kegiatan keagamaan, pembiasaan nilai luhur serta penguatan sopan santun dan unggah-ungguh. Melaksanakan pelestarian budaya lokal dan nasional melalui kegiatan pembelajaran terintegrasi budaya, festival budaya, seni tradisional, dan kunjungan budaya. Melaksanakan program peningkatan prestasi murid melalui pembelajaran inovatif, kegiatan akademik dan non-akademik serta kerja sama dengan berbagai lembaga pendukung. Melaksanakan program peduli lingkungan melalui kegiatan Adiwiyata, pengelolaan sampah, penghijauan, hemat energi dan air serta pembiasaan menjaga kebersihan sekolah. Melaksanakan berbagai program pengembangan wawasan global melalui pembelajaran kolaboratif, kemitraan serta partisipasi dalam kegiatan dan kompetisi bertaraf internasional.',
             'tahun_berdiri'  => 1990,
             'deskripsi'      => 'asdfghjkl',
-        ]);      
+        ]);
     }
 }

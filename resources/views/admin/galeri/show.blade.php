@@ -19,7 +19,7 @@
                     </div>
 
                     <a href="{{ route('admin.galeri.addEdit', Crypt::encrypt($galeri->id_galeri)) }}"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
+                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm text-white">
                         <i class="mdi mdi-pencil mr-1"></i> Edit Data
                     </a>
                 </div>
@@ -34,13 +34,17 @@
                                 $fileFoto = $galeri->gambar ?? $galeri->foto ?? null;
                             @endphp
 
-                            @if (!empty($fileFoto) && file_exists(public_path('storage/galeri/' . $fileFoto)))
-                                <img src="{{ asset('storage/galeri/' . $fileFoto) }}"
-                                     alt="{{ $galeri->judul }}"
-                                     class="rounded shadow-sm border img-fluid"
-                                     style="max-height: 350px; width: 100%; object-fit: cover;">
-                            @elseif (!empty($fileFoto) && file_exists(public_path('storage/' . $fileFoto)))
-                                <img src="{{ asset('storage/' . $fileFoto) }}"
+                            @if (!empty($fileFoto))
+                                {{-- Jika di database sudah ada prefix folder atau hanya nama file --}}
+                                @php
+                                    $imagePath = Str::startsWith($fileFoto, 'galeri/') ? $fileFoto : 'galeri/' . $fileFoto;
+                                    // Cek alternatif jika tersimpan langsung di root storage
+                                    $finalPath = file_exists(public_path('storage/' . $fileFoto))
+                                        ? $fileFoto
+                                        : $imagePath;
+                                @endphp
+
+                                <img src="{{ asset('storage/' . $finalPath) }}"
                                      alt="{{ $galeri->judul }}"
                                      class="rounded shadow-sm border img-fluid"
                                      style="max-height: 350px; width: 100%; object-fit: cover;">

@@ -20,7 +20,7 @@
                 @endif
 
                 <div class="table-responsive">
-                    <table id="prestasiTable" class="table table-bordered table-striped" style="width:100%">
+                    <table class="table table-bordered table-striped datatable" style="width:100%">
                         <thead>
                             <tr>
                                 <th class="text-center" style="width: 50px;">No</th>
@@ -34,7 +34,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($prestasi as $item)
+                            @forelse($prestasi as $item)
                             <tr>
                                 <td class="text-center">{{ $loop->iteration }}</td>
                                 <td class="font-weight-medium">{{ $item->judul }}</td>
@@ -67,7 +67,11 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                            @empty
+                            <tr>
+                                <td colspan="8" class="text-center">Belum ada data prestasi.</td>
+                            </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -77,4 +81,3 @@
     </div>
 </div>
 @endsection
-

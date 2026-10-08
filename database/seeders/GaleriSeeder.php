@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Galeri;
 use Illuminate\Database\Seeder;
 
 class GaleriSeeder extends Seeder
@@ -12,6 +12,11 @@ class GaleriSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        Galeri::create([
+            'judul' => 'Kegiatan Upacara Bendera',
+            'keterangan' => 'Kegiatan upacara bendera yang dilaksanakan di lingkungan sekolah.',
+            'file' => 'galeri/upacara.jpg',
+            'tanggal' => '2026-01-06',
+        ]);
     }
 }

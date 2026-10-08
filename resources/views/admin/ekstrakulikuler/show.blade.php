@@ -19,7 +19,7 @@
                     </div>
 
                     <a href="{{ route('admin.ekstrakulikuler.addEdit', Crypt::encrypt($ekskul->id_ekstrakulikuler)) }}"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
+                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm text-white">
                         <i class="mdi mdi-pencil mr-1"></i> Edit Data
                     </a>
                 </div>
@@ -30,7 +30,7 @@
                     <!-- PROFIL HEADER & FOTO/GAMBAR -->
                     <div class="text-center mb-4 pb-3 border-bottom">
                         <div class="avatar-wrapper mb-3">
-                            @if (!empty($ekskul->gambar) && file_exists(public_path('storage/' . $ekskul->gambar)))
+                            @if (!empty($ekskul->gambar) && Storage::disk('public')->exists($ekskul->gambar))
                                 <img src="{{ asset('storage/' . $ekskul->gambar) }}"
                                      alt="{{ $ekskul->nama_ekskul }}"
                                      class="rounded shadow-sm border img-fluid"
@@ -67,12 +67,13 @@
                             </div>
                         </div>
 
-                        @if(isset($ekstrakulikuler->jadwal_latihan))
+                        {{-- Perbaikan Typo Variabel --}}
+                        @if(!empty($ekskul->jadwal_latihan))
                         <div class="col-md-12 mb-3">
                             <div class="p-3 bg-light rounded">
                                 <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Jadwal Latihan</small>
                                 <span class="font-weight-medium text-dark h6 mb-0">
-                                    <i class="mdi mdi-clock-outline mr-1 text-primary"></i> {{ $eksul->jadwal_latihan }}
+                                    <i class="mdi mdi-clock-outline mr-1 text-primary"></i> {{ $ekskul->jadwal_latihan }}
                                 </span>
                             </div>
                         </div>

@@ -1,475 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SMA Negeri 1 Yogyakarta - Teladan Jayamahe</title>
+@extends('public.layouts.app')
 
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+@section('title', 'SMA Negeri 1 Yogyakarta - Teladan Jayamahe')
 
-    <!-- Google Fonts Premium: Playfair Display & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- AOS Library CSS -->
-    <link rel="stylesheet" href="{{ asset('aos/aos.css') }}">
-
-    <style>
-        :root {
-            --primary-navy: #002147;
-            --primary-dark-navy: #001530;
-            --accent-gold: #DAA520;
-            --accent-gold-hover: #b8860b;
-            --light-bg: #F4F7FA;
-            --text-dark: #0F172A;
-            --text-muted: #475569;
-            --card-shadow: 0 10px 30px rgba(0, 33, 71, 0.08);
-
-            /* Tipografi */
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-        }
-
-        body {
-            font-family: var(--font-body);
-            color: var(--text-dark);
-            background-color: #FFFFFF;
-            overflow-x: hidden;
-            line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        h1, h2, h3, .serif-font, .section-title {
-            font-family: var(--font-heading);
-            letter-spacing: -0.02em;
-        }
-
-        h4, h5, h6, .fw-bold {
-            font-family: var(--font-body);
-            letter-spacing: -0.01em;
-        }
-
-        /* Top Header */
-        .top-header {
-            background-color: var(--primary-dark-navy);
-            color: #E2E8F0;
-            font-size: 0.85rem;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-weight: 500;
-        }
-
-        .top-header a {
-            color: #E2E8F0;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .top-header a:hover {
-            color: var(--accent-gold);
-        }
-
-        /* Navbar */
-        .navbar-custom {
-            background-color: var(--primary-navy);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            padding: 12px 0;
-            transition: all 0.3s ease;
-        }
-
-        .navbar-custom .navbar-brand {
-            font-weight: 800;
-            color: #FFFFFF;
-            font-size: 1.35rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: var(--font-body);
-        }
-
-        .brand-logo-icon {
-            width: 45px;
-            height: 45px;
-            background: linear-gradient(135deg, var(--accent-gold), #FFD700);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary-navy);
-            font-size: 1.4rem;
-            box-shadow: 0 4px 10px rgba(218, 165, 32, 0.4);
-        }
-
-        .navbar-custom .nav-link {
-            color: rgba(255, 255, 255, 0.9);
-            font-weight: 600;
-            padding: 8px 16px !important;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            font-size: 0.92rem;
-            letter-spacing: 0.3px;
-        }
-
-        .navbar-custom .nav-link:hover,
-        .navbar-custom .nav-link.active {
-            color: var(--accent-gold);
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-
-        .btn-gold {
-            background-color: var(--accent-gold);
-            color: var(--primary-navy);
-            font-weight: 700;
-            border: none;
-            padding: 12px 26px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(218, 165, 32, 0.3);
-            letter-spacing: 0.3px;
-        }
-
-        .btn-gold:hover {
-            background-color: var(--accent-gold-hover);
-            color: #FFFFFF;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(218, 165, 32, 0.4);
-        }
-
-        .btn-outline-navy {
-            border: 2px solid var(--primary-navy);
-            color: var(--primary-navy);
-            font-weight: 700;
-            padding: 10px 24px;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-outline-navy:hover {
-            background-color: var(--primary-navy);
-            color: #FFFFFF;
-        }
-
-        /* Hero */
-        .hero-section {
-            background: linear-gradient(135deg, var(--primary-dark-navy) 0%, var(--primary-navy) 100%);
-            color: white;
-            position: relative;
-            padding: 100px 0 120px 0;
-            overflow: hidden;
-        }
-
-        .hero-section h1 {
-            font-family: var(--font-heading);
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: -0.02em;
-        }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(218, 165, 32, 0.15) 0%, rgba(0, 33, 71, 0) 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .hero-badge {
-            background-color: rgba(218, 165, 32, 0.2);
-            color: var(--accent-gold);
-            border: 1px solid rgba(218, 165, 32, 0.4);
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: inline-block;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* Ticker Bar */
-        .ticker-bar {
-            background-color: #001229;
-            color: #FFF;
-            border-bottom: 3px solid var(--accent-gold);
-            padding: 12px 0;
-            font-size: 0.95rem;
-        }
-
-        .ticker-title {
-            background-color: var(--accent-gold);
-            color: var(--primary-navy);
-            font-weight: 800;
-            font-size: 0.8rem;
-            padding: 5px 14px;
-            border-radius: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* Section Titles */
-        .section-tag {
-            color: var(--accent-gold);
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            display: block;
-            font-family: var(--font-body);
-        }
-
-        .section-title {
-            color: var(--primary-navy);
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-        }
-
-        .section-divider {
-            width: 70px;
-            height: 4px;
-            background: var(--accent-gold);
-            border-radius: 2px;
-            margin-bottom: 30px;
-        }
-
-        /* Card Styles */
-        .custom-card {
-            background: #FFFFFF;
-            border-radius: 12px;
-            border: 1px solid #E2E8F0;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .custom-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 15px 35px rgba(0, 33, 71, 0.15);
-            border-color: rgba(218, 165, 32, 0.3);
-        }
-
-        /* Principal Section */
-        .principal-section {
-            background-color: var(--light-bg);
-            padding: 90px 0;
-            position: relative;
-        }
-
-        .principal-img-container {
-            position: relative;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
-        }
-
-        .principal-img-container::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40%;
-            background: linear-gradient(to top, rgba(0, 33, 71, 0.8), transparent);
-        }
-
-        .principal-info-overlay {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            color: white;
-            z-index: 2;
-        }
-
-        /* News & Badges */
-        .news-badge {
-            background-color: var(--primary-navy);
-            color: #FFF;
-            font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .date-badge {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        /* Teacher Grid */
-        .teacher-card {
-            border-radius: 12px;
-            overflow: hidden;
-            background: #FFF;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            text-align: center;
-            padding: 20px;
-            border: 1px solid #EDF2F7;
-        }
-
-        .teacher-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            background-color: var(--light-bg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px auto;
-            color: var(--primary-navy);
-            font-size: 2.2rem;
-            border: 2px solid var(--accent-gold);
-            overflow: hidden;
-        }
-
-        /* Footer */
-        .main-footer {
-            background-color: var(--primary-dark-navy);
-            color: #94A3B8;
-            padding: 70px 0 30px 0;
-            border-top: 4px solid var(--accent-gold);
-        }
-
-        .footer-title {
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 8px;
-        }
-
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 35px;
-            height: 2px;
-            background-color: var(--accent-gold);
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #94A3B8;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-gold);
-        }
-
-        .social-icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            color: #FFF;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 8px;
-            transition: all 0.3s;
-            text-decoration: none;
-        }
-
-        .social-icon-btn:hover {
-            background: var(--accent-gold);
-            color: var(--primary-navy);
-            transform: translateY(-3px);
-        }
-
-        /* Stat Card */
-        .stat-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-family: var(--font-heading);
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--accent-gold);
-            line-height: 1;
-            margin-bottom: 5px;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Header Atas (Top Bar) -->
-    <div class="top-header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex gap-4">
-                <span><i class="fas fa-phone me-2 text-warning"></i> (0274) 513454</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-2 text-warning"></i> humas@sman1yogya.sch.id</span>
-                <span class="d-none d-lg-inline"><i class="fas fa-map-marker-alt me-2 text-warning"></i> Wirobrajan, Kota Yogyakarta</span>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <span class="badge bg-warning text-dark font-weight-bold">IDN</span>
-                <a href="#kontak" class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;">Layanan Kontak</a>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigasi Utama -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <div class="brand-logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div>
-                    <div style="font-size: 1.2rem; line-height: 1.1; font-weight: 800;">SMAN 1 YOGYAKARTA</div>
-                    <small style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700; letter-spacing: 1.5px;">TELADAN JAYAMAHE</small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#berita">Berita & Informasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#prestasi">Prestasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#ekstrakurikuler">Ekstrakurikuler</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#guru">Guru & Staf</a></li>
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                        <a href="#kontak" class="btn btn-gold text-decoration-none">Hubungi Kami</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+@section('content')
 
     <!-- Bar Pengumuman berjalan (Ticker) -->
     <div class="ticker-bar">
@@ -605,7 +138,7 @@
         </div>
     </section>
 
-    <!-- Prestasi Siswa (Dengan Gambar) -->
+    <!-- Prestasi Siswa -->
     <section id="prestasi" class="py-5 bg-light">
         <div class="container py-4">
             <div class="text-center mx-auto" style="max-width: 700px;" data-aos="fade-up">
@@ -647,7 +180,7 @@
         </div>
     </section>
 
-    <!-- Ekstrakurikuler & Organisasi (Dengan Gambar) -->
+    <!-- Ekstrakurikuler & Organisasi -->
     <section id="ekstrakurikuler" class="py-5">
         <div class="container py-4">
             <div class="text-center mx-auto mb-4" style="max-width: 650px;" data-aos="fade-up">
@@ -684,7 +217,7 @@
         </div>
     </section>
 
-    <!-- Tenaga Pendidik -->
+    <!-- Tenaga Pendidik / Guru (Swiper Auto-slide Slider) -->
     <section id="guru" class="py-5 bg-light">
         <div class="container py-4">
             <div class="d-flex flex-wrap justify-content-between align-items-end mb-4" data-aos="fade-up">
@@ -692,28 +225,45 @@
                     <span class="section-tag">Pengajar Berdedikasi</span>
                     <h2 class="section-title mb-0">Guru & Tenaga Kependidikan</h2>
                 </div>
-                <a href="#" class="btn btn-outline-navy mt-3 mt-md-0">Direktori Lengkap Guru</a>
+                <a href="{{ route('public.guru') }}" class="btn btn-outline-navy mt-3 mt-md-0">Direktori Lengkap Guru</a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
 
-            <div class="row g-4">
-                @forelse ($gurus as $item)
-                    <div class="col-6 col-md-3" data-aos="fade-up" data-aos-delay="{{ $loop->index * 100 }}">
-                        <div class="teacher-card">
-                            <div class="teacher-avatar">
-                                @if(isset($item->foto) && $item->foto)
-                                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" style="width: 100%; height: 100%; object-fit: cover;">
-                                @else
-                                    <i class="fas fa-user-graduate"></i>
-                                @endif
+            <!-- Swiper Container -->
+            <div class="swiper swiperGuru py-3" data-aos="fade-up">
+                <div class="swiper-wrapper">
+                    @forelse ($gurus as $item)
+                        <div class="swiper-slide">
+                            <div class="teacher-card text-center p-4 bg-white rounded-4 shadow-sm border h-100">
+                                <!-- Foto Guru -->
+                                <div class="teacher-avatar mx-auto mb-3" style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-gold);">
+                                    @if(isset($item->foto) && $item->foto && Storage::disk('public')->exists($item->foto))
+                                        <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama_guru ?? $item->nama ?? 'Guru' }}" class="w-100 h-100 object-fit-cover">
+                                    @else
+                                        <img src="https://ui-avatars.com/api/?name={{ urlencode($item->nama_guru ?? $item->nama ?? 'Guru') }}&background=002147&color=fff" alt="{{ $item->nama_guru ?? $item->nama ?? 'Guru' }}" class="w-100 h-100 object-fit-cover">
+                                    @endif
+                                </div>
+
+                                <!-- Nama Guru -->
+                                <h5 class="fw-bold mb-1 text-dark fs-6" style="font-family: var(--font-body);">
+                                    {{ $item->nama_guru ?? $item->nama ?? 'Nama Guru' }}
+                                </h5>
+
+                                <!-- Mata Pelajaran -->
+                                <p class="text-muted small mb-0">
+                                    {{ $item->mapel ?? $item->mata_pelajaran ?? 'Pengajar' }}
+                                </p>
                             </div>
-                            <h6 class="fw-bold mb-1 text-dark fs-6">{{ $item->nama }}</h6>
-                            <small class="text-muted">{{ $item->mapel ?? $item->mata_pelajaran ?? 'Pengajar' }}</small>
                         </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center text-muted py-4" data-aos="fade-up">Belum ada data guru.</div>
-                @endforelse
+                    @empty
+                        <div class="swiper-slide">
+                            <div class="text-center text-muted py-4 w-100">Belum ada data guru.</div>
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination Dots -->
+                <div class="swiper-pagination mt-4"></div>
             </div>
         </div>
     </section>
@@ -778,67 +328,6 @@
         </div>
     </section>
 
-    <!-- Footer Utama -->
-    <footer class="main-footer">
-        <div class="container">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-4">
-                    <div class="d-flex align-items-center gap-2 mb-3">
-                        <div class="brand-logo-icon" style="width:36px; height:36px; font-size:1rem;">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h5 class="text-white fw-bold mb-0">SMAN 1 YOGYAKARTA</h5>
-                    </div>
-                    <p class="small text-light opacity-75">
-                        SMA Negeri 1 Yogyakarta telah menjadi bagian tak terpisahkan dari perjalanan Kota Yogyakarta sebagai kota pendidikan.
-                    </p>
-                    <div class="pt-2">
-                        <a href="#" class="social-icon-btn"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-icon-btn"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-icon-btn"><i class="fab fa-youtube"></i></a>
-                        <a href="#" class="social-icon-btn"><i class="fab fa-twitter"></i></a>
-                    </div>
-                </div>
-
-                <div class="col-6 col-lg-2">
-                    <h6 class="footer-title">Tautan Cepat</h6>
-                    <ul class="footer-links small">
-                        <li><a href="#profil">Profil Sekolah</a></li>
-                        <li><a href="#berita">Berita & Agenda</a></li>
-                        <li><a href="#prestasi">Prestasi Siswa</a></li>
-                        <li><a href="#ekstrakurikuler">Ekstrakurikuler</a></li>
-                        <li><a href="#guru">Guru & Staf</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-6 col-lg-3">
-                    <h6 class="footer-title">Layanan Akademik</h6>
-                    <ul class="footer-links small">
-                        <li><a href="#">Sistem Informasi Keuangan (BOS)</a></li>
-                        <li><a href="#">Perpustakaan Digital</a></li>
-                        <li><a href="#">Laboratorium Riset & Komputer</a></li>
-                        <li><a href="#">Kelas Layanan Cambridge</a></li>
-                        <li><a href="#">Survey Kualitas Pelayanan</a></li>
-                    </ul>
-                </div>
-
-                <div class="col-lg-3">
-                    <h6 class="footer-title">Jam Operasional</h6>
-                    <p class="small mb-1"><i class="far fa-clock me-2 text-warning"></i> Senin - Kamis: 07.00 - 15.30 WIB</p>
-                    <p class="small mb-3"><i class="far fa-clock me-2 text-warning"></i> Jumat: 07.00 - 14.30 WIB</p>
-                    <div class="p-3 rounded bg-white bg-opacity-10">
-                        <small class="text-warning d-block fw-bold mb-1">Motto Sekolah:</small>
-                        <small class="text-light fs-6" style="font-family: var(--font-heading); font-style: italic;">"Teladan Jayamahe - Berjaya di Mana Pun dan Kapan Pun"</small>
-                    </div>
-                </div>
-            </div>
-
-            <div class="border-top border-secondary pt-4 text-center small text-light opacity-75">
-                <p class="mb-0">&copy; SMAN 1 Yogyakarta. Seluruh Hak Cipta Dilindungi Undang-Undang.</p>
-            </div>
-        </div>
-    </footer>
-
     <!-- Modal Visi & Misi -->
     <div class="modal fade" id="modalVisiMisi" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -868,18 +357,37 @@
         </div>
     </div>
 
-    <!-- Bootstrap 5 JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@endsection
 
-    <!-- AOS Library JS -->
-    <script src="{{ asset('aos/aos.css') }}"></script>
-    <script src="{{ asset('aos/aos.js') }}"></script>
+@push('scripts')
     <script>
-        AOS.init({
-            duration: 800,
-            easing: 'ease-in-out',
-            once: true
+        // Inisialisasi Swiper Carousel Guru khusus di Dashboard
+        document.addEventListener('DOMContentLoaded', function () {
+            if (document.querySelector('.swiperGuru')) {
+                new Swiper('.swiperGuru', {
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    loop: true,
+                    autoplay: {
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    breakpoints: {
+                        576: {
+                            slidesPerView: 2,
+                            spaceBetween: 20,
+                        },
+                        992: {
+                            slidesPerView: 3,
+                            spaceBetween: 30,
+                        },
+                    },
+                });
+            }
         });
     </script>
-</body>
-</html>
+@endpush

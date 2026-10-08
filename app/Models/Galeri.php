@@ -13,6 +13,7 @@ class Galeri extends Model
     protected $fillable = [
         'judul',
         'keterangan',
+        'kategori',
         'file',      // atau 'gambar' (samakan dengan DB)
         'tanggal',
         'id_user'

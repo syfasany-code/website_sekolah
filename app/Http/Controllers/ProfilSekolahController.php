@@ -3,104 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfilSekolah;
-use App\Http\Requests\StoreProfilSekolahRequest;
-use App\Http\Requests\UpdateProfilSekolahRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProfilSekolahController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $profilSekolah = ProfilSekolah::first();
-
-        return view('admin.profil-sekolah.profil', [
-            'title' => 'Profil Sekolah',
-            'profilSekolah' => $profilSekolah
-        ]);
+        $profil = ProfilSekolah::first();
+        return view('admin.profil-sekolah.profil', compact('profil'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return view('create.profil');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreProfilSekolahRequest $request)
-    {
-        $validated = $request->validate([
-            'nama_sekolah' => 'required|max:255',
-            'npsn' => 'nullable|max:10',
-            'kepala_sekolah' => 'required|max:255',
-            'alamat' => 'required',
-            'kontak' => 'nullable|max:15',
-            'tahun_berdiri' => 'nullable|digits:4',
-            'visi_misi' => 'nullable',
-            'deskripsi' => 'nullable',
-        ]);
-
-        ProfilSekolah::create($validated);
-
-        return redirect()
-            ->route('admin.profil-sekolah.profil')
-            ->with('success', 'Data profil sekolah berhasil ditambahkan.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(ProfilSekolah $profilSekolah)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit()
     {
-        // Ambil data profil pertama (atau buat baru jika belum ada)
         $profil = ProfilSekolah::first();
-        return view('admin.profil-sekolah.edit', compact('profil'));
+        return view('admin.profil.edit', compact('profil'));
     }
 
     public function update(Request $request)
     {
+        $profil = ProfilSekolah::first() ?? new ProfilSekolah();
+
         $request->validate([
-            'nama_sekolah'  => 'required|string|max:255',
-            'motto'         => 'nullable|string',
-            'sambutan'      => 'nullable|string',
-            'visi'          => 'nullable|string',
-            'misi'          => 'nullable|string',
-            'telepon'       => 'nullable|string',
-            'email'         => 'nullable|email',
-            'alamat'        => 'nullable|string',
+            'nama_sekolah'   => 'required|string|max:40',
+            'kepala_sekolah' => 'required|string|max:40',
+            'npsn'           => 'required|string|max:20',
+            'kontak'         => 'required|string|max:15',
+            'tahun_berdiri'  => 'required|numeric|digits:4',
+            'alamat'         => 'required|string',
+            'visi_misi'      => 'required|string',
+            'deskripsi'      => 'required|string',
+            'logo'           => 'nullable|image|mimes:jpg,jpeg,png,svg|max:2048',
+            'foto'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        $profil = ProfilSekolah::first() ?? new ProfilSekolah();
-        $profil->fill($request->all());
+        $profil->nama_sekolah   = $request->nama_sekolah;
+        $profil->kepala_sekolah = $request->kepala_sekolah;
+        $profil->npsn           = $request->npsn;
+        $profil->kontak         = $request->kontak;
+        $profil->tahun_berdiri  = $request->tahun_berdiri;
+        $profil->alamat         = $request->alamat;
+        $profil->visi_misi      = $request->visi_misi;
+        $profil->deskripsi      = $request->deskripsi;
+
+        // Upload Logo
+        if ($request->hasFile('logo')) {
+            if ($profil->logo && Storage::disk('public')->exists($profil->logo)) {
+                Storage::disk('public')->delete($profil->logo);
+            }
+            $profil->logo = $request->file('logo')->store('sekolah', 'public');
+        }
+
+        // Upload Foto Banner/Gedung Sekolah
+        if ($request->hasFile('foto')) {
+            if ($profil->foto && Storage::disk('public')->exists($profil->foto)) {
+                Storage::disk('public')->delete($profil->foto);
+            }
+            $profil->foto = $request->file('foto')->store('sekolah', 'public');
+        }
+
         $profil->save();
 
-        return redirect()->back()->with('success', 'Profil sekolah berhasil diperbarui!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(ProfilSekolah $profilSekolah)
-    {
-        //
-    }
-
-    public function publicProfilSekolah()
-    {
-        $profilSekolah = ProfilSekolah::all();
-        return view('public.profil', compact('profilSekolah'));
+        return redirect()
+            ->route('admin.profil.profil')
+            ->with('success', 'Profil sekolah berhasil diperbarui!');
     }
 }
