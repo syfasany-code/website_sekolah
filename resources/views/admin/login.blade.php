@@ -6,7 +6,7 @@
 
 <div class="login-card text-center">
 
-    <img src="{{ asset('images/logo-sman1.png') }}" class="logo">
+    <img src="{{ asset('images/sman1.png') }}" class="logo">
 
     <h4 class="login-title mb-3">SMAN 1 Yogyakarta</h4>
     <p class="text-muted mb-4">Silakan login untuk melanjutkan</p>
@@ -31,4 +31,4 @@
 
 </div>
 
-@endsection 
+@endsection

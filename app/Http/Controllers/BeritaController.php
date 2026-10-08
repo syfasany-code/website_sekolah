@@ -6,6 +6,7 @@ use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 
 class BeritaController extends Controller
@@ -124,7 +125,26 @@ class BeritaController extends Controller
 
     public function publicBerita()
     {
-        $berita = Berita::latest('tanggal')->get();
-        return view('public.berita', compact('berita'));
+        $beritas = Berita::latest()->get();
+
+        return view('public.berita', compact('beritas'));
+    }
+
+    /**
+     * Menampilkan detail 1 berita (Halaman PUBLIK)
+     * View: resources/views/public/berita/show.blade.php
+     */
+    public function publicShow($id)
+    {
+        try {
+            // Dekripsi ID jika terenkripsi
+            $decryptedId = Crypt::decrypt($id);
+            $berita = Berita::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            // Menggunakan primary key asli: id_berita
+            $berita = Berita::where('id_berita', $id)->firstOrFail();
+        }
+
+        return view('public.berita.show', compact('berita'));
     }
 }

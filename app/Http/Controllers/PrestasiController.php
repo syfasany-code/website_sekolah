@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class PrestasiController extends Controller
 {
@@ -88,5 +90,30 @@ class PrestasiController extends Controller
         $prestasi->delete();
 
         return redirect()->route('admin.prestasi.index')->with('success', 'Data prestasi berhasil dihapus!');
+    }
+
+    public function publicPrestasi()
+    {
+        $prestasis = Prestasi::latest()->get();
+
+        return view('public.prestasi', compact('prestasis'));
+    }
+
+    /**
+     * Menampilkan detail 1 prestasi (Halaman PUBLIK)
+     * View: resources/views/public/prestasi/show.blade.php
+     */
+    public function publicShow($id)
+    {
+        try {
+            // Dekripsi ID jika terenkripsi
+            $decryptedId = Crypt::decrypt($id);
+            $prestasi = Prestasi::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            // Hanya mencari menggunakan nama kolom primary key asli: id_prestasi
+            $prestasi = Prestasi::where('id_prestasi', $id)->firstOrFail();
+        }
+
+        return view('public.prestasi.show', compact('prestasi'));
     }
 }

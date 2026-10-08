@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Storage;
 
 class GaleriController extends Controller
@@ -33,7 +34,7 @@ class GaleriController extends Controller
         // Tampilkan view detail galeri
         return view('admin.galeri.show', compact('galeri'));
     }
-    
+
     public function addEdit($id = null)
     {
         $galeri = null;
@@ -112,8 +113,27 @@ class GaleriController extends Controller
 
     public function publicGaleri()
     {
-        $galeri = Galeri::all();
-        return view('public.galeri', compact('galeri'));
+        $galeris = Galeri::latest()->get();
+
+        return view('public.galeri', compact('galeris'));
+    }
+
+    /**
+     * Menampilkan detail 1 foto galeri (Halaman PUBLIK)
+     * View: resources/views/public/galeri/show.blade.php
+     */
+    public function publicShow($id)
+    {
+        try {
+            // Dekripsi ID jika terenkripsi
+            $decryptedId = Crypt::decrypt($id);
+            $galeri = Galeri::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            // Menggunakan primary key asli: id_galeri
+            $galeri = Galeri::where('id_galeri', $id)->firstOrFail();
+        }
+
+        return view('public.galeri.show', compact('galeri'));
     }
 }
 

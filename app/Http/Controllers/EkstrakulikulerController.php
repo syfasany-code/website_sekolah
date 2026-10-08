@@ -6,7 +6,7 @@ use App\Models\Ekstrakulikuler;
 use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Storage;
 
 class EkstrakulikulerController extends Controller
@@ -104,7 +104,28 @@ class EkstrakulikulerController extends Controller
 
     public function publicEkstrakulikuler()
     {
-        $ekstrakulikuler = Ekstrakulikuler::all();
-        return view('public.ekstrakulikuler', compact('ekstrakulikuler'));
+        $ekskuls = Ekstrakulikuler::latest()->get();
+        return view('public.ekstrakulikuler', compact('ekskuls'));
+    }
+
+    /**
+     * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
+     * View: resources/views/public/ekstrakurikuler/show.blade.php
+     */
+    /**
+ * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
+ */
+    public function publicShow($id)
+    {
+        try {
+            // Dekripsi jika ID dikirim terenkripsi
+            $decryptedId = Crypt::decrypt($id);
+            $ekskul = Ekstrakulikuler::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            // Menggunakan nama kolom primary key asli: id_ekstrakulikuler
+            $ekskul = Ekstrakulikuler::where('id_ekstrakulikuler', $id)->firstOrFail();
+        }
+
+        return view('public.ekstrakuLikuler.show', compact('ekskul'));
     }
 }

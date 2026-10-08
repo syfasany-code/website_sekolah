@@ -18,6 +18,23 @@ Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.d
 Route::get('/guru', [GuruController::class, 'publicGuru'])->name('public.guru');
 Route::get('/guru/{id}', [GuruController::class, 'publicShow'])->name('public.guru.show');
 
+
+// Route Halaman Publik Ekstrakurikuler
+Route::get('/ekstrakurikuler', [EkstrakulikulerController::class, 'publicEkstrakulikuler'])->name('public.ekstrakulikuler');
+Route::get('/ekstrakurikuler/{id}', [EkstrakulikulerController::class, 'publicShow'])->name('public.ekstrakulikuler.show');
+
+// Route Halaman Publik Prestasi
+Route::get('/prestasi', [PrestasiController::class, 'publicPrestasi'])->name('public.prestasi');
+Route::get('/prestasi/{id}', [PrestasiController::class, 'publicShow'])->name('public.prestasi.show');
+
+// Route Halaman Publik Berita
+Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('public.berita');
+Route::get('/berita/{id}', [BeritaController::class, 'publicShow'])->name('public.berita.show');
+
+// Route Halaman Publik Galeri
+Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('public.galeri');
+Route::get('/galeri/{id}', [GaleriController::class, 'publicShow'])->name('public.galeri.show');
+
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'index'])->name('login');
     Route::post('/login-proses', [AuthController::class, 'prosesLogin'])->name('proses.login');

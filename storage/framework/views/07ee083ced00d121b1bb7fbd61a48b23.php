@@ -103,12 +103,17 @@
                     <span class="section-tag">Kabar Sekolah</span>
                     <h2 class="section-title mb-0">Berita & Informasi Terbaru</h2>
                 </div>
-                <a href="#" class="btn btn-outline-navy mt-3 mt-md-0">Lihat Semua Berita <i class="fas fa-arrow-right ms-2"></i></a>
+                <a href="<?php echo e(route('public.berita')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
+                    Lihat Semua Berita <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
 
             <div class="row g-4">
                 <?php $__empty_1 = true; $__currentLoopData = $beritas; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
+                        $idBerita = $item->getKey() ?? $item->id_berita ?? $item->id;
+                    ?>
                     <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 100); ?>">
                         <div class="custom-card">
                             <?php if($item->gambar): ?>
@@ -125,7 +130,9 @@
                                 <p class="card-text text-muted small" style="line-height: 1.6;"><?php echo e(Str::limit(strip_tags($item->konten ?? $item->isi), 100)); ?></p>
                             </div>
                             <div class="card-footer bg-transparent border-0 px-4 pb-4">
-                                <a href="#" class="text-decoration-none fw-bold text-primary">Baca Selengkapnya <i class="fas fa-chevron-right small ms-1"></i></a>
+                                <a href="<?php echo e(route('public.berita.show', $idBerita)); ?>" class="text-decoration-none fw-bold text-primary">
+                                    Baca Selengkapnya <i class="fas fa-chevron-right small ms-1"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -139,17 +146,24 @@
     <!-- Prestasi Siswa -->
     <section id="prestasi" class="py-5 bg-light">
         <div class="container py-4">
-            <div class="text-center mx-auto" style="max-width: 700px;" data-aos="fade-up">
-                <span class="section-tag">Kebanggaan Sekolah</span>
-                <h2 class="section-title">Prestasi Terbaru Teladan</h2>
-                <div class="section-divider mx-auto"></div>
-                <p class="text-muted fs-6">Raihan medali dan penghargaan dari para siswa SMA Negeri 1 Yogyakarta di tingkat regional, nasional, maupun internasional.</p>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4" data-aos="fade-up">
+                <div>
+                    <span class="section-tag">Kebanggaan Sekolah</span>
+                    <h2 class="section-title mb-0">Prestasi Terbaru Teladan</h2>
+                </div>
+                <a href="<?php echo e(route('public.prestasi')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
+                    Lihat Lebih Lengkap <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
+            <div class="section-divider" data-aos="fade-up"></div>
 
-            <div class="row g-4 mt-3">
+            <div class="row g-4 mt-1">
                 <?php $__empty_1 = true; $__currentLoopData = $prestasis; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
+                        $idPrestasi = $item->getKey() ?? $item->id_prestasi ?? $item->id;
+                    ?>
                     <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="<?php echo e($loop->index * 100); ?>">
-                        <div class="custom-card">
+                        <div class="custom-card h-100 d-flex flex-column">
                             <?php if(isset($item->foto) && $item->foto): ?>
                                 <img src="<?php echo e(asset('storage/' . $item->foto)); ?>" class="card-img-top" alt="<?php echo e($item->nama_prestasi ?? $item->judul); ?>" style="height: 200px; object-fit: cover;">
                             <?php elseif(isset($item->gambar) && $item->gambar): ?>
@@ -157,7 +171,7 @@
                             <?php else: ?>
                                 <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Prestasi" style="height: 200px; object-fit: cover;">
                             <?php endif; ?>
-                            <div class="card-body p-4">
+                            <div class="card-body p-4 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="badge bg-danger"><?php echo e($item->tingkat ?? 'Nasional'); ?></span>
                                     <span class="date-badge"><i class="fas fa-trophy text-warning me-1"></i> Juara</span>
@@ -166,9 +180,15 @@
                                     <?php echo e($item->nama_prestasi ?? $item->judul); ?>
 
                                 </h5>
-                                <p class="card-text text-muted small mb-0">
-                                    <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_siswa ?? $item->pemenang); ?> (<?php echo e($item->kelas ?? '-'); ?>)
+                                <p class="card-text text-muted small mb-3">
+                                    <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_peraih ?? $item->pemenang); ?>
+
                                 </p>
+                                <div class="mt-auto pt-2">
+                                    <a href="<?php echo e(route('public.prestasi.show', $idPrestasi)); ?>" class="text-decoration-none fw-semibold small text-primary">
+                                        Detail Prestasi <i class="fas fa-chevron-right ms-1 style-xs"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -182,31 +202,45 @@
     <!-- Ekstrakurikuler & Organisasi -->
     <section id="ekstrakurikuler" class="py-5">
         <div class="container py-4">
-            <div class="text-center mx-auto mb-4" style="max-width: 650px;" data-aos="fade-up">
-                <span class="section-tag">Pengembangan Diri</span>
-                <h2 class="section-title">Ekstrakurikuler & Organisasi</h2>
-                <div class="section-divider mx-auto"></div>
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4" data-aos="fade-up">
+                <div>
+                    <span class="section-tag">Pengembangan Diri</span>
+                    <h2 class="section-title mb-0">Ekstrakurikuler & Organisasi</h2>
+                </div>
+                <a href="<?php echo e(route('public.ekstrakulikuler')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
+                    Lihat Lebih Lengkap <i class="fas fa-arrow-right ms-2"></i>
+                </a>
             </div>
+            <div class="section-divider" data-aos="fade-up"></div>
 
             <div class="row g-4">
                 <?php $__empty_1 = true; $__currentLoopData = $ekskuls; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
+                        $idEkskul = $item->getKey() ?? $item->id_ekstrakulikuler ?? $item->id_ekskul ?? $item->id;
+                        $namaEkskul = $item->nama_ekskul ?? $item->nama_ekstrakulikuler ?? $item->nama;
+                        $fotoEkskul = $item->foto ?? $item->gambar ?? null;
+                    ?>
                     <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="<?php echo e($loop->index * 50); ?>">
-                        <div class="custom-card text-center">
-                            <?php if(isset($item->foto) && $item->foto): ?>
-                                <img src="<?php echo e(asset('storage/' . $item->foto)); ?>" class="card-img-top" alt="<?php echo e($item->nama_ekskul ?? $item->nama); ?>" style="height: 180px; object-fit: cover;">
-                            <?php elseif(isset($item->gambar) && $item->gambar): ?>
-                                <img src="<?php echo e(asset('storage/' . $item->gambar)); ?>" class="card-img-top" alt="<?php echo e($item->nama_ekskul ?? $item->nama); ?>" style="height: 180px; object-fit: cover;">
+                        <div class="custom-card text-center h-100 d-flex flex-column">
+                            <?php if(!empty($fotoEkskul) && Storage::disk('public')->exists($fotoEkskul)): ?>
+                                <img src="<?php echo e(asset('storage/' . $fotoEkskul)); ?>" class="card-img-top" alt="<?php echo e($namaEkskul); ?>" style="height: 180px; object-fit: cover;">
                             <?php else: ?>
                                 <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop" class="card-img-top" alt="Default Ekskul" style="height: 180px; object-fit: cover;">
                             <?php endif; ?>
-                            <div class="card-body p-3">
-                                <h6 class="fw-bold text-dark mb-1" style="font-family: var(--font-heading);">
-                                    <?php echo e($item->nama_ekskul ?? $item->nama); ?>
+                            <div class="card-body p-3 d-flex flex-column">
+                                <h6 class="fw-bold text-dark mb-2" style="font-family: var(--font-heading);">
+                                    <?php echo e($namaEkskul); ?>
 
                                 </h6>
                                 <?php if(isset($item->deskripsi) || isset($item->keterangan)): ?>
-                                    <p class="text-muted small mb-0"><?php echo e(Str::limit($item->deskripsi ?? $item->keterangan, 60)); ?></p>
+                                    <p class="text-muted small mb-3"><?php echo e(Str::limit(strip_tags($item->deskripsi ?? $item->keterangan), 60)); ?></p>
                                 <?php endif; ?>
+
+                                <div class="mt-auto pt-2">
+                                    <a href="<?php echo e(route('public.ekstrakulikuler.show', $idEkskul)); ?>" class="text-decoration-none fw-semibold small text-primary">
+                                        Detail Ekskul <i class="fas fa-chevron-right ms-1 style-xs"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -235,7 +269,6 @@
                     <?php $__empty_1 = true; $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                         <div class="swiper-slide">
                             <div class="teacher-card text-center p-4 bg-white rounded-4 shadow-sm border h-100">
-                                <!-- Foto Guru -->
                                 <div class="teacher-avatar mx-auto mb-3" style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-gold);">
                                     <?php if(isset($item->foto) && $item->foto && Storage::disk('public')->exists($item->foto)): ?>
                                         <img src="<?php echo e(asset('storage/' . $item->foto)); ?>" alt="<?php echo e($item->nama_guru ?? $item->nama ?? 'Guru'); ?>" class="w-100 h-100 object-fit-cover">
@@ -244,13 +277,11 @@
                                     <?php endif; ?>
                                 </div>
 
-                                <!-- Nama Guru -->
                                 <h5 class="fw-bold mb-1 text-dark fs-6" style="font-family: var(--font-body);">
                                     <?php echo e($item->nama_guru ?? $item->nama ?? 'Nama Guru'); ?>
 
                                 </h5>
 
-                                <!-- Mata Pelajaran -->
                                 <p class="text-muted small mb-0">
                                     <?php echo e($item->mapel ?? $item->mata_pelajaran ?? 'Pengajar'); ?>
 
@@ -264,14 +295,75 @@
                     <?php endif; ?>
                 </div>
 
-                <!-- Pagination Dots -->
                 <div class="swiper-pagination mt-4"></div>
             </div>
         </div>
     </section>
 
+    <!-- GALERI KEGIATAN SEKOLAH -->
+    <section id="galeri" class="py-5 bg-white">
+        <div class="container py-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4" data-aos="fade-up">
+                <div>
+                    <span class="section-tag">Dokumentasi Sekolah</span>
+                    <h2 class="section-title mb-0">Galeri & Kegiatan</h2>
+                </div>
+                <a href="<?php echo e(route('public.galeri')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
+                    Lihat Semua Galeri <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+            <div class="section-divider" data-aos="fade-up"></div>
+
+            <div class="row g-4 mt-1">
+                <?php $__empty_1 = true; $__currentLoopData = $galeris ?? []; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <?php
+                        $fotoGaleri = $item->foto ?? $item->gambar ?? $item->file_path ?? null;
+                        $judulGaleri = $item->judul ?? $item->keterangan ?? $item->nama ?? 'Dokumentasi Sekolah';
+                    ?>
+                    <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="<?php echo e($loop->index * 100); ?>">
+                        <div class="position-relative overflow-hidden rounded-4 shadow-sm style-gallery-card">
+                            <?php if(!empty($fotoGaleri) && Storage::disk('public')->exists($fotoGaleri)): ?>
+                                <img src="<?php echo e(asset('storage/' . $fotoGaleri)); ?>" class="w-100 rounded-4" alt="<?php echo e($judulGaleri); ?>" style="height: 250px; object-fit: cover;">
+                            <?php else: ?>
+                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop" class="w-100 rounded-4" alt="Default Galeri" style="height: 250px; object-fit: cover;">
+                            <?php endif; ?>
+                            <div class="gallery-overlay p-3 d-flex flex-column justify-content-end rounded-4">
+                                <h6 class="text-white fw-bold mb-0" style="font-family: var(--font-heading);"><?php echo e($judulGaleri); ?></h6>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                    <div class="col-md-4" data-aos="zoom-in">
+                        <div class="position-relative overflow-hidden rounded-4 shadow-sm style-gallery-card">
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=600&auto=format&fit=crop" class="w-100 rounded-4" style="height: 250px; object-fit: cover;" alt="Kegiatan Belajar">
+                            <div class="gallery-overlay p-3 d-flex flex-column justify-content-end rounded-4">
+                                <h6 class="text-white fw-bold mb-0">Kegiatan Belajar Mengajar</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                        <div class="position-relative overflow-hidden rounded-4 shadow-sm style-gallery-card">
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop" class="w-100 rounded-4" style="height: 250px; object-fit: cover;" alt="Upacara Bendera">
+                            <div class="gallery-overlay p-3 d-flex flex-column justify-content-end rounded-4">
+                                <h6 class="text-white fw-bold mb-0">Upacara & Peringatan Hari Besar</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                        <div class="position-relative overflow-hidden rounded-4 shadow-sm style-gallery-card">
+                            <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=600&auto=format&fit=crop" class="w-100 rounded-4" style="height: 250px; object-fit: cover;" alt="Aktivitas Ekskul">
+                            <div class="gallery-overlay p-3 d-flex flex-column justify-content-end rounded-4">
+                                <h6 class="text-white fw-bold mb-0">Aktivitas Seni & Olahraga</h6>
+                            </div>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
+        </div>
+    </section>
+
     <!-- Section Kontak -->
-    <section id="kontak" class="py-5">
+    <section id="kontak" class="py-5 bg-light">
         <div class="container py-4">
             <div class="row g-5">
                 <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
@@ -305,7 +397,6 @@
                         </div>
                     </div>
 
-                    <!-- Embed Map -->
                     <div class="rounded-3 overflow-hidden border shadow-sm">
                         <iframe title="Lokasi SMAN 1 Yogyakarta" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.9535091238994!2d110.3512343!3d-7.79478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a578f18bc51b5%3A0xb304918e7e17cb75!2sSMA%20Negeri%201%20Yogyakarta!5e0!3m2!1sid!2sid" width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
@@ -361,18 +452,51 @@
 
 <?php $__env->stopSection(); ?>
 
+<?php $__env->startPush('styles'); ?>
+    <style>
+        /* Style Overlay Galeri */
+        .style-gallery-card {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .style-gallery-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+        }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: linear-gradient(to top, rgba(0, 33, 71, 0.85) 0%, rgba(0, 33, 71, 0) 60%);
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+        .style-gallery-card:hover .gallery-overlay {
+            opacity: 1;
+        }
+    </style>
+<?php $__env->stopPush(); ?>
+
 <?php $__env->startPush('scripts'); ?>
     <script>
-        // Inisialisasi Swiper Carousel Guru khusus di Dashboard
         document.addEventListener('DOMContentLoaded', function () {
-            if (document.querySelector('.swiperGuru')) {
+            var swiperEl = document.querySelector('.swiperGuru');
+
+            if (swiperEl) {
+                // Hitung jumlah slide guru yang ada
+                var slideCount = swiperEl.querySelectorAll('.swiper-slide').length;
+
                 new Swiper('.swiperGuru', {
                     slidesPerView: 1,
                     spaceBetween: 20,
-                    loop: true,
+                    // Loop hanya aktif jika data guru lebih dari 3
+                    loop: slideCount > 3,
                     autoplay: {
-                        delay: 3000,
+                        delay: 2500,
                         disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
                     },
                     pagination: {
                         el: '.swiper-pagination',
@@ -380,11 +504,11 @@
                     },
                     breakpoints: {
                         576: {
-                            slidesPerView: 2,
+                            slidesPerView: Math.min(2, slideCount),
                             spaceBetween: 20,
                         },
                         992: {
-                            slidesPerView: 3,
+                            slidesPerView: Math.min(3, slideCount),
                             spaceBetween: 30,
                         },
                     },

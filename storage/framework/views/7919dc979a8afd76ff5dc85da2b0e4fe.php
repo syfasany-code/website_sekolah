@@ -92,7 +92,12 @@
                                 <img class="img-md rounded-circle" src="<?php echo e(asset('images/faces/face8.jpg')); ?>" alt="Profile image">
                                 <p class="mb-1 mt-3 font-weight-semibold">Admin Sekolah</p>
                             </div>
-                            <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary"></i> Sign Out</a>
+                            <form action="<?php echo e(route('logout')); ?>" method="POST" class="d-inline">
+                                <?php echo csrf_field(); ?>
+                                <button type="submit" class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center gap-2">
+                                    <i class="fas fa-power-off"></i> Sign Out
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>
