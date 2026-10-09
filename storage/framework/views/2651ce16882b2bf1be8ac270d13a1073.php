@@ -1,32 +1,66 @@
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <div class="brand-logo-icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div>
-                    <div style="font-size: 1.2rem; line-height: 1.1; font-weight: 800;">SMAN 1 YOGYAKARTA</div>
-                    <small style="font-size: 0.72rem; color: var(--accent-gold); font-weight: 700; letter-spacing: 1.5px;">TELADAN JAYAMAHE</small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
-                    <li class="nav-item"><a class="nav-link active" href="#beranda">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#profil">Profil</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#berita">Berita & Informasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#prestasi">Prestasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#ekstrakurikuler">Ekstrakurikuler</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#guru">Guru & Staf</a></li>
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                        <a href="#kontak" class="btn btn-gold text-decoration-none">Hubungi Kami</a>
-                    </li>
-                </ul>
+    <div class="container">
+        <!-- Logo & Nama Sekolah Dinamis dari Database -->
+        <a class="navbar-brand d-flex align-items-center gap-3" href="<?php echo e(url('/')); ?>">
+            <div class="logo-wrapper d-flex align-items-center justify-content-center bg-white rounded-circle p-1 shadow-sm"
+                style="width: 50px; height: 50px; overflow: hidden; flex-shrink: 0;">
+                <?php if(!empty($profil->logo) && Storage::disk('public')->exists('sekolah/' . $profil->logo)): ?>
+                    <img src="<?php echo e(asset('storage/sekolah/' . $profil->logo)); ?>" alt="Logo <?php echo e($profil->nama_sekolah ?? 'Sekolah'); ?>"
+                        class="w-100 h-100 object-fit-contain p-1">
+                <?php elseif(!empty($profil->logo) && Storage::disk('public')->exists($profil->logo)): ?>
+                    <img src="<?php echo e(asset('storage/' . $profil->logo)); ?>" alt="Logo <?php echo e($profil->nama_sekolah ?? 'Sekolah'); ?>"
+                        class="w-100 h-100 object-fit-contain p-1">
+                <?php elseif(!empty($profil->logo) && file_exists(public_path('images/' . $profil->logo))): ?>
+                    <img src="<?php echo e(asset('images/' . $profil->logo)); ?>" alt="Logo <?php echo e($profil->nama_sekolah ?? 'Sekolah'); ?>"
+                        class="w-100 h-100 object-fit-contain p-1">
+                <?php else: ?>
+                    <i class="fas fa-graduation-cap fa-lg text-warning"></i>
+                <?php endif; ?>
             </div>
+
+            <div>
+                <h5 class="fw-bold mb-0 text-white text-uppercase" style="letter-spacing: 0.5px; font-size: 1.1rem; line-height: 1.2;">
+                    <?php echo e($profil->nama_sekolah ?? 'SMAN 1 YOGYAKARTA'); ?>
+
+                </h5>
+                <small class="text-warning fw-semibold tracking-wider d-block" style="font-size: 0.72rem;">
+                    TELADAN JAYAMAHE
+                </small>
+            </div>
+        </a>
+
+        <!-- Toggle Button untuk Layar Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu Navigasi Persis Sesuai Gambar -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#beranda">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#profil">Profil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#berita">Berita & Informasi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#prestasi">Prestasi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#ekstrakurikuler">Ekstrakurikuler</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#guru">Guru & Staf</a>
+                </li>
+                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                    <a href="#kontak" class="btn btn-gold text-decoration-none fw-semibold px-4 py-2">Hubungi Kami</a>
+                </li>
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 <?php /**PATH D:\website_sekolah\resources\views/public/layouts/navbar.blade.php ENDPATH**/ ?>

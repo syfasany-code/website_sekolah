@@ -17,11 +17,6 @@
                         </a>
                         <h5 class="mb-0 font-weight-bold text-dark">Detail Berita</h5>
                     </div>
-
-                    <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($berita->id_berita)) }}"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
-                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
-                    </a>
                 </div>
 
                 <!-- BODY -->

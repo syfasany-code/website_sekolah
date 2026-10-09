@@ -3,7 +3,7 @@
 <?php $__env->startSection('content'); ?>
 <div class="container py-5">
     <div class="mb-4">
-        <a href="<?php echo e(route('public.ekstrakulikuler')); ?>" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
+        <a href="<?php echo e(route('public.ekstrakulikuler', Crypt::encrypt($ekskul->id_ekstrakulikuler))); ?>" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Ekstrakurikuler
         </a>
     </div>
@@ -56,4 +56,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('public.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\website_sekolah\resources\views/public/ekstrakuLikuler/show.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('public.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\website_sekolah\resources\views/public/ekstrakulikuler/show.blade.php ENDPATH**/ ?>

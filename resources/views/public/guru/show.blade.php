@@ -5,7 +5,7 @@
 @section('content')
 <div class="container py-5">
     <div class="mb-4">
-        <a href="{{ route('public.guru') }}" class="btn btn-light btn-sm shadow-sm rounded-pill px-3">
+        <a href="{{ route('public.guru', Crypt::encrypt($guru->id_guru)) }}" class="btn btn-light btn-sm shadow-sm rounded-pill px-3">
             <i class="fa-solid fa-arrow-left me-1"></i> Kembali ke Direktori Guru
         </a>
     </div>

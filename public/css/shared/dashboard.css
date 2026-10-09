@@ -303,53 +303,6 @@
             background-color: var(--primary-navy) !important;
         }
 
-        /* Footer */
-        .main-footer {
-            background-color: var(--primary-dark-navy);
-            color: #94A3B8;
-            padding: 70px 0 30px 0;
-            border-top: 4px solid var(--accent-gold);
-        }
-
-        .footer-title {
-            color: #FFFFFF;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            position: relative;
-            padding-bottom: 8px;
-        }
-
-        .footer-title::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 35px;
-            height: 2px;
-            background-color: var(--accent-gold);
-        }
-
-        .footer-links {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .footer-links li {
-            margin-bottom: 10px;
-        }
-
-        .footer-links a {
-            color: #94A3B8;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover {
-            color: var(--accent-gold);
-        }
-
         .social-icon-btn {
             width: 38px;
             height: 38px;
@@ -387,3 +340,127 @@
             line-height: 1;
             margin-bottom: 5px;
         }
+
+
+        /* Custom Style Footer Aesthetic */
+.main-footer {
+    background: linear-gradient(135deg, #0a192f 0%, #0d213a 100%);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+
+/* Brand Logo Icon */
+.brand-logo-icon {
+    width: 42px;
+    height: 42px;
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+}
+
+.brand-title {
+    letter-spacing: 0.5px;
+    font-size: 1.15rem;
+}
+
+/* Footer Heading & Subtitle */
+.footer-heading {
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.footer-heading::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 30px;
+    height: 2px;
+    background: #ffc107;
+    border-radius: 2px;
+}
+
+/* Links Hover Effect */
+.footer-links li {
+    margin-bottom: 10px;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: #ffc107;
+    transform: translateX(5px);
+}
+
+.footer-links a i {
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+}
+
+/* Social Media Icons */
+.social-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.social-icon:hover {
+    background: #ffc107;
+    color: #0a192f;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+}
+
+/* Glassmorphism Motto Card */
+.motto-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.motto-badge {
+    color: #ffc107;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.motto-text {
+    color: #e2e8f0;
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 193, 7, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}

@@ -46,7 +46,7 @@
 
         <!-- Tombol Edit Profil -->
         <div>
-            <a href="<?php echo e(route('admin.profil.edit')); ?>" style="background: #ffffff; color: #2563eb; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            <a href="<?php echo e(route('admin.profil-sekolah.edit')); ?>" style="background: #ffffff; color: #2563eb; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; display: inline-block; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                 Edit Profil
             </a>
         </div>

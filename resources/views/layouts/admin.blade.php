@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Admin Dashboard - SMAN 1 Yogyakarta</title>
+    <title>@yield('title', 'Admin Dashboard - SMAN 1 Yogyakarta')</title>
 
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{ asset('vendors/iconfonts/mdi/css/materialdesignicons.min.css') }}">
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="{{ asset('vendors/iconfonts/flag-icon-css/css/flag-icon.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.addons.css') }}">
-    <!-- FontAwesome 6 CDN (Icon Modern & Pasti Keluar) -->
+    <!-- FontAwesome 6 CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <!-- DataTables CSS -->
@@ -28,7 +28,7 @@
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
 
     <style>
-        /* Penyesuaian Ringan Tanpa Merusak Layout Star Admin */
+        /* Penyesuaian Layout Star Admin */
         .navbar.default-layout .navbar-brand-wrapper {
             background: #00122e !important;
         }
@@ -58,6 +58,15 @@
         .table td, .table th {
             vertical-align: middle !important;
         }
+        .avatar-initials {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            background-color: #3085d6;
+            color: #ffffff;
+            border-radius: 50%;
+        }
     </style>
 </head>
 <body>
@@ -83,19 +92,45 @@
                 </ul>
 
                 <ul class="navbar-nav navbar-nav-right">
+                    <!-- PROFIL USER DINAMIS -->
                     <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
-                        <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            <img class="img-xs rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                            @if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
+                                <img class="img-xs rounded-circle" src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                            @elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto))
+                                <img class="img-xs rounded-circle" src="{{ asset('storage/' . auth()->user()->foto) }}" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                            @else
+                                <div class="avatar-initials img-xs" style="width: 35px; height: 35px; font-size: 14px;">
+                                    {{ strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1)) }}
+                                </div>
+                            @endif
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
-                            <div class="dropdown-header text-center">
-                                <img class="img-md rounded-circle" src="{{ asset('images/faces/face8.jpg') }}" alt="Profile image">
-                                <p class="mb-1 mt-3 font-weight-semibold">Admin Sekolah</p>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3 text-center shadow-sm border-0 rounded-3" aria-labelledby="UserDropdown">
+                            <div class="dropdown-header text-center p-0 mb-3">
+                                @if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
+                                    <img class="img-md rounded-circle mb-2" src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                @elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto))
+                                    <img class="img-md rounded-circle mb-2" src="{{ asset('storage/' . auth()->user()->foto) }}" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                @else
+                                    <div class="avatar-initials img-md mx-auto mb-2" style="width: 65px; height: 65px; font-size: 24px;">
+                                        {{ strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1)) }}
+                                    </div>
+                                @endif
+
+                                <p class="mb-0 mt-2 font-weight-bold text-dark" style="font-size: 15px;">
+                                    {{ auth()->user()->name ?? auth()->user()->nama ?? 'Pengguna' }}
+                                </p>
+                                <span class="badge {{ strtolower(auth()->user()->role ?? '') === 'admin' ? 'badge-danger' : 'badge-info' }} mt-1 px-3 py-1">
+                                    {{ ucfirst(auth()->user()->role ?? 'User') }}
+                                </span>
                             </div>
+
+                            <div class="dropdown-divider my-2"></div>
+
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center gap-2">
-                                    <i class="fas fa-power-off"></i> Sign Out
+                                <button type="submit" class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center justify-content-center font-weight-medium py-2">
+                                    <i class="fas fa-power-off mr-2"></i> Keluar / Logout
                                 </button>
                             </form>
                         </div>
@@ -122,13 +157,13 @@
                     </li>
 
                     <li class="nav-item {{ request()->routeIs('admin.profil*') ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ route('admin.profil') }}">
+                        <a class="nav-link" href="{{ route('admin.profil-sekolah.profil') }}">
                             <i class="menu-icon mdi mdi-school"></i>
                             <span class="menu-title">Profil Sekolah</span>
                         </a>
                     </li>
 
-                    @if (auth()->check() && auth()->user()->role == 'admin')
+                    @if (auth()->check() && strcasecmp(auth()->user()->role, 'admin') === 0)
                         <li class="nav-item {{ request()->routeIs('admin.user*') ? 'active' : '' }}">
                             <a class="nav-link" href="{{ route('admin.user.index') }}">
                                 <i class="fa-solid fa-user-gear menu-icon"></i>
@@ -153,7 +188,7 @@
 
                     <li class="nav-item {{ request()->routeIs('admin.prestasi*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.prestasi.index') }}">
-                            <i class="menu-icon mdi mdi-account-group"></i>
+                            <i class="menu-icon mdi mdi-trophy-variant-outline"></i>
                             <span class="menu-title">Prestasi</span>
                         </a>
                     </li>
@@ -207,17 +242,15 @@
 
     <script>
     $(document).ready(function() {
-        // Matikan popup error bawaan DataTables
         $.fn.dataTable.ext.errMode = 'none';
 
-        // Targetkan semua tabel yang punya class "datatable"
         $('.datatable').DataTable({
             "responsive": true,
             "autoWidth": false,
             "destroy": true
         });
     });
-</script>
+    </script>
     @stack('scripts')
 </body>
 </html>

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str; // <--- Import Str
 
 class BeritaController extends Controller
 {
@@ -20,13 +21,9 @@ class BeritaController extends Controller
     public function show($id)
     {
         try {
-            // Dekripsi ID dari URL
             $decryptedId = Crypt::decrypt($id);
-
-            // Ambil data berita berdasarkan ID
             $berita = Berita::findOrFail($decryptedId);
         } catch (\Exception $e) {
-            // Jika ID tidak valid atau data tidak ditemukan, kembalikan ke index dengan pesan error
             return redirect()
                 ->route('admin.berita.index')
                 ->with('error', 'Data berita tidak ditemukan.');
@@ -50,8 +47,16 @@ class BeritaController extends Controller
 
     public function save(Request $request, $id = null)
     {
+        // 1. Validasi Input Dasar
+        $request->validate([
+            'judul'   => 'required|string|max:255',
+            'isi'     => 'required',
+            'tanggal' => 'required|date',
+            'gambar'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ]);
+
         try {
-            // 1. Dekripsi $id jika ada (Mode Edit)
+            // 2. Dekripsi ID jika Mode Edit
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($decryptedId);
@@ -59,27 +64,32 @@ class BeritaController extends Controller
                 $berita = new Berita();
             }
 
-            // 2. Validasi Input
-            $request->validate([
-                'judul'   => 'required|string|max:255',
-                'isi'     => 'required',
-                'tanggal' => 'required|date',
-                'gambar'  => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            ]);
-
-            // 3. Set Data
+            // 3. Set Data utama
             $berita->judul   = $request->judul;
             $berita->isi     = $request->isi;
             $berita->tanggal = $request->tanggal;
 
-            // Set id_user dari session login (jika ada relasi user)
+            // Set Status jika inputnya ada di form, jika tidak ada default ke 'published'
+            if ($request->has('status')) {
+                $berita->status = $request->status;
+            } else {
+                $berita->status = $berita->status ?? 'published';
+            }
+
+            // 4. Set Slug Otomatis
+            $slugBase = \Illuminate\Support\Str::slug($request->judul);
+            $count = Berita::where('slug', 'LIKE', "{$slugBase}%")
+                ->where('id_berita', '!=', $berita->id_berita ?? 0)
+                ->count();
+            $berita->slug = $count > 0 ? "{$slugBase}-" . time() : $slugBase;
+
+            // Set ID User Login
             if (Auth::check()) {
                 $berita->id_user = Auth::id();
             }
 
-            // 4. Handle Upload Gambar
+            // 5. Handle Upload Gambar
             if ($request->hasFile('gambar')) {
-                // Hapus gambar lama jika sedang mode Edit
                 if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
                     Storage::disk('public')->delete('berita/' . $berita->gambar);
                 }
@@ -91,16 +101,16 @@ class BeritaController extends Controller
                 $berita->gambar = $namaFile;
             }
 
+            // Simpan Data
             $berita->save();
 
             return redirect()
                 ->route('admin.berita.index')
                 ->with('success', $id ? 'Berita berhasil diperbarui' : 'Berita berhasil ditambahkan');
-
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()
-                ->with('error', 'Gagal menyimpan data: ' . $e->getMessage());
+                ->with('error', 'Gagal menyimpan ke database: ' . $e->getMessage());
         }
     }
 
@@ -130,19 +140,18 @@ class BeritaController extends Controller
         return view('public.berita', compact('beritas'));
     }
 
-    /**
-     * Menampilkan detail 1 berita (Halaman PUBLIK)
-     * View: resources/views/public/berita/show.blade.php
-     */
-    public function publicShow($id)
+    public function publicShow($identifier)
     {
-        try {
-            // Dekripsi ID jika terenkripsi
-            $decryptedId = Crypt::decrypt($id);
-            $berita = Berita::findOrFail($decryptedId);
-        } catch (DecryptException $e) {
-            // Menggunakan primary key asli: id_berita
-            $berita = Berita::where('id_berita', $id)->firstOrFail();
+        // Mendukung pencarian via SLUG maupun ID/Encrypted ID
+        $berita = Berita::where('slug', $identifier)->first();
+
+        if (!$berita) {
+            try {
+                $decryptedId = Crypt::decrypt($identifier);
+                $berita = Berita::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
+                $berita = Berita::where('id_berita', $identifier)->firstOrFail();
+            }
         }
 
         return view('public.berita.show', compact('berita'));

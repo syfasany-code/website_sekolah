@@ -17,11 +17,6 @@
                         </a>
                         <h5 class="mb-0 font-weight-bold text-dark">Detail Ekstrakulikuler</h5>
                     </div>
-
-                    <a href="{{ route('admin.ekstrakulikuler.addEdit', Crypt::encrypt($ekskul->id_ekstrakulikuler)) }}"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm text-white">
-                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
-                    </a>
                 </div>
 
                 <!-- BODY -->

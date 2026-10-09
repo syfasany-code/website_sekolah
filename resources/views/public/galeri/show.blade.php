@@ -5,7 +5,7 @@
 @section('content')
 <div class="container py-5">
     <div class="mb-4">
-        <a href="{{ route('public.galeri') }}" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
+        <a href="{{ route('public.galeri', Crypt::encrypt($galeri->id_galeri)) }}" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Galeri
         </a>
     </div>

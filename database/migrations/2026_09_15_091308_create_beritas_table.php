@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('berita', function (Blueprint $table) {
-            $table->id('id_berita'); // ✅ cukup 1 ini aja
-
-            $table->string('judul', 50);
+            $table->id('id_berita');
+            $table->string('judul');
+            $table->text('slug')->unique();
             $table->text('isi');
             $table->date('tanggal');
             $table->enum('status', ['draf', 'publis']);

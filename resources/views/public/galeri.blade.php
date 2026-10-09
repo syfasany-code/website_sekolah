@@ -1,85 +1,124 @@
 @extends('public.layouts.app')
 
-@section('title', 'Galeri & Dokumentasi Sekolah')
+@section('title', 'Galeri & Dokumentasi - ' . ($profil->nama_sekolah ?? 'SMA Negeri 1 Yogyakarta'))
 
 @section('content')
-<div class="container py-5">
 
-    <!-- TOMBOL KEMBALI KE BERANDA -->
-    <div class="mb-4">
-        <a href="{{ url('/') }}" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
-            <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
-        </a>
-    </div>
-
-    <!-- JUDUL HALAMAN -->
-    <div class="row mb-4">
-        <div class="col-12 text-center">
-            <h2 class="fw-bold text-dark">Galeri & Dokumentasi Kegiatan</h2>
-            <p class="text-muted">Momen berharga, fasilitas, dan dokumentasi ragam aktivitas SMAN 1 Yogyakarta.</p>
+    <!-- Header Section -->
+    <section class="bg-light py-5 border-bottom">
+        <div class="container py-3">
+            <div class="mb-3">
+                <a href="{{ url('/') }}" class="btn btn-outline-navy btn-sm rounded-pill px-3">
+                    <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
+                </a>
+            </div>
+            <div class="text-center">
+                <h1 class="fw-bold text-dark display-5 mb-2" style="font-family: var(--font-heading);">
+                    Galeri & Dokumentasi Kegiatan
+                </h1>
+                <p class="text-muted lead fs-6 mb-0">
+                    Momen berharga, fasilitas, dan dokumentasi ragam aktivitas {{ $profil->nama_sekolah ?? 'SMA Negeri 1 Yogyakarta' }}.
+                </p>
+            </div>
         </div>
-    </div>
+    </section>
 
-    <!-- DAFTAR FOTO GALERI -->
-    <div class="row g-4">
-        @forelse($galeris as $item)
-            @php
-                // Ambil Primary Key secara aman
-                $idGaleri = $item->getKey() ?? $item->id_galeri ?? $item->id;
-                $judulGaleri = $item->judul ?? $item->keterangan ?? $item->nama ?? 'Dokumentasi Kegiatan';
-                $fotoGaleri = $item->foto ?? $item->gambar ?? $item->file_path ?? null;
-            @endphp
-            <div class="col-md-6 col-lg-4 mb-3">
-                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden style-gallery-card">
-                    <div class="position-relative">
-                        @if(!empty($fotoGaleri) && Storage::disk('public')->exists($fotoGaleri))
-                            <img src="{{ asset('storage/' . $fotoGaleri) }}"
-                                 class="card-img-top"
-                                 style="height: 240px; object-fit: cover;"
-                                 alt="{{ $judulGaleri }}">
-                        @else
-                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format&fit=crop"
-                                 class="card-img-top"
-                                 style="height: 240px; object-fit: cover;"
-                                 alt="Default Galeri">
-                        @endif
+    <!-- Content Galeri Section -->
+    <section class="py-5 bg-white">
+        <div class="container py-3">
+            <div class="row g-4">
+                @forelse ($galeris as $item)
+                    @php
+                        $kategori = strtolower($item->kategori ?? 'foto');
+                        $fotoFile = $item->file ?? $item->foto ?? $item->gambar ?? null;
+                        $judul    = $item->judul ?? 'Dokumentasi Kegiatan';
+                        $tanggal  = $item->created_at ? \Carbon\Carbon::parse($item->created_at)->format('d M Y') : date('d M Y');
+                    @endphp
 
-                        <div class="gallery-overlay p-3 d-flex flex-column justify-content-end">
-                            <span class="text-warning small mb-1">
-                                <i class="far fa-calendar me-1"></i> {{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}
-                            </span>
-                            <h6 class="text-white fw-bold mb-0" style="font-family: var(--font-heading);">
-                                {{ $judulGaleri }}
-                            </h6>
+                    <div class="col-md-6 col-lg-4" data-aos="zoom-in" data-aos-delay="{{ $loop->index * 100 }}">
+                        <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden custom-gallery-card">
+                            <div class="position-relative overflow-hidden style-gallery-card">
+
+                                {{-- KATEGORI FOTO --}}
+                                @if($kategori === 'foto')
+                                    @if(!empty($fotoFile) && Storage::disk('public')->exists('galeri/' . $fotoFile))
+                                        <img src="{{ asset('storage/galeri/' . $fotoFile) }}" class="w-100" alt="{{ $judul }}" style="height: 240px; object-fit: cover;">
+                                    @elseif(!empty($fotoFile) && Storage::disk('public')->exists($fotoFile))
+                                        <img src="{{ asset('storage/' . $fotoFile) }}" class="w-100" alt="{{ $judul }}" style="height: 240px; object-fit: cover;">
+                                    @else
+                                        <div class="bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 240px;">
+                                            <i class="fas fa-image fa-3x opacity-50"></i>
+                                        </div>
+                                    @endif
+
+                                {{-- KATEGORI VIDEO --}}
+                                @else
+                                    <div class="bg-dark d-flex flex-column align-items-center justify-content-center text-white" style="height: 240px;">
+                                        <i class="fab fa-youtube text-danger display-4 mb-2"></i>
+                                        <span class="badge bg-danger">Video Kegiatan</span>
+                                    </div>
+                                @endif
+
+                                {{-- Overlay Judul & Tanggal --}}
+                                <div class="gallery-overlay p-3 d-flex flex-column justify-content-end">
+                                    <small class="text-warning mb-1 fw-semibold">
+                                        <i class="far fa-calendar-alt me-1"></i> {{ $tanggal }}
+                                    </small>
+                                    <h6 class="text-white fw-bold mb-0" style="font-family: var(--font-heading);">
+                                        {{ $judul }}
+                                    </h6>
+                                </div>
+                            </div>
+
+                            {{-- Tombol Aksi Dinamis --}}
+                            <div class="card-footer bg-white border-0 p-3 text-center">
+                                @if($kategori === 'foto')
+                                    @php
+                                        $urlFoto = !empty($fotoFile) && Storage::disk('public')->exists('galeri/' . $fotoFile)
+                                            ? asset('storage/galeri/' . $fotoFile)
+                                            : asset('storage/' . $fotoFile);
+                                    @endphp
+                                    <a href="{{ $urlFoto }}" target="_blank" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
+                                        Lihat Foto Lengkap <i class="fas fa-chevron-right ms-1"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ $item->link ?? '#' }}" target="_blank" class="btn btn-outline-danger btn-sm w-100 rounded-pill fw-semibold">
+                                        Tonton Video <i class="fab fa-youtube ms-1"></i>
+                                    </a>
+                                @endif
+                            </div>
                         </div>
                     </div>
-
-                    <div class="card-body p-3 text-center bg-white">
-                        <a href="{{ route('public.galeri.show', $idGaleri) }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
-                            Lihat Foto Lengkap <i class="fas fa-chevron-right small ms-1"></i>
-                        </a>
+                @empty
+                    <div class="col-12 text-center text-muted py-5">
+                        <i class="fas fa-images fa-3x mb-3 text-secondary"></i>
+                        <p class="fs-5 mb-0">Belum ada dokumentasi galeri kegiatan.</p>
                     </div>
-                </div>
+                @endforelse
             </div>
-        @empty
-            <div class="col-12 text-center py-5">
-                <div class="p-4 bg-light rounded-3">
-                    <p class="text-muted mb-0">Belum ada foto galeri yang ditampilkan.</p>
+
+            <!-- Pagination Jika Ada -->
+            @if(method_exists($galeris, 'links'))
+                <div class="d-flex justify-content-center mt-5">
+                    {{ $galeris->links() }}
                 </div>
-            </div>
-        @endforelse
-    </div>
-</div>
+            @endif
+        </div>
+    </section>
+
 @endsection
 
 @push('styles')
     <style>
-        .style-gallery-card {
+        .custom-gallery-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .style-gallery-card:hover {
+        .custom-gallery-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.12) !important;
+        }
+        .style-gallery-card {
+            position: relative;
         }
         .gallery-overlay {
             position: absolute;
@@ -87,7 +126,12 @@
             left: 0;
             right: 0;
             top: 0;
-            background: linear-gradient(to top, rgba(0, 33, 71, 0.85) 0%, rgba(0, 33, 71, 0) 60%);
+            background: linear-gradient(to top, rgba(0, 33, 71, 0.88) 0%, rgba(0, 33, 71, 0) 65%);
+            opacity: 0.95;
+            transition: opacity 0.3s ease;
+        }
+        .custom-gallery-card:hover .gallery-overlay {
+            opacity: 1;
         }
     </style>
 @endpush

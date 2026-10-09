@@ -32,9 +32,7 @@
                                     <th>NIP</th>
                                     <th>Mapel</th>
                                     <th>Foto</th>
-                                    @if(Auth::user()->role == 'admin')
-                                        <th>Aksi</th>
-                                    @endif
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 

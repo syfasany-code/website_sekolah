@@ -31,9 +31,7 @@
                                     <th>NIP</th>
                                     <th>Mapel</th>
                                     <th>Foto</th>
-                                    <?php if(Auth::user()->role == 'admin'): ?>
-                                        <th>Aksi</th>
-                                    <?php endif; ?>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
 

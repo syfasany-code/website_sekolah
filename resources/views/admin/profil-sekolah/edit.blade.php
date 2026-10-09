@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="d-flex justify-content-end gap-2 mt-4">
-                    <a href="{{ route('admin.profil') }}" class="btn btn-light px-4 rounded-3">Batal</a>
+                    <a href="{{ route('admin.profil-sekolah.profil') }}" class="btn btn-light px-4 rounded-3">Batal</a>
                     <button type="submit" class="btn btn-primary px-4 rounded-3">Simpan Perubahan</button>
                 </div>
             </form>

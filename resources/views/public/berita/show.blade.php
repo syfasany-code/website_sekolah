@@ -1,13 +1,13 @@
 @extends('public.layouts.app')
 
-@section('title', $berita->judul ?? 'Detail Berita')
+@section('title', ($berita->judul ?? 'Detail Berita') . ' - ' . ($profil->nama_sekolah ?? 'SMAN 1 YOGYAKARTA'))
 
 @section('content')
 <div class="container py-5">
 
     <!-- TOMBOL KEMBALI KE LIST BERITA -->
     <div class="mb-4">
-        <a href="{{ route('public.berita') }}" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
+        <a href="{{ url('/berita', Crypt::encrypt($berita->id_berita)) }}" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Semua Berita
         </a>
     </div>

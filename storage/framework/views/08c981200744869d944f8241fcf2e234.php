@@ -53,7 +53,8 @@
                         </h5>
 
                         <p class="text-muted small mb-3">
-                            <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_peraih ?? $item->pemenang ?? '-'); ?> 
+                            <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_peraih ?? $item->pemenang ?? '-'); ?>
+
                         </p>
 
                         <!-- TOMBOL DETAIL PRESTASI -->

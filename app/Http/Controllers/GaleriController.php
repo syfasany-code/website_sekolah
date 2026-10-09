@@ -25,13 +25,11 @@ class GaleriController extends Controller
             // Cari data galeri berdasarkan ID
             $galeri = Galeri::findOrFail($decryptedId);
         } catch (\Exception $e) {
-            // Jika ID tidak valid atau data tidak ditemukan, kembalikan ke halaman index
             return redirect()
                 ->route('admin.galeri.index')
                 ->with('error', 'Data galeri tidak ditemukan.');
         }
 
-        // Tampilkan view detail galeri
         return view('admin.galeri.show', compact('galeri'));
     }
 
@@ -54,11 +52,18 @@ class GaleriController extends Controller
 
     public function save(Request $request)
     {
+        // 1. Validasi Input berdasarkan Kategori
         $request->validate([
-            'judul'      => 'required',
+            'judul'      => 'required|string|max:255',
+            'kategori'   => 'required|in:foto,video',
             'keterangan' => 'required',
             'tanggal'    => 'required|date',
-            'file'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            // File wajib diisi jika kategori FOTO dan membuat data BARU
+            'file'       => $request->filled('id')
+                            ? 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+                            : 'required_if:kategori,foto|nullable|image|mimes:jpg,jpeg,png|max:2048',
+            // Link wajib diisi jika kategori VIDEO
+            'link'       => 'required_if:kategori,video|nullable|url',
         ]);
 
         if ($request->filled('id')) {
@@ -68,24 +73,43 @@ class GaleriController extends Controller
         }
 
         $galeri->judul      = $request->judul;
+        $galeri->kategori   = $request->kategori;
         $galeri->keterangan = $request->keterangan;
         $galeri->tanggal    = $request->tanggal;
 
-        // 🔥 WAJIB (biar gak error lagi)
+        // 2. Logika Penanganan Foto & Video
+        if ($request->kategori === 'foto') {
+            // Kosongkan link video jika ganti kategori ke Foto
+            $galeri->link = null;
 
-        // upload gambar
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $namaFile = time().'.'.$file->getClientOriginalExtension();
-            $file->storeAs('galeri', $namaFile, 'public');
+            // Upload gambar jika ada file baru diunggah
+            if ($request->hasFile('file')) {
+                // Hapus file lama jika ada (saat update)
+                if ($galeri->file && Storage::disk('public')->exists('galeri/' . $galeri->file)) {
+                    Storage::disk('public')->delete('galeri/' . $galeri->file);
+                }
 
-            $galeri->file = $namaFile;
+                $file = $request->file('file');
+                $namaFile = time() . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('galeri', $namaFile, 'public');
+
+                $galeri->file = $namaFile;
+            }
+        } else {
+            // Jika kategori VIDEO
+            $galeri->link = $request->link;
+
+            // Hapus file gambar jika sebelumnya berupa Foto
+            if ($galeri->file && Storage::disk('public')->exists('galeri/' . $galeri->file)) {
+                Storage::disk('public')->delete('galeri/' . $galeri->file);
+            }
+            $galeri->file = null;
         }
 
         $galeri->save();
 
         return redirect()->route('admin.galeri.index')
-            ->with('success', 'Data galeri berhasil disimpan');
+            ->with('success', 'Data galeri berhasil disimpan.');
     }
 
     public function destroy($id)
@@ -98,12 +122,12 @@ class GaleriController extends Controller
                 ->with('error', 'Data galeri tidak ditemukan.');
         }
 
-        // hapus file dari storage
-        if ($galeri->file && Storage::disk('public')->exists('galeri/'.$galeri->file)) {
-            Storage::disk('public')->delete('galeri/'.$galeri->file);
+        // Hapus file dari storage jika berupa foto
+        if ($galeri->file && Storage::disk('public')->exists('galeri/' . $galeri->file)) {
+            Storage::disk('public')->delete('galeri/' . $galeri->file);
         }
 
-        // hapus data
+        // Hapus data dari database
         $galeri->delete();
 
         return redirect()
@@ -119,7 +143,7 @@ class GaleriController extends Controller
     }
 
     /**
-     * Menampilkan detail 1 foto galeri (Halaman PUBLIK)
+     * Menampilkan detail 1 foto/video galeri (Halaman PUBLIK)
      * View: resources/views/public/galeri/show.blade.php
      */
     public function publicShow($id)
@@ -129,11 +153,10 @@ class GaleriController extends Controller
             $decryptedId = Crypt::decrypt($id);
             $galeri = Galeri::findOrFail($decryptedId);
         } catch (DecryptException $e) {
-            // Menggunakan primary key asli: id_galeri
-            $galeri = Galeri::where('id_galeri', $id)->firstOrFail();
+            // Menggunakan primary key jika ID tidak terenkripsi
+            $galeri = Galeri::findOrFail($id);
         }
 
         return view('public.galeri.show', compact('galeri'));
     }
 }
-

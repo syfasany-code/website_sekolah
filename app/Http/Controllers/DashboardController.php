@@ -36,6 +36,7 @@ class DashboardController extends Controller
     public function publicDashboard()
     {
         // Ambil data dari database (sesuaikan urutan/limit jika perlu)
+        $profil = ProfilSekolah::first();
         $beritas = Berita::latest()->take(3)->get();
         $prestasis = Prestasi::latest()->take(3)->get();
         $ekskuls = Ekstrakulikuler::latest()->take(4)->get();
@@ -43,6 +44,6 @@ class DashboardController extends Controller
         $galeris = Galeri::latest()->take(3)->get();
 
         // Kirim variabel ke view
-        return view('public.dashboard', compact('beritas', 'prestasis', 'ekskuls', 'gurus', 'galeris'));
+        return view('public.dashboard', compact('profil','beritas', 'prestasis', 'ekskuls', 'gurus', 'galeris'));
     }
 }

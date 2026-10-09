@@ -64,7 +64,7 @@
 
                         <!-- TOMBOL BACA SELENGKAPNYA -->
                         <div class="mt-auto">
-                            <a href="<?php echo e(route('public.berita.show', $idBerita)); ?>" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
+                            <a href="<?php echo e(route('public.berita.show', $item->slug)); ?>" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
                                 Baca Selengkapnya <i class="fas fa-chevron-right small ms-1"></i>
                             </a>
                         </div>

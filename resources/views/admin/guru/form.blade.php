@@ -10,9 +10,6 @@
             <!-- HEADER -->
             <div class="card-header bg-white border-bottom py-3 d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center">
-                    <a href="{{ route('admin.guru.index') }}" class="btn btn-icon btn-light btn-sm mr-3" title="Kembali">
-                        <i class="mdi mdi-arrow-left"></i>
-                    </a>
                     <h5 class="mb-0 font-weight-bold text-dark">
                         {{ !empty($guru) ? 'Form Edit Data Guru' : 'Form Tambah Data Guru Baru' }}
                     </h5>

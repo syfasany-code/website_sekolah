@@ -9,14 +9,16 @@ class Berita extends Model
 {
     protected $table = 'berita';
     protected $primaryKey = 'id_berita';
+    protected $guarded = [];
 
-    protected $fillable = [
-        'judul',
-        'isi',
-        'tanggal',
-        'gambar',
-        'id_user'
-    ];
+    // protected $fillable = [
+    //     'judul',
+    //     'slug',
+    //     'isi',
+    //     'tanggal',
+    //     'gambar',
+    //     'id_user'
+    // ];
 
     public function user()
     {

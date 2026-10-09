@@ -15,11 +15,6 @@
                         </a>
                         <h5 class="mb-0 font-weight-bold text-dark">Detail Data Guru</h5>
                     </div>
-
-                    <a href="<?php echo e(route('admin.guru.addEdit', Crypt::encrypt($guru->id_guru))); ?>"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm">
-                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
-                    </a>
                 </div>
 
                 <!-- BODY -->

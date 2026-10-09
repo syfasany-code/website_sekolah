@@ -17,7 +17,7 @@ class ProfilSekolahController extends Controller
     public function edit()
     {
         $profil = ProfilSekolah::first();
-        return view('admin.profil.edit', compact('profil'));
+        return view('admin.profil-sekolah.edit', compact('profil'));
     }
 
     public function update(Request $request)
@@ -65,7 +65,7 @@ class ProfilSekolahController extends Controller
         $profil->save();
 
         return redirect()
-            ->route('admin.profil.profil')
+            ->route('admin.profil-sekolah.profil')
             ->with('success', 'Profil sekolah berhasil diperbarui!');
     }
 }

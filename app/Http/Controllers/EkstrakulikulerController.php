@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EkstrakulikulerController extends Controller
 {
@@ -56,7 +57,6 @@ class EkstrakulikulerController extends Controller
             $ekskul = new Ekstrakulikuler();
         }
 
-        // ✅ VALIDASI (PERHATIKAN INI)
         $request->validate([
             'nama_ekskul'     => 'required',
             'pembina'         => 'required',
@@ -70,18 +70,20 @@ class EkstrakulikulerController extends Controller
         $ekskul->jadwal_latihan = $request->jadwal_latihan;
         $ekskul->deskripsi      = $request->deskripsi;
 
-        // ✅ UPLOAD GAMBAR
-        if ($request->hasFile('gambar')) {
+        // --- LOGIKA PEMBUATAN SLUG ---
+        $slug = Str::slug($request->nama_ekskul);
+        $count = Ekstrakulikuler::where('slug', 'LIKE', "{$slug}%")
+            ->where('id_ekstrakulikuler', '!=', $ekskul->id_ekstrakulikuler ?? 0)
+            ->count();
+        $ekskul->slug = $count > 0 ? "{$slug}-" . time() : $slug;
 
-            // hapus lama
+        if ($request->hasFile('gambar')) {
             if ($ekskul->gambar && Storage::disk('public')->exists($ekskul->gambar)) {
                 Storage::disk('public')->delete($ekskul->gambar);
             }
 
-           $file = $request->file('gambar');
-
+            $file = $request->file('gambar');
             $namaFile = time() . '_' . $file->getClientOriginalName();
-
             $file->storeAs('ekskul', $namaFile, 'public');
 
             $ekskul->gambar = 'ekskul/' . $namaFile;
@@ -113,19 +115,22 @@ class EkstrakulikulerController extends Controller
      * View: resources/views/public/ekstrakurikuler/show.blade.php
      */
     /**
- * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
- */
-    public function publicShow($id)
+     * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
+     */
+    public function publicShow($identifier)
     {
-        try {
-            // Dekripsi jika ID dikirim terenkripsi
-            $decryptedId = Crypt::decrypt($id);
-            $ekskul = Ekstrakulikuler::findOrFail($decryptedId);
-        } catch (DecryptException $e) {
-            // Menggunakan nama kolom primary key asli: id_ekstrakulikuler
-            $ekskul = Ekstrakulikuler::where('id_ekstrakulikuler', $id)->firstOrFail();
+        // Cari berdasarkan slug terlebih dahulu, fallback ke ID jika tidak ditemukan
+        $ekskul = Ekstrakulikuler::where('slug', $identifier)->first();
+
+        if (!$ekskul) {
+            try {
+                $decryptedId = Crypt::decrypt($identifier);
+                $ekskul = Ekstrakulikuler::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
+                $ekskul = Ekstrakulikuler::where('id_ekstrakulikuler', $identifier)->firstOrFail();
+            }
         }
 
-        return view('public.ekstrakuLikuler.show', compact('ekskul'));
+        return view('public.ekstrakulikuler.show', compact('ekskul'));
     }
 }

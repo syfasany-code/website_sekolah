@@ -54,7 +54,7 @@
 
                         <!-- TOMBOL DETAIL EKSKUL -->
                         <div class="mt-auto">
-                            <a href="{{ route('public.ekstrakulikuler.show', $idEkskul) }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
+                            <a href="{{ route('public.ekstrakulikuler.show', $item->slug) }}" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
                                 Lihat Lebih Lengkap <i class="fas fa-chevron-right small ms-1"></i>
                             </a>
                         </div>

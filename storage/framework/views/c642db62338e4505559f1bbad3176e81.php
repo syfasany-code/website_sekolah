@@ -59,6 +59,7 @@
     .bg-soft-teal    { background-color: #f0fdfa; color: #0d9488; }
     .bg-soft-indigo  { background-color: #eef2ff; color: #4338ca; }
     .bg-soft-amber   { background-color: #fffbeb; color: #d97706; }
+    .bg-soft-rose    { background-color: #fff1f2; color: #e11d48; }
 
     /* Action Link */
     .stat-link {
@@ -90,12 +91,16 @@
 
 <div class="container-fluid py-2">
 
-    <!-- 🔷 PROFIL SEKOLAH (HERO WELCOME BANNER) -->
+    <!-- PROFIL SEKOLAH (HERO WELCOME BANNER) -->
     <div class="dashboard-hero p-4 p-md-5 mb-4">
         <div class="row align-items-center">
             <div class="col-auto text-center mb-3 mb-md-0">
-                <?php if(!empty($profil->logo) && file_exists(public_path('storage/'.$profil->logo))): ?>
-                    <img src="<?php echo e(asset('storage/'.$profil->logo)); ?>" alt="Logo" class="school-logo-frame">
+                <?php if(!empty($profil->logo) && Storage::disk('public')->exists('sekolah/' . $profil->logo)): ?>
+                    <img src="<?php echo e(asset('storage/sekolah/' . $profil->logo)); ?>" alt="Logo" class="school-logo-frame">
+                <?php elseif(!empty($profil->logo) && Storage::disk('public')->exists($profil->logo)): ?>
+                    <img src="<?php echo e(asset('storage/' . $profil->logo)); ?>" alt="Logo" class="school-logo-frame">
+                <?php elseif(file_exists(public_path('images/sman1.png'))): ?>
+                    <img src="<?php echo e(asset('images/sman1.png')); ?>" alt="Logo" class="school-logo-frame">
                 <?php else: ?>
                     <div class="school-logo-frame d-flex align-items-center justify-content-center text-white font-weight-bold" style="font-size: 36px;">
                         <i class="mdi mdi-school"></i>
@@ -127,18 +132,18 @@
         </div>
     </div>
 
-    <!-- 📊 HEADER TITLE -->
+    <!-- HEADER TITLE -->
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h5 class="font-weight-bold text-dark mb-0">
             <i class="mdi mdi-view-dashboard-outline text-dark mr-2"></i> Ringkasan & Menu Cepat
         </h5>
-        <span class="text-muted small">Kelola data sistem dalam satu klik</span>
+        <span class="text-muted small">Kelola 6 modul utama sistem dalam satu klik</span>
     </div>
 
-    <!-- 🔥 MENU & KARTU STATISTIK -->
+    <!-- MENU & KARTU STATISTIK (6 KARTU SIMETRIS: 3 BARIS X 2 KOLOM ATAU 2 BARIS X 3 KOLOM) -->
     <div class="row">
 
-        <!-- KARTU SISWA -->
+        <!-- 1. KARTU SISWA -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card shadow-sm h-100 p-3">
                 <div class="card-body p-2 d-flex align-items-center justify-content-between">
@@ -156,7 +161,7 @@
             </div>
         </div>
 
-        <!-- KARTU GURU -->
+        <!-- 2. KARTU GURU -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card shadow-sm h-100 p-3">
                 <div class="card-body p-2 d-flex align-items-center justify-content-between">
@@ -174,7 +179,7 @@
             </div>
         </div>
 
-        <!-- KARTU BERITA -->
+        <!-- 3. KARTU BERITA -->
         <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card shadow-sm h-100 p-3">
                 <div class="card-body p-2 d-flex align-items-center justify-content-between">
@@ -192,8 +197,26 @@
             </div>
         </div>
 
-        <!-- KARTU GALERI -->
-        <div class="col-xl-6 col-md-6 mb-4">
+        <!-- 4. KARTU PRESTASI SISWA (TAMBAHAN REVISI) -->
+        <div class="col-xl-4 col-md-6 mb-4">
+            <div class="card stat-card shadow-sm h-100 p-3">
+                <div class="card-body p-2 d-flex align-items-center justify-content-between">
+                    <div>
+                        <span class="text-muted text-uppercase font-weight-bold d-block mb-1" style="font-size: 12px; letter-spacing: 0.5px;">Prestasi Siswa</span>
+                        <h2 class="font-weight-bold text-dark mb-0"><?php echo e(number_format($totalPrestasi ?? 0)); ?></h2>
+                        <a href="<?php echo e(route('admin.prestasi.index')); ?>" class="stat-link mt-2">
+                            Kelola Prestasi <i class="mdi mdi-arrow-right ml-1"></i>
+                        </a>
+                    </div>
+                    <div class="stat-icon-wrapper bg-soft-rose">
+                        <i class="mdi mdi-trophy-outline"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. KARTU GALERI -->
+        <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card shadow-sm h-100 p-3">
                 <div class="card-body p-2 d-flex align-items-center justify-content-between">
                     <div>
@@ -210,8 +233,8 @@
             </div>
         </div>
 
-        <!-- KARTU EKSKUL -->
-        <div class="col-xl-6 col-md-12 mb-4">
+        <!-- 6. KARTU EKSTRAKURIKULER -->
+        <div class="col-xl-4 col-md-6 mb-4">
             <div class="card stat-card shadow-sm h-100 p-3">
                 <div class="card-body p-2 d-flex align-items-center justify-content-between">
                     <div>
