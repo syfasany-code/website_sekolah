@@ -21,6 +21,7 @@ class DashboardController extends Controller
         $totalEkskul = Ekstrakulikuler::count();
         $totalGaleri = Galeri::count();
         $totalBerita = Berita::count();
+        $totalPrestasi = Prestasi::count();
 
         return view('admin.dashboard', compact(
             'profil',
@@ -28,7 +29,8 @@ class DashboardController extends Controller
             'totalGuru',
             'totalEkskul',
             'totalGaleri',
-            'totalBerita'
+            'totalBerita',
+            'totalPrestasi'
         ));
     }
 

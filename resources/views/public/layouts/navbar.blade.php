@@ -34,31 +34,69 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <!-- Menu Navigasi Persis Sesuai Gambar -->
+        <!-- Menu Navigasi Dinamis -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#beranda">Beranda</a>
+                    <a class="nav-link {{ Request::is('/') && !request()->has('page') ? 'active' : '' }}" href="{{ url('/') }}#beranda">Beranda</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#profil">Profil</a>
+                    <a class="nav-link" href="{{ url('/') }}#profil">Profil</a>
+                </li>
+                <!-- Diarahkan ke section #berita di landing page terlebih dahulu -->
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('berita*') ? 'active' : '' }}" href="{{ url('/') }}#berita">Berita & Informasi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#berita">Berita & Informasi</a>
+                    <a class="nav-link {{ Request::is('prestasi*') ? 'active' : '' }}" href="{{ url('/') }}#prestasi">Prestasi</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#prestasi">Prestasi</a>
+                    <a class="nav-link {{ Request::is('ekstrakurikuler*') ? 'active' : '' }}" href="{{ url('/') }}#ekstrakurikuler">Ekstrakurikuler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#ekstrakurikuler">Ekstrakurikuler</a>
+                    <a class="nav-link {{ Request::is('galeri*') ? 'active' : '' }}" href="{{ url('/') }}#galeri">Galeri</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#guru">Guru & Staf</a>
+                    <a class="nav-link" href="{{ url('/') }}#guru">Guru & Staf</a>
                 </li>
                 <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                    <a href="#kontak" class="btn btn-gold text-decoration-none fw-semibold px-4 py-2">Hubungi Kami</a>
+                    <a href="{{ url('/') }}#kontak" class="btn btn-gold text-decoration-none fw-semibold px-4 py-2">Hubungi Kami</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const navLinks = document.querySelectorAll('.navbar-nav .nav-link');
+
+        window.addEventListener('scroll', function () {
+            let scrollPos = window.scrollY + 150;
+
+            navLinks.forEach(link => {
+                let href = link.getAttribute('href');
+
+                if (href && href.includes('#')) {
+                    let targetId = href.substring(href.indexOf('#'));
+
+                    if (targetId.length > 1) {
+                        let targetSection = document.querySelector(targetId);
+
+                        if (targetSection) {
+                            let sectionTop = targetSection.offsetTop;
+                            let sectionHeight = targetSection.offsetHeight;
+
+                            if (scrollPos >= sectionTop && scrollPos < (sectionTop + sectionHeight)) {
+                                navLinks.forEach(l => l.classList.remove('active'));
+                                link.classList.add('active');
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    });
+</script>
+@endpush

@@ -5,11 +5,6 @@
     <!-- Header Section -->
     <section class="bg-light py-5 border-bottom">
         <div class="container py-3">
-            <div class="mb-3">
-                <a href="<?php echo e(url('/')); ?>" class="btn btn-outline-navy btn-sm rounded-pill px-3">
-                    <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
-                </a>
-            </div>
             <div class="text-center">
                 <h1 class="fw-bold text-dark display-5 mb-2" style="font-family: var(--font-heading);">
                     Galeri & Dokumentasi Kegiatan

@@ -4,11 +4,6 @@
 <div class="container py-5">
 
     <!-- TOMBOL KEMBALI KE BERANDA -->
-    <div class="mb-4">
-        <a href="<?php echo e(url('/')); ?>" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
-            <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
-        </a>
-    </div>
 
     <!-- JUDUL HALAMAN -->
     <div class="row mb-4">

@@ -1,71 +1,102 @@
+<?php $__env->startSection('title', 'Detail Prestasi'); ?>
+
 <?php $__env->startSection('content'); ?>
-<div class="row">
-    <div class="col-md-8 mx-auto grid-margin stretch-card">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="card-title mb-0">Detail Prestasi</h4>
-                    <a href="<?php echo e(route('admin.prestasi.index')); ?>" class="btn btn-secondary btn-sm">
-                        <i class="fa-solid fa-arrow-left"></i> Kembali
-                    </a>
-                </div>
-                <hr>
-
-                <div class="text-center mb-4">
-                    <?php if($prestasi->foto && Storage::disk('public')->exists($prestasi->foto)): ?>
-                        <img src="<?php echo e(asset('storage/' . $prestasi->foto)); ?>" class="img-fluid rounded shadow-sm" style="max-height: 280px; object-fit: cover;" alt="Foto Prestasi">
-                    <?php else: ?>
-                        <img src="<?php echo e(asset('images/faces/face8.jpg')); ?>" class="img-fluid rounded shadow-sm" style="max-height: 180px;" alt="Default Image">
-                    <?php endif; ?>
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm rounded-lg overflow-hidden">
+                <!-- HEADER -->
+                <div class="card-header bg-white border-bottom py-3 d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <a href="<?php echo e(route('admin.prestasi.index')); ?>" class="btn btn-icon btn-light btn-sm mr-3" title="Kembali">
+                            <i class="mdi mdi-arrow-left"></i>
+                        </a>
+                        <h5 class="mb-0 font-weight-bold text-dark">Detail Prestasi</h5>
+                    </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-borderless align-middle">
-                        <tr>
-                            <th style="width: 25%;">Judul Prestasi</th>
-                            <td style="width: 5%;">:</td>
-                            <td><strong><?php echo e($prestasi->judul); ?></strong></td>
-                        </tr>
-                        <tr>
-                            <th>Nama Peraih</th>
-                            <td>:</td>
-                            <td><?php echo e($prestasi->nama_peraih ?? '-'); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Kategori</th>
-                            <td>:</td>
-                            <td><span class="badge badge-info bg-info text-white"><?php echo e($prestasi->kategori ?? '-'); ?></span></td>
-                        </tr>
-                        <tr>
-                            <th>Tingkat</th>
-                            <td>:</td>
-                            <td><span class="badge badge-success bg-success text-white"><?php echo e($prestasi->tingkat ?? '-'); ?></span></td>
-                        </tr>
-                        <tr>
-                            <th>Capaian Juara</th>
-                            <td>:</td>
-                            <td><?php echo e($prestasi->juara ?? '-'); ?></td>
-                        </tr>
-                        <tr>
-                            <th>Tanggal Peroleh</th>
-                            <td>:</td>
-                            <td>
-                                <?php echo e($prestasi->tanggal ? \Carbon\Carbon::parse($prestasi->tanggal)->translatedFormat('d F Y') : '-'); ?>
+                <!-- BODY -->
+                <div class="card-body p-4">
 
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>Deskripsi</th>
-                            <td>:</td>
-                            <td><?php echo e($prestasi->deskripsi ?? '-'); ?></td>
-                        </tr>
-                    </table>
-                </div>
+                    <!-- PREVIEW FOTO PRESTASI -->
+                    <div class="text-center mb-4 pb-3 border-bottom">
+                        <div class="gallery-image-wrapper mb-3">
+                            <?php if(!empty($prestasi->foto) && Storage::disk('public')->exists($prestasi->foto)): ?>
+                                <img src="<?php echo e(asset('storage/' . $prestasi->foto)); ?>"
+                                     alt="<?php echo e($prestasi->judul); ?>"
+                                     class="rounded shadow-sm border img-fluid"
+                                     style="max-height: 350px; width: 100%; object-fit: cover;">
+                            <?php else: ?>
+                                <div class="bg-light text-secondary rounded d-inline-flex flex-column align-items-center justify-content-center shadow-sm p-5 border" style="width: 100%; height: 250px;">
+                                    <i class="mdi mdi-trophy-outline text-muted mb-2" style="font-size: 48px;"></i>
+                                    <span class="text-muted">Tidak Ada Foto / Dokumentasi Prestasi</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
 
-                <div class="mt-4 d-flex justify-content-end">
-                    <a href="<?php echo e(route('admin.prestasi.addEdit', $prestasi->id_prestasi)); ?>" class="btn btn-warning text-white">
-                        <i class="fa-solid fa-pen-to-square me-1"></i> Edit
-                    </a>
+                        <h4 class="font-weight-bold text-dark mb-1">
+                            <?php echo e($prestasi->judul); ?>
+
+                        </h4>
+
+                        <?php if($prestasi->tanggal): ?>
+                            <span class="badge badge-light border text-muted px-3 py-2 rounded-pill mt-1">
+                                <i class="mdi mdi-calendar-clock mr-1"></i>
+                                Tanggal Peroleh: <?php echo e(\Carbon\Carbon::parse($prestasi->tanggal)->translatedFormat('d F Y')); ?>
+
+                            </span>
+                        <?php endif; ?>
+                    </div>
+
+                    <!-- DETAIL INFORMASI PRESTASI -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Nama Peraih</small>
+                                <span class="font-weight-medium text-dark h6 mb-0"><?php echo e($prestasi->nama_peraih ?? '-'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Kategori</small>
+                                <span class="badge badge-info bg-info text-white px-2 py-1"><?php echo e($prestasi->kategori ?? '-'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Tingkat</small>
+                                <span class="badge badge-success bg-success text-white px-2 py-1"><?php echo e($prestasi->tingkat ?? '-'); ?></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-1" style="font-size: 11px;">Capaian / Juara</small>
+                                <span class="font-weight-bold text-dark h6 mb-0"><?php echo e($prestasi->juara ?? '-'); ?></span>
+                            </div>
+                        </div>
+
+                        <!-- DESKRIPSI -->
+                        <div class="col-md-12 mb-3">
+                            <div class="p-3 bg-light rounded">
+                                <small class="text-muted d-block text-uppercase font-weight-bold mb-2" style="font-size: 11px;">Deskripsi / Catatan</small>
+                                <p class="text-dark mb-0" style="white-space: pre-line; line-height: 1.6;">
+                                    <?php echo e($prestasi->deskripsi ?? 'Tidak ada deskripsi untuk prestasi ini.'); ?>
+
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TOMBOL AKSI -->
+                    <div class="mt-4 d-flex justify-content-end">
+                        <a href="<?php echo e(route('admin.prestasi.addEdit', Crypt::encrypt($prestasi->id_prestasi))); ?>" class="btn btn-warning text-white">
+                            <i class="mdi mdi-pencil mr-1"></i> Edit Prestasi
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>
