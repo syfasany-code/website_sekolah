@@ -1,7 +1,6 @@
 <?php $__env->startSection('title', 'Detail Galeri'); ?>
 
 <?php $__env->startSection('content'); ?>
-
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -24,12 +23,13 @@
                     <div class="text-center mb-4 pb-3 border-bottom">
                         <div class="gallery-image-wrapper mb-3">
                             <?php
-                                $fileFoto = $galeri->gambar ?? $galeri->foto ?? null;
+                                // Deteksi berbagai kemungkinan nama kolom foto di database
+                                $fileFoto = $galeri->gambar ?? $galeri->foto ?? $galeri->file ?? $galeri->image ?? $galeri->foto_galeri ?? null;
                             ?>
 
                             <?php if(!empty($fileFoto)): ?>
                                 <?php
-                                    // Cek apakah file ada langsung di public/storage/ atau dengan subfolder galeri/
+                                    // Cek berbagai skema direktori penyimpanan file
                                     $pathLangsung = public_path('storage/' . $fileFoto);
                                     $pathGaleri = public_path('storage/galeri/' . $fileFoto);
 
@@ -38,6 +38,7 @@
                                     } elseif (file_exists($pathGaleri)) {
                                         $finalUrl = asset('storage/galeri/' . $fileFoto);
                                     } else {
+                                        // Fallback default asset URL
                                         $finalUrl = asset('storage/' . $fileFoto);
                                     }
                                 ?>
