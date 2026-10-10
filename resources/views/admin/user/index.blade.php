@@ -1,7 +1,3 @@
-@php
-    use Illuminate\Support\Facades\Crypt;
-@endphp
-
 @extends('layouts.admin')
 @section('title', 'Kelola Pengguna - SMAN 1 Yogyakarta')
 

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 | ROUTE PUBLIK (BISA DIAKSES TANPA LOGIN)
 |--------------------------------------------------------------------------
 */
+
 Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
 
 // Guru & Staf
@@ -93,12 +94,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     });
 
     // Modul Prestasi
-    Route::prefix('prestasi')->name('admin.')->group(function () {
-        Route::get('/', [PrestasiController::class, 'index'])->name('prestasi.index');
-        Route::get('/add-edit/{id?}', [PrestasiController::class, 'addEdit'])->name('prestasi.addEdit');
-        Route::post('/save/{id?}', [PrestasiController::class, 'save'])->name('prestasi.save');
-        Route::delete('/{id}', [PrestasiController::class, 'delete'])->name('prestasi.delete');
-        Route::get('/{id}', [PrestasiController::class, 'show'])->name('prestasi.show')->where('id', '.*');
+     Route::prefix('prestasi')->name('admin.prestasi.')->middleware(['auth'])->group(function () {
+        Route::get('/', [PrestasiController::class, 'index'])->name('index');
+        Route::get('/add-edit/{id?}', [PrestasiController::class, 'addEdit'])->name('addEdit');
+        Route::post('/save/{id?}', [PrestasiController::class, 'save'])->name('save');
+        Route::get('/detail/{id}', [PrestasiController::class, 'show'])->name('show');
+        Route::delete('/delete/{id}', [PrestasiController::class, 'delete'])->name('delete');
     });
 
     // Route Baca Data Guru & Siswa (Bisa Diakses Admin & Operator)
@@ -143,7 +144,5 @@ Route::middleware('auth')->prefix('admin')->group(function () {
             Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.user.delete');
             Route::get('/{id}', [UserController::class, 'show'])->name('admin.user.show');
         });
-
     });
-
 });

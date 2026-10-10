@@ -1,8 +1,3 @@
-<?php
-    use Illuminate\Support\Facades\Crypt;
-?>
-
-
 <?php $__env->startSection('title', 'Kelola Pengguna - SMAN 1 Yogyakarta'); ?>
 
 <?php $__env->startSection('content'); ?>

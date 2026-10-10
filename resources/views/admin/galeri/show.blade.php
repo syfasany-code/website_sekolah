@@ -3,7 +3,6 @@
 @section('title', 'Detail Galeri')
 
 @section('content')
-
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
@@ -30,16 +29,21 @@
                             @endphp
 
                             @if (!empty($fileFoto))
-                                {{-- Jika di database sudah ada prefix folder atau hanya nama file --}}
                                 @php
-                                    $imagePath = Str::startsWith($fileFoto, 'galeri/') ? $fileFoto : 'galeri/' . $fileFoto;
-                                    // Cek alternatif jika tersimpan langsung di root storage
-                                    $finalPath = file_exists(public_path('storage/' . $fileFoto))
-                                        ? $fileFoto
-                                        : $imagePath;
+                                    // Cek apakah file ada langsung di public/storage/ atau dengan subfolder galeri/
+                                    $pathLangsung = public_path('storage/' . $fileFoto);
+                                    $pathGaleri = public_path('storage/galeri/' . $fileFoto);
+
+                                    if (file_exists($pathLangsung)) {
+                                        $finalUrl = asset('storage/' . $fileFoto);
+                                    } elseif (file_exists($pathGaleri)) {
+                                        $finalUrl = asset('storage/galeri/' . $fileFoto);
+                                    } else {
+                                        $finalUrl = asset('storage/' . $fileFoto);
+                                    }
                                 @endphp
 
-                                <img src="{{ asset('storage/' . $finalPath) }}"
+                                <img src="{{ $finalUrl }}"
                                      alt="{{ $galeri->judul }}"
                                      class="rounded shadow-sm border img-fluid"
                                      style="max-height: 350px; width: 100%; object-fit: cover;">

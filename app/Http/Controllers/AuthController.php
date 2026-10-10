@@ -16,23 +16,22 @@ class AuthController extends Controller
     {
         return view('admin.login');
     }
-public function prosesLogin(Request $request)
-{
-    $credentials = $request->validate([
-        'username' => 'required',
-        'password' => 'required'
-    ]);
+    public function prosesLogin(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => 'required',
+            'password' => 'required'
+        ]);
 
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
 
-        // 🔥 INI YANG PENTING
-        return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard');
+        }
+
+        return back()->with('error', 'Username atau password salah');
     }
-
-    return back()->with('error', 'Username atau password salah');
-}
-   public function logout(Request $request)
+    public function logout(Request $request)
     {
         Auth::logout();
 

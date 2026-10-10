@@ -110,9 +110,6 @@
 
             <div class="col pl-md-4">
                 <div class="d-flex align-items-center mb-2">
-                    <span class="badge px-3 py-1 rounded-pill font-weight-medium mr-2" style="background: rgba(255,255,255,0.12); color: #cbd5e1; font-size: 12px; border: 1px solid rgba(255,255,255,0.15);">
-                        <i class="mdi mdi-check-decagram text-info mr-1"></i> Panel Admin Utama
-                    </span>
                     <small class="text-white-50"><i class="mdi mdi-clock-outline mr-1"></i> <?php echo e(date('l, d F Y')); ?></small>
                 </div>
 

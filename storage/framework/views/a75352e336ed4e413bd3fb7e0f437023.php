@@ -5,7 +5,7 @@
 
     <!-- TOMBOL KEMBALI KE LIST BERITA -->
     <div class="mb-4">
-        <a href="<?php echo e(url('/berita', Crypt::encrypt($berita->id_berita))); ?>" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
+        <a href="<?php echo e(url('/berita')); ?>" class="btn btn-outline-navy btn-sm shadow-sm rounded-pill px-3">
             <i class="fas fa-arrow-left me-1"></i> Kembali ke Semua Berita
         </a>
     </div>

@@ -15,11 +15,6 @@
                         </a>
                         <h5 class="mb-0 font-weight-bold text-dark">Detail Galeri</h5>
                     </div>
-
-                    <a href="<?php echo e(route('admin.galeri.addEdit', Crypt::encrypt($galeri->id_galeri))); ?>"
-                       class="btn btn-warning btn-sm font-weight-semibold shadow-sm text-white">
-                        <i class="mdi mdi-pencil mr-1"></i> Edit Data
-                    </a>
                 </div>
 
                 <!-- BODY -->
@@ -33,16 +28,21 @@
                             ?>
 
                             <?php if(!empty($fileFoto)): ?>
-                                
                                 <?php
-                                    $imagePath = Str::startsWith($fileFoto, 'galeri/') ? $fileFoto : 'galeri/' . $fileFoto;
-                                    // Cek alternatif jika tersimpan langsung di root storage
-                                    $finalPath = file_exists(public_path('storage/' . $fileFoto))
-                                        ? $fileFoto
-                                        : $imagePath;
+                                    // Cek apakah file ada langsung di public/storage/ atau dengan subfolder galeri/
+                                    $pathLangsung = public_path('storage/' . $fileFoto);
+                                    $pathGaleri = public_path('storage/galeri/' . $fileFoto);
+
+                                    if (file_exists($pathLangsung)) {
+                                        $finalUrl = asset('storage/' . $fileFoto);
+                                    } elseif (file_exists($pathGaleri)) {
+                                        $finalUrl = asset('storage/galeri/' . $fileFoto);
+                                    } else {
+                                        $finalUrl = asset('storage/' . $fileFoto);
+                                    }
                                 ?>
 
-                                <img src="<?php echo e(asset('storage/' . $finalPath)); ?>"
+                                <img src="<?php echo e($finalUrl); ?>"
                                      alt="<?php echo e($galeri->judul); ?>"
                                      class="rounded shadow-sm border img-fluid"
                                      style="max-height: 350px; width: 100%; object-fit: cover;">

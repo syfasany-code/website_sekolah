@@ -70,7 +70,6 @@ class EkstrakulikulerController extends Controller
         $ekskul->jadwal_latihan = $request->jadwal_latihan;
         $ekskul->deskripsi      = $request->deskripsi;
 
-        // --- LOGIKA PEMBUATAN SLUG ---
         $slug = Str::slug($request->nama_ekskul);
         $count = Ekstrakulikuler::where('slug', 'LIKE', "{$slug}%")
             ->where('id_ekstrakulikuler', '!=', $ekskul->id_ekstrakulikuler ?? 0)
@@ -110,13 +109,6 @@ class EkstrakulikulerController extends Controller
         return view('public.ekstrakulikuler', compact('ekskuls'));
     }
 
-    /**
-     * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
-     * View: resources/views/public/ekstrakurikuler/show.blade.php
-     */
-    /**
-     * Menampilkan detail 1 ekstrakurikuler (Halaman PUBLIK)
-     */
     public function publicShow($identifier)
     {
         // Cari berdasarkan slug terlebih dahulu, fallback ke ID jika tidak ditemukan

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str; // <--- Import Str
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
@@ -47,7 +47,6 @@ class BeritaController extends Controller
 
     public function save(Request $request, $id = null)
     {
-        // 1. Validasi Input Dasar
         $request->validate([
             'judul'   => 'required|string|max:255',
             'isi'     => 'required',
@@ -56,7 +55,6 @@ class BeritaController extends Controller
         ]);
 
         try {
-            // 2. Dekripsi ID jika Mode Edit
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($decryptedId);
@@ -64,31 +62,26 @@ class BeritaController extends Controller
                 $berita = new Berita();
             }
 
-            // 3. Set Data utama
             $berita->judul   = $request->judul;
             $berita->isi     = $request->isi;
             $berita->tanggal = $request->tanggal;
 
-            // Set Status jika inputnya ada di form, jika tidak ada default ke 'published'
             if ($request->has('status')) {
                 $berita->status = $request->status;
             } else {
                 $berita->status = $berita->status ?? 'published';
             }
 
-            // 4. Set Slug Otomatis
-            $slugBase = \Illuminate\Support\Str::slug($request->judul);
+            $slugBase = Str::slug($request->judul);
             $count = Berita::where('slug', 'LIKE', "{$slugBase}%")
                 ->where('id_berita', '!=', $berita->id_berita ?? 0)
                 ->count();
             $berita->slug = $count > 0 ? "{$slugBase}-" . time() : $slugBase;
 
-            // Set ID User Login
             if (Auth::check()) {
                 $berita->id_user = Auth::id();
             }
 
-            // 5. Handle Upload Gambar
             if ($request->hasFile('gambar')) {
                 if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
                     Storage::disk('public')->delete('berita/' . $berita->gambar);
@@ -101,7 +94,6 @@ class BeritaController extends Controller
                 $berita->gambar = $namaFile;
             }
 
-            // Simpan Data
             $berita->save();
 
             return redirect()
@@ -114,7 +106,7 @@ class BeritaController extends Controller
         }
     }
 
-    public function delete($id)
+    public function destroy($id)
     {
         try {
             $berita = Berita::findOrFail(Crypt::decrypt($id));
@@ -142,7 +134,6 @@ class BeritaController extends Controller
 
     public function publicShow($identifier)
     {
-        // Mendukung pencarian via SLUG maupun ID/Encrypted ID
         $berita = Berita::where('slug', $identifier)->first();
 
         if (!$berita) {

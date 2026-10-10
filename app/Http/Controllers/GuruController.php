@@ -10,9 +10,6 @@ use Illuminate\Contracts\Encryption\DecryptException;
 
 class GuruController extends Controller
 {
-    /**
-     * Menampilkan semua data guru
-     */
     public function index()
     {
         $guru = Guru::latest()->get();
@@ -20,9 +17,6 @@ class GuruController extends Controller
         return view('admin.guru.index', compact('guru'));
     }
 
-    /**
-     * Menampilkan form tambah / edit guru
-     */
     public function addEdit($id = null)
     {
         $guru = null;
@@ -41,9 +35,6 @@ class GuruController extends Controller
         return view('admin.guru.form', compact('guru'));
     }
 
-    /**
-     * Menampilkan detail guru
-     */
     public function show($id)
     {
         try {
@@ -58,9 +49,6 @@ class GuruController extends Controller
         }
     }
 
-    /**
-     * Menyimpan data guru baru / memperbarui guru
-     */
     public function save(Request $request, $id = null)
     {
         $guru = null;
@@ -81,7 +69,6 @@ class GuruController extends Controller
             $guru = new Guru();
         }
 
-        // Primary key disesuaikan (default: id_guru)
         $primaryKey = $guru->getKeyName() ?? 'id_guru';
 
         $request->validate([
@@ -100,7 +87,6 @@ class GuruController extends Controller
         $guru->nip       = $request->nip;
         $guru->mapel     = $request->mapel;
 
-        // Upload Foto
         if ($request->hasFile('foto')) {
             if ($guru->foto && Storage::disk('public')->exists($guru->foto)) {
                 Storage::disk('public')->delete($guru->foto);
@@ -120,9 +106,6 @@ class GuruController extends Controller
             ->with('success', $decryptedId ? 'Data guru berhasil diperbarui.' : 'Data guru berhasil ditambahkan.');
     }
 
-    /**
-     * Menghapus guru
-     */
     public function destroy($id)
     {
         try {
@@ -145,9 +128,6 @@ class GuruController extends Controller
         }
     }
 
-    /**
-     * Menampilkan guru pada halaman public
-     */
     public function publicGuru()
     {
         $guru = Guru::latest()->get();
@@ -155,18 +135,12 @@ class GuruController extends Controller
         return view('public.guru', compact('guru'));
     }
 
-    /**
-     * Menampilkan detail 1 guru pada halaman PUBLIK
-     * Mengakses file: resources/views/public/guru/show.blade.php
-     */
     public function publicShow($id)
     {
         try {
-            // Dekripsi ID jika dikirim dari route terenkripsi (misal: Crypt::encrypt($id))
             $decryptedId = Crypt::decrypt($id);
             $guru = Guru::findOrFail($decryptedId);
         } catch (DecryptException $e) {
-            // Jika ID yang dikirim berupa angka biasa (misal: /guru/4)
             $guru = Guru::where('id_guru', $id)->firstOrFail();
         }
 

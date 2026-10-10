@@ -21,14 +21,31 @@ class PrestasiController extends Controller
     // Menampilkan detail data prestasi
     public function show($id)
     {
-        $prestasi = Prestasi::findOrFail($id);
+        try {
+            // Dekripsi ID dari tombol Detail
+            $decryptedId = Crypt::decrypt($id);
+            $prestasi = Prestasi::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            return redirect()->route('admin.prestasi.index')->with('error', 'Data prestasi tidak valid.');
+        }
+
         return view('admin.prestasi.show', compact('prestasi'));
     }
 
     // Menampilkan form Tambah (jika $id null) atau Edit (jika $id ada)
     public function addEdit($id = null)
     {
-        $prestasi = $id ? Prestasi::findOrFail($id) : null;
+        $prestasi = null;
+        if ($id) {
+            try {
+                // Dekripsi ID yang dikirim dari tombol Edit
+                $decryptedId = Crypt::decrypt($id);
+                $prestasi = Prestasi::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
+                return redirect()->route('admin.prestasi.index')->with('error', 'Data tidak valid.');
+            }
+        }
+
         return view('admin.prestasi.form', compact('prestasi'));
     }
 
@@ -47,22 +64,22 @@ class PrestasiController extends Controller
         ]);
 
         if ($id) {
-            $prestasi = Prestasi::findOrFail($id);
+            try {
+                $decryptedId = Crypt::decrypt($id);
+                $prestasi = Prestasi::findOrFail($decryptedId);
+            } catch (DecryptException $e) {
+                return redirect()->route('admin.prestasi.index')->with('error', 'Data tidak valid.');
+            }
         } else {
             $prestasi = new Prestasi();
         }
 
-        // Jangan gunakan $request->all()
         $data = $request->except(['_token', '_method']);
 
-        // Upload foto
         if ($request->hasFile('foto')) {
-
-            // Hapus foto lama ketika edit
             if ($id && $prestasi->foto && Storage::disk('public')->exists($prestasi->foto)) {
                 Storage::disk('public')->delete($prestasi->foto);
             }
-
             $data['foto'] = $request->file('foto')->store('prestasi', 'public');
         }
 
@@ -81,7 +98,12 @@ class PrestasiController extends Controller
     // Menghapus data prestasi
     public function delete($id)
     {
-        $prestasi = Prestasi::findOrFail($id);
+        try {
+            $decryptedId = Crypt::decrypt($id);
+            $prestasi = Prestasi::findOrFail($decryptedId);
+        } catch (DecryptException $e) {
+            return redirect()->route('admin.prestasi.index')->with('error', 'Data tidak valid.');
+        }
 
         if ($prestasi->foto && Storage::disk('public')->exists($prestasi->foto)) {
             Storage::disk('public')->delete($prestasi->foto);
