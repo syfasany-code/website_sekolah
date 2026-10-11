@@ -21,40 +21,77 @@
                 <!-- BODY -->
                 <div class="card-body p-4">
 
-                    <!-- PREVIEW GAMBAR GALERI -->
+                    <!-- PREVIEW MEDIA (FOTO ATAU VIDEO) -->
                     <div class="text-center mb-4 pb-3 border-bottom">
                         <div class="gallery-image-wrapper mb-3">
-                            @php
-                                // Deteksi berbagai kemungkinan nama kolom foto di database
-                                $fileFoto = $galeri->gambar ?? $galeri->foto ?? $galeri->file ?? $galeri->image ?? $galeri->foto_galeri ?? null;
-                            @endphp
 
-                            @if (!empty($fileFoto))
+                            @if($galeri->kategori == 'video')
+                                {{-- JIKA KATEGORI VIDEO --}}
+                                @if(!empty($galeri->link))
+                                    @php
+                                        // Cek apakah link YouTube agar bisa di-embed otomatis
+                                        $isYoutube = Str::contains($galeri->link, ['youtube.com', 'youtu.be']);
+                                    @endphp
+
+                                    @if($isYoutube)
+                                        @php
+                                            // Mengubah link YouTube biasa menjadi format embed
+                                            $embedUrl = $galeri->link;
+                                            if (Str::contains($galeri->link, 'watch?v=')) {
+                                                $embedUrl = str_replace('watch?v=', 'embed/', $galeri->link);
+                                            } elseif (Str::contains($galeri->link, 'youtu.be/')) {
+                                                $embedUrl = str_replace('youtu.be/', 'www.youtube.com/embed/', $galeri->link);
+                                            }
+                                        @endphp
+                                        <div class="ratio ratio-16x9 shadow-sm rounded overflow-hidden" style="max-height: 400px;">
+                                            <iframe src="{{ $embedUrl }}" title="{{ $galeri->judul }}" allowfullscreen style="width: 100%; height: 350px; border:0;"></iframe>
+                                        </div>
+                                    @else
+                                        {{-- Jika link video berupa file langsung (MP4, dll) --}}
+                                        <video controls class="rounded shadow-sm border w-100" style="max-height: 350px;">
+                                            <source src="{{ $galeri->link }}" type="video/mp4">
+                                            Browser Anda tidak mendukung pemutar video.
+                                        </video>
+                                    @endif
+                                @else
+                                    <div class="bg-light text-secondary rounded d-inline-flex flex-column align-items-center justify-content-center shadow-sm p-5 border" style="width: 100%; height: 250px;">
+                                        <i class="mdi mdi-video-off text-muted mb-2" style="font-size: 48px;"></i>
+                                        <span class="text-muted">Tidak Ada Link / Video Preview</span>
+                                    </div>
+                                @endif
+
+                            @else
+                                {{-- JIKA KATEGORI FOTO --}}
                                 @php
-                                    // Cek berbagai skema direktori penyimpanan file
-                                    $pathLangsung = public_path('storage/' . $fileFoto);
-                                    $pathGaleri = public_path('storage/galeri/' . $fileFoto);
-
-                                    if (file_exists($pathLangsung)) {
-                                        $finalUrl = asset('storage/' . $fileFoto);
-                                    } elseif (file_exists($pathGaleri)) {
-                                        $finalUrl = asset('storage/galeri/' . $fileFoto);
-                                    } else {
-                                        // Fallback default asset URL
-                                        $finalUrl = asset('storage/' . $fileFoto);
-                                    }
+                                    $fileFoto = $galeri->file ?? $galeri->gambar ?? $galeri->foto ?? null;
                                 @endphp
 
-                                <img src="{{ $finalUrl }}"
-                                     alt="{{ $galeri->judul }}"
-                                     class="rounded shadow-sm border img-fluid"
-                                     style="max-height: 350px; width: 100%; object-fit: cover;">
-                            @else
-                                <div class="bg-light text-secondary rounded d-inline-flex flex-column align-items-center justify-content-center shadow-sm p-5 border" style="width: 100%; height: 250px;">
-                                    <i class="mdi mdi-image-broken-variant text-muted mb-2" style="font-size: 48px;"></i>
-                                    <span class="text-muted">Tidak Ada Foto / Gambar Preview</span>
-                                </div>
+                                @if (!empty($fileFoto))
+                                    @php
+                                        $pathLangsung = public_path('storage/' . $fileFoto);
+                                        $pathGaleri = public_path('storage/galeri/' . $fileFoto);
+
+                                        if (file_exists($pathLangsung)) {
+                                            $finalUrl = asset('storage/' . $fileFoto);
+                                        } elseif (file_exists($pathGaleri)) {
+                                            $finalUrl = asset('storage/galeri/' . $fileFoto);
+                                        } else {
+                                            $finalUrl = asset('storage/' . $fileFoto);
+                                        }
+                                    @endphp
+
+                                    <img src="{{ $finalUrl }}"
+                                         alt="{{ $galeri->judul }}"
+                                         class="rounded shadow-sm border img-fluid"
+                                         style="max-height: 350px; width: 100%; object-fit: cover;">
+                                @else
+                                    <div class="bg-light text-secondary rounded d-inline-flex flex-column align-items-center justify-content-center shadow-sm p-5 border" style="width: 100%; height: 250px;">
+                                        <i class="mdi mdi-image-broken-variant text-muted mb-2" style="font-size: 48px;"></i>
+                                        <span class="text-muted">Tidak Ada Foto / Gambar Preview</span>
+                                    </div>
+                                @endif
                             @endif
+
                         </div>
 
                         <h4 class="font-weight-bold text-dark mb-1">
@@ -78,12 +115,12 @@
                             </div>
                         </div>
 
-                        <!-- KETERANGAN / DESKRIPSI FOTO -->
+                        <!-- KETERANGAN / DESKRIPSI -->
                         <div class="col-md-12 mb-3">
                             <div class="p-3 bg-light rounded">
                                 <small class="text-muted d-block text-uppercase font-weight-bold mb-2" style="font-size: 11px;">Keterangan / Deskripsi</small>
                                 <p class="text-dark mb-0" style="white-space: pre-line; line-height: 1.6;">
-                                    {{ $galeri->keterangan ?? $galeri->deskripsi ?? 'Tidak ada keterangan untuk foto ini.' }}
+                                    {{ $galeri->keterangan ?? 'Tidak ada keterangan untuk galeri ini.' }}
                                 </p>
                             </div>
                         </div>
