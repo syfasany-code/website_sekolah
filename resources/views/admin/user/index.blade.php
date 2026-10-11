@@ -41,8 +41,9 @@
                                 <tr>
                                     <th width="5%">No</th>
                                     <th>Nama Lengkap</th>
-                                    <th>Email / Username</th>
-                                    <th>Role / Hak Akses</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
                                     <th width="20%" class="text-center">Aksi</th>
                                 </tr>
                             </thead>
@@ -62,7 +63,10 @@
 
                                     <!-- EMAIL / USERNAME -->
                                     <td class="text-muted">
-                                        {{ $item->email ?? $item->username ?? '-' }}
+                                        {{ $item->username ?? $item->username ?? '-' }}
+                                    </td>
+                                    <td class="text-muted">
+                                        {{ $item->email ?? $item->email ?? '-' }}
                                     </td>
 
                                     <!-- ROLE / BADGE -->

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,55 +28,16 @@
 
     <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
 
-    <style>
-        /* Penyesuaian Layout Star Admin */
-        .navbar.default-layout .navbar-brand-wrapper {
-            background: #00122e !important;
-        }
-        .navbar.default-layout .navbar-brand-wrapper .navbar-brand {
-            color: #ffffff !important;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .sidebar {
-            background: #00122e !important;
-        }
-        .sidebar .nav .nav-item .nav-link {
-            color: #a0abbd !important;
-        }
-        .sidebar .nav .nav-item.active > .nav-link,
-        .sidebar .nav .nav-item .nav-link:hover {
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-        }
-        /* Merapikan Foto & Alignment Tabel */
-        .table img.img-avatar {
-            width: 36px !important;
-            height: 36px !important;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-        }
-        .table td, .table th {
-            vertical-align: middle !important;
-        }
-        .avatar-initials {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            background-color: #3085d6;
-            color: #ffffff;
-            border-radius: 50%;
-        }
-    </style>
 </head>
+
 <body>
     <div class="container-scroller">
         <!-- TOP NAVBAR -->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo d-flex align-items-center" href="{{ route('admin.dashboard') }}">
-                    <img src="{{ asset('images/sman1.png') }}" alt="logo" style="height: 30px; width: auto; margin-right: 8px;">
+                    <img src="{{ asset('images/sman1.png') }}" alt="logo"
+                        style="height: 30px; width: auto; margin-right: 8px;">
                     <span>SMAN 1 Jogja</span>
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="{{ route('admin.dashboard') }}">
@@ -86,33 +48,44 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <!-- PROFIL USER DINAMIS -->
                     <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                            @if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
-                                <img class="img-xs rounded-circle" src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="UserDropdown" href="#"
+                            data-toggle="dropdown" aria-expanded="false">
+                            @if (auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
+                                <img class="img-xs rounded-circle"
+                                    src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image"
+                                    style="width: 35px; height: 35px; object-fit: cover;">
                             @elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto))
-                                <img class="img-xs rounded-circle" src="{{ asset('storage/' . auth()->user()->foto) }}" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                                <img class="img-xs rounded-circle" src="{{ asset('storage/' . auth()->user()->foto) }}"
+                                    alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
                             @else
                                 <div class="avatar-initials img-xs" style="width: 35px; height: 35px; font-size: 14px;">
-                                    {{ strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1)) }}
+                                    {{ strtoupper(substr(auth()->user()->name ?? (auth()->user()->nama ?? 'U'), 0, 1)) }}
                                 </div>
                             @endif
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3 text-center shadow-sm border-0 rounded-3" aria-labelledby="UserDropdown">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3 text-center shadow-sm border-0 rounded-3"
+                            aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center p-0 mb-3">
-                                @if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
-                                    <img class="img-md rounded-circle mb-2" src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                @if (auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto))
+                                    <img class="img-md rounded-circle mb-2"
+                                        src="{{ asset('storage/user/' . auth()->user()->foto) }}" alt="Profile image"
+                                        style="width: 65px; height: 65px; object-fit: cover;">
                                 @elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto))
-                                    <img class="img-md rounded-circle mb-2" src="{{ asset('storage/' . auth()->user()->foto) }}" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                    <img class="img-md rounded-circle mb-2"
+                                        src="{{ asset('storage/' . auth()->user()->foto) }}" alt="Profile image"
+                                        style="width: 65px; height: 65px; object-fit: cover;">
                                 @else
-                                    <div class="avatar-initials img-md mx-auto mb-2" style="width: 65px; height: 65px; font-size: 24px;">
-                                        {{ strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1)) }}
+                                    <div class="avatar-initials img-md mx-auto mb-2"
+                                        style="width: 65px; height: 65px; font-size: 24px;">
+                                        {{ strtoupper(substr(auth()->user()->name ?? (auth()->user()->nama ?? 'U'), 0, 1)) }}
                                     </div>
                                 @endif
 
                                 <p class="mb-0 mt-2 font-weight-bold text-dark" style="font-size: 15px;">
-                                    {{ auth()->user()->name ?? auth()->user()->nama ?? 'Pengguna' }}
+                                    {{ auth()->user()->name ?? (auth()->user()->nama ?? 'Pengguna') }}
                                 </p>
-                                <span class="badge {{ strtolower(auth()->user()->role ?? '') === 'admin' ? 'badge-danger' : 'badge-info' }} mt-1 px-3 py-1">
+                                <span
+                                    class="badge {{ strtolower(auth()->user()->role ?? '') === 'admin' ? 'badge-danger' : 'badge-info' }} mt-1 px-3 py-1">
                                     {{ ucfirst(auth()->user()->role ?? 'User') }}
                                 </span>
                             </div>
@@ -121,14 +94,16 @@
 
                             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                                 @csrf
-                                <button type="submit" class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center justify-content-center font-weight-medium py-2">
+                                <button type="submit"
+                                    class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center justify-content-center font-weight-medium py-2">
                                     <i class="fas fa-power-off mr-2"></i> Keluar / Logout
                                 </button>
                             </form>
                         </div>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
                     <span class="mdi mdi-menu"></span>
                 </button>
             </div>
@@ -213,12 +188,6 @@
                 <div class="content-wrapper">
                     @yield('content')
                 </div>
-
-                <footer class="footer">
-                    <div class="container-fluid clearfix">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © SMAN 1 Yogyakarta</span>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>
@@ -233,16 +202,17 @@
     <script src="{{ asset('DataTables/datatables.min.js') }}"></script>
 
     <script>
-    $(document).ready(function() {
-        $.fn.dataTable.ext.errMode = 'none';
+        $(document).ready(function() {
+            $.fn.dataTable.ext.errMode = 'none';
 
-        $('.datatable').DataTable({
-            "responsive": true,
-            "autoWidth": false,
-            "destroy": true
+            $('.datatable').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "destroy": true
+            });
         });
-    });
     </script>
     @stack('scripts')
 </body>
+
 </html>

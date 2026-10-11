@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -27,55 +28,16 @@
 
     <link rel="shortcut icon" href="<?php echo e(asset('images/favicon.ico')); ?>" />
 
-    <style>
-        /* Penyesuaian Layout Star Admin */
-        .navbar.default-layout .navbar-brand-wrapper {
-            background: #00122e !important;
-        }
-        .navbar.default-layout .navbar-brand-wrapper .navbar-brand {
-            color: #ffffff !important;
-            font-size: 14px;
-            font-weight: 600;
-        }
-        .sidebar {
-            background: #00122e !important;
-        }
-        .sidebar .nav .nav-item .nav-link {
-            color: #a0abbd !important;
-        }
-        .sidebar .nav .nav-item.active > .nav-link,
-        .sidebar .nav .nav-item .nav-link:hover {
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-        }
-        /* Merapikan Foto & Alignment Tabel */
-        .table img.img-avatar {
-            width: 36px !important;
-            height: 36px !important;
-            border-radius: 50% !important;
-            object-fit: cover !important;
-        }
-        .table td, .table th {
-            vertical-align: middle !important;
-        }
-        .avatar-initials {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            background-color: #3085d6;
-            color: #ffffff;
-            border-radius: 50%;
-        }
-    </style>
 </head>
+
 <body>
     <div class="container-scroller">
         <!-- TOP NAVBAR -->
         <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
                 <a class="navbar-brand brand-logo d-flex align-items-center" href="<?php echo e(route('admin.dashboard')); ?>">
-                    <img src="<?php echo e(asset('images/sman1.png')); ?>" alt="logo" style="height: 30px; width: auto; margin-right: 8px;">
+                    <img src="<?php echo e(asset('images/sman1.png')); ?>" alt="logo"
+                        style="height: 30px; width: auto; margin-right: 8px;">
                     <span>SMAN 1 Jogja</span>
                 </a>
                 <a class="navbar-brand brand-logo-mini" href="<?php echo e(route('admin.dashboard')); ?>">
@@ -86,36 +48,47 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <!-- PROFIL USER DINAMIS -->
                     <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" id="UserDropdown" href="#"
+                            data-toggle="dropdown" aria-expanded="false">
                             <?php if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto)): ?>
-                                <img class="img-xs rounded-circle" src="<?php echo e(asset('storage/user/' . auth()->user()->foto)); ?>" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                                <img class="img-xs rounded-circle"
+                                    src="<?php echo e(asset('storage/user/' . auth()->user()->foto)); ?>" alt="Profile image"
+                                    style="width: 35px; height: 35px; object-fit: cover;">
                             <?php elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto)): ?>
-                                <img class="img-xs rounded-circle" src="<?php echo e(asset('storage/' . auth()->user()->foto)); ?>" alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
+                                <img class="img-xs rounded-circle" src="<?php echo e(asset('storage/' . auth()->user()->foto)); ?>"
+                                    alt="Profile image" style="width: 35px; height: 35px; object-fit: cover;">
                             <?php else: ?>
                                 <div class="avatar-initials img-xs" style="width: 35px; height: 35px; font-size: 14px;">
-                                    <?php echo e(strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1))); ?>
+                                    <?php echo e(strtoupper(substr(auth()->user()->name ?? (auth()->user()->nama ?? 'U'), 0, 1))); ?>
 
                                 </div>
                             <?php endif; ?>
                         </a>
-                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3 text-center shadow-sm border-0 rounded-3" aria-labelledby="UserDropdown">
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown p-3 text-center shadow-sm border-0 rounded-3"
+                            aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center p-0 mb-3">
                                 <?php if(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists('user/' . auth()->user()->foto)): ?>
-                                    <img class="img-md rounded-circle mb-2" src="<?php echo e(asset('storage/user/' . auth()->user()->foto)); ?>" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                    <img class="img-md rounded-circle mb-2"
+                                        src="<?php echo e(asset('storage/user/' . auth()->user()->foto)); ?>" alt="Profile image"
+                                        style="width: 65px; height: 65px; object-fit: cover;">
                                 <?php elseif(auth()->check() && !empty(auth()->user()->foto) && Storage::disk('public')->exists(auth()->user()->foto)): ?>
-                                    <img class="img-md rounded-circle mb-2" src="<?php echo e(asset('storage/' . auth()->user()->foto)); ?>" alt="Profile image" style="width: 65px; height: 65px; object-fit: cover;">
+                                    <img class="img-md rounded-circle mb-2"
+                                        src="<?php echo e(asset('storage/' . auth()->user()->foto)); ?>" alt="Profile image"
+                                        style="width: 65px; height: 65px; object-fit: cover;">
                                 <?php else: ?>
-                                    <div class="avatar-initials img-md mx-auto mb-2" style="width: 65px; height: 65px; font-size: 24px;">
-                                        <?php echo e(strtoupper(substr(auth()->user()->name ?? auth()->user()->nama ?? 'U', 0, 1))); ?>
+                                    <div class="avatar-initials img-md mx-auto mb-2"
+                                        style="width: 65px; height: 65px; font-size: 24px;">
+                                        <?php echo e(strtoupper(substr(auth()->user()->name ?? (auth()->user()->nama ?? 'U'), 0, 1))); ?>
 
                                     </div>
                                 <?php endif; ?>
 
                                 <p class="mb-0 mt-2 font-weight-bold text-dark" style="font-size: 15px;">
-                                    <?php echo e(auth()->user()->name ?? auth()->user()->nama ?? 'Pengguna'); ?>
+                                    <?php echo e(auth()->user()->name ?? (auth()->user()->nama ?? 'Pengguna')); ?>
 
                                 </p>
-                                <span class="badge <?php echo e(strtolower(auth()->user()->role ?? '') === 'admin' ? 'badge-danger' : 'badge-info'); ?> mt-1 px-3 py-1">
+                                <span
+                                    class="badge <?php echo e(strtolower(auth()->user()->role ?? '') === 'admin' ? 'badge-danger' : 'badge-info'); ?> mt-1 px-3 py-1">
                                     <?php echo e(ucfirst(auth()->user()->role ?? 'User')); ?>
 
                                 </span>
@@ -125,14 +98,16 @@
 
                             <form action="<?php echo e(route('logout')); ?>" method="POST" class="d-inline">
                                 <?php echo csrf_field(); ?>
-                                <button type="submit" class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center justify-content-center font-weight-medium py-2">
+                                <button type="submit"
+                                    class="dropdown-item border-0 bg-transparent text-danger d-flex align-items-center justify-content-center font-weight-medium py-2">
                                     <i class="fas fa-power-off mr-2"></i> Keluar / Logout
                                 </button>
                             </form>
                         </div>
                     </li>
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
                     <span class="mdi mdi-menu"></span>
                 </button>
             </div>
@@ -217,12 +192,6 @@
                 <div class="content-wrapper">
                     <?php echo $__env->yieldContent('content'); ?>
                 </div>
-
-                <footer class="footer">
-                    <div class="container-fluid clearfix">
-                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © SMAN 1 Yogyakarta</span>
-                    </div>
-                </footer>
             </div>
         </div>
     </div>
@@ -237,17 +206,18 @@
     <script src="<?php echo e(asset('DataTables/datatables.min.js')); ?>"></script>
 
     <script>
-    $(document).ready(function() {
-        $.fn.dataTable.ext.errMode = 'none';
+        $(document).ready(function() {
+            $.fn.dataTable.ext.errMode = 'none';
 
-        $('.datatable').DataTable({
-            "responsive": true,
-            "autoWidth": false,
-            "destroy": true
+            $('.datatable').DataTable({
+                "responsive": true,
+                "autoWidth": false,
+                "destroy": true
+            });
         });
-    });
     </script>
     <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
+
 </html>
 <?php /**PATH D:\website_sekolah\resources\views/layouts/admin.blade.php ENDPATH**/ ?>
