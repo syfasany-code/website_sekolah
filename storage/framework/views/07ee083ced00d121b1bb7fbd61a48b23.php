@@ -2,17 +2,6 @@
 
 <?php $__env->startSection('content'); ?>
 
-    <!-- Bar Pengumuman berjalan (Ticker) -->
-    <div class="ticker-bar">
-        <div class="container d-flex align-items-center">
-            <span class="ticker-title me-3 text-nowrap"><i class="fas fa-bullhorn me-1"></i> Pengumuman</span>
-            <marquee class="fw-medium text-light" behavior="scroll" direction="left" scrollamount="6">
-                • Selamat Datang di Website Resmi <?php echo e($profil->nama_sekolah ?? 'SMA Negeri 1 Yogyakarta'); ?> • Penerimaan
-                Peserta Didik Baru (PPDB) Segera dibuka.
-            </marquee>
-        </div>
-    </div>
-
     <!-- Section Hero Utama -->
     <section id="beranda" class="hero-section">
         <div class="container position-relative" style="z-index: 2;">
@@ -471,75 +460,6 @@
                         Belum ada dokumentasi galeri terbaru.
                     </div>
                 <?php endif; ?>
-            </div>
-        </div>
-    </section>
-
-    <!-- Section Kontak -->
-    <section id="kontak" class="py-5 bg-light">
-        <div class="container py-4">
-            <div class="row g-5">
-                <div class="col-lg-6" data-aos="fade-right" data-aos-duration="800">
-                    <span class="section-tag">Lokasi & Alamat</span>
-                    <h2 class="section-title">Hubungi Kami</h2>
-                    <div class="section-divider"></div>
-
-                    <div class="mb-4">
-                        <div class="d-flex gap-3 mb-3">
-                            <div class="text-warning fs-4"><i class="fas fa-map-marker-alt"></i></div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Alamat Sekolah</h6>
-                                <p class="text-muted mb-0">
-                                    <?php echo e($profil->alamat ?? 'Jl. HOS Cokroaminoto No.10, Pakuncen, Wirobrajan, Kota Yogyakarta'); ?>
-
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex gap-3 mb-3">
-                            <div class="text-warning fs-4"><i class="fas fa-phone-alt"></i></div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Telepon & Fax</h6>
-                                <p class="text-muted mb-0"><?php echo e($profil->kontak ?? '(0274) 513454'); ?></p>
-                            </div>
-                        </div>
-
-                        <div class="d-flex gap-3">
-                            <div class="text-warning fs-4"><i class="fas fa-envelope"></i></div>
-                            <div>
-                                <h6 class="fw-bold mb-1">Email Resmi</h6>
-                                <p class="text-muted mb-0"><?php echo e($profil->email ?? 'humas@sman1yogya.sch.id'); ?></p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="rounded-3 overflow-hidden border shadow-sm">
-                        <iframe title="Lokasi Sekolah"
-                            src="<?php echo e($profil->maps_link ?? 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.9535091238994!2d110.3512343!3d-7.79478!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a578f18bc51b5%3A0xb304918e7e17cb75!2sSMA%20Negeri%201%20Yogyakarta!5e0!3m2!1sid!2sid'); ?>"
-                            width="100%" height="220" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-left" data-aos-duration="800">
-                    <div class="bg-white p-4 p-md-5 rounded-4 shadow-sm border">
-                        <h4 class="fw-bold text-dark mb-2" style="font-family: var(--font-heading);">Layanan Informasi &
-                            Kontak</h4>
-                        <p class="text-muted small mb-4">Hubungi layanan administrasi atau Humas
-                            <?php echo e($profil->nama_sekolah ?? 'SMAN 1 Yogyakarta'); ?> secara langsung melalui saluran berikut:</p>
-
-                        <div class="d-grid gap-3 pt-2">
-                            <a href="https://wa.me/<?php echo e(preg_replace('/[^0-9]/', '', $profil->kontak ?? '6281234567890')); ?>"
-                                target="_blank"
-                                class="btn btn-success btn-lg fw-bold d-flex align-items-center justify-content-center gap-2">
-                                <i class="fab fa-whatsapp fs-4"></i> Chat WhatsApp Humas
-                            </a>
-                            <a href="mailto:<?php echo e($profil->email ?? 'humas@sman1yogya.sch.id'); ?>"
-                                class="btn btn-gold btn-lg fw-bold d-flex align-items-center justify-content-center gap-2">
-                                <i class="fas fa-envelope fs-5"></i> Kirim Email Resmi
-                            </a>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

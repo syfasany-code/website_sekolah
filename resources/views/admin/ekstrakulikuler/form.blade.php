@@ -5,7 +5,7 @@
 @section('content')
 <div class="row">
     {{-- Membungkus form dengan col-md-8 mx-auto agar berada di tengah dan ukurannya proporsional --}}
-    <div class="col-md-8 mx-auto">
+    <div class="col-md-11 mx-auto">
         <div class="card p-4 shadow-sm">
 
             <h4>{{ isset($ekskul) ? 'Edit Ekstrakurikuler' : 'Tambah Ekstrakurikuler' }}</h4>

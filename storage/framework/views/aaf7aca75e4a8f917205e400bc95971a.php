@@ -2,7 +2,7 @@
 
 <?php $__env->startSection('content'); ?>
 <div class="row justify-content-center">
-    <div class="col-lg-8 grid-margin stretch-card">
+    <div class="col-lg-11 grid-margin stretch-card">
         <div class="card border-0 shadow-sm rounded-lg">
 
             <!-- HEADER -->

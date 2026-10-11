@@ -83,14 +83,6 @@
                 </a>
             </div>
             <div class="navbar-menu-wrapper d-flex align-items-center">
-                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-                    <span class="mdi mdi-menu"></span>
-                </button>
-
-                <ul class="navbar-nav">
-                    <li class="nav-item font-weight-semibold d-none d-lg-block">Help : +050 2992 709</li>
-                </ul>
-
                 <ul class="navbar-nav navbar-nav-right">
                     <!-- PROFIL USER DINAMIS -->
                     <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">

@@ -55,13 +55,10 @@
                     <a class="nav-link <?php echo e(Request::is('ekstrakurikuler*') ? 'active' : ''); ?>" href="<?php echo e(url('/')); ?>#ekstrakurikuler">Ekstrakurikuler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo e(Request::is('galeri*') ? 'active' : ''); ?>" href="<?php echo e(url('/')); ?>#galeri">Galeri</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="<?php echo e(url('/')); ?>#guru">Guru & Staf</a>
                 </li>
-                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                    <a href="<?php echo e(url('/')); ?>#kontak" class="btn btn-gold text-decoration-none fw-semibold px-4 py-2">Hubungi Kami</a>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo e(Request::is('galeri*') ? 'active' : ''); ?>" href="<?php echo e(url('/')); ?>#galeri">Galeri</a>
                 </li>
             </ul>
         </div>

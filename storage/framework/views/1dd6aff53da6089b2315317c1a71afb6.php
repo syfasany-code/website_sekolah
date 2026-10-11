@@ -27,21 +27,6 @@
 </head>
 <body>
 
-    <!-- Header / Topbar (Jika ada) -->
-    <div class="top-header">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="d-flex gap-4">
-                <span><i class="fas fa-phone me-2 text-warning"></i> (0274) 513454</span>
-                <span class="d-none d-md-inline"><i class="fas fa-envelope me-2 text-warning"></i> humas@sman1yogya.sch.id</span>
-                <span class="d-none d-lg-inline"><i class="fas fa-map-marker-alt me-2 text-warning"></i> Wirobrajan, Kota Yogyakarta</span>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <span class="badge bg-warning text-dark font-weight-bold">IDN</span>
-                <a href="#kontak" class="btn btn-sm btn-outline-light py-0 px-2" style="font-size: 0.75rem;">Layanan Kontak</a>
-            </div>
-        </div>
-    </div>
-
     <!-- Include Navbar -->
     <?php echo $__env->make('public.layouts.navbar', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 

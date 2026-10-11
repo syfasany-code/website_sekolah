@@ -2,8 +2,7 @@
 
 @section('content')
     <div class="row">
-        {{-- Mengubah col-md-12 menjadi col-md-8 mx-auto agar form berada di tengah dengan lebar yang pas --}}
-        <div class="col-md-8 mx-auto grid-margin stretch-card">
+        <div class="col-md-11 mx-auto grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title">{{ isset($prestasi) ? 'Edit Data Prestasi' : 'Tambah Data Prestasi' }}</h4>

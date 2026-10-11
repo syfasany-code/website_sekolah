@@ -1,7 +1,6 @@
 <?php $__env->startSection('content'); ?>
     <div class="row">
-        
-        <div class="col-md-8 mx-auto grid-margin stretch-card">
+        <div class="col-md-11 mx-auto grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
                     <h4 class="card-title"><?php echo e(isset($prestasi) ? 'Edit Data Prestasi' : 'Tambah Data Prestasi'); ?></h4>

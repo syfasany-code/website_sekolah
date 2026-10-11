@@ -54,13 +54,10 @@
                     <a class="nav-link {{ Request::is('ekstrakurikuler*') ? 'active' : '' }}" href="{{ url('/') }}#ekstrakurikuler">Ekstrakurikuler</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Request::is('galeri*') ? 'active' : '' }}" href="{{ url('/') }}#galeri">Galeri</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{{ url('/') }}#guru">Guru & Staf</a>
                 </li>
-                <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                    <a href="{{ url('/') }}#kontak" class="btn btn-gold text-decoration-none fw-semibold px-4 py-2">Hubungi Kami</a>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('galeri*') ? 'active' : '' }}" href="{{ url('/') }}#galeri">Galeri</a>
                 </li>
             </ul>
         </div>
