@@ -35,9 +35,19 @@ class BeritaController extends Controller
     public function addEdit($id = null)
     {
         try {
-            $berita = $id
-                ? Berita::findOrFail(Crypt::decrypt($id))
-                : null;
+            if ($id) {
+                $decryptedId = Crypt::decrypt($id);
+                $berita = Berita::findOrFail($decryptedId);
+
+                // TAMBAHAN: Validasi hak akses edit jika yang login adalah operator
+                if (Auth::user()->role == 'operator' && $berita->id_user != Auth::id()) {
+                    return redirect()
+                        ->route('admin.berita.index')
+                        ->with('error', 'Anda tidak memiliki hak untuk mengedit berita ini.');
+                }
+            } else {
+                $berita = null;
+            }
         } catch (\Exception $e) {
             return redirect()->route('admin.berita.index')->with('error', 'Berita tidak ditemukan');
         }
@@ -58,8 +68,19 @@ class BeritaController extends Controller
             if ($id) {
                 $decryptedId = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($decryptedId);
+
+                // TAMBAHAN: Validasi hak akses update jika yang login adalah operator
+                if (Auth::user()->role == 'operator' && $berita->id_user != Auth::id()) {
+                    return redirect()
+                        ->route('admin.berita.index')
+                        ->with('error', 'Anda tidak memiliki hak untuk mengubah berita ini.');
+                }
             } else {
                 $berita = new Berita();
+                // Set id_user saat pertama kali dibuat
+                if (Auth::check()) {
+                    $berita->id_user = Auth::id();
+                }
             }
 
             $berita->judul   = $request->judul;
@@ -78,9 +99,7 @@ class BeritaController extends Controller
                 ->count();
             $berita->slug = $count > 0 ? "{$slugBase}-" . time() : $slugBase;
 
-            if (Auth::check()) {
-                $berita->id_user = Auth::id();
-            }
+            // Catatan: id_user saat update tidak ditimpa agar tetap milik pembuat aslinya
 
             if ($request->hasFile('gambar')) {
                 if ($berita->gambar && Storage::disk('public')->exists('berita/' . $berita->gambar)) {
@@ -110,6 +129,14 @@ class BeritaController extends Controller
     {
         try {
             $berita = Berita::findOrFail(Crypt::decrypt($id));
+
+            // TAMBAHAN: Validasi hak akses hapus jika yang login adalah operator
+            if (Auth::user()->role == 'operator' && $berita->id_user != Auth::id()) {
+                return redirect()
+                    ->route('admin.berita.index')
+                    ->with('error', 'Anda tidak memiliki hak untuk menghapus berita ini.');
+            }
+
         } catch (\Exception $e) {
             return redirect()->route('admin.berita.index')->with('error', 'Berita tidak ditemukan');
         }

@@ -86,25 +86,31 @@
                                     </td>
 
                                     <!-- AKSI -->
-                                    <td  class="tect-center">
+                                    <td class="text-center">
                                         <div class="btn-aksi-group" role="group">
-                                            <a href="{{ route('admin.berita.show', Crypt::encrypt($item->id_berita)) }}"class="btn btn-info btn-sm text-white" title="Detail Berita"aria-label="Detail Berita">
-                                                <i class="mdi mdi-eye"></i> <spanclass="d-none d-md-inline ms-1">Detail</spanclass=>
+                                            <!-- Tombol Detail selalu bisa dilihat oleh siapa saja -->
+                                            <a href="{{ route('admin.berita.show', Crypt::encrypt($item->id_berita)) }}" class="btn btn-info btn-sm text-white" title="Detail Berita" aria-label="Detail Berita">
+                                                <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ms-1">Detail</span>
                                             </a>
-                                            <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($item->id_berita)) }}"class="btn btn-warning btn-sm text-white" title="Edit Berita"aria-label="Edit Berita">
-                                                <i class="mdi mdi-pencil"></i> <spanclass="d-none d-md-inline ms-1">Edit</spanclass=>
-                                            </a>
-                                            <form action="{{ route('admin.berita.delete', Crypt::encrypt($item->id_berita)) }}"
-                                                method="POST" class="d-inline"
-                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus Berita"
-                                                    aria-label="Hapus Berita">
-                                                    <i class="mdi mdi-delete"></i> <span
-                                                        class="d-none d-md-inline ms-1">Hapus</span>
-                                                </button>
-                                            </form>
+
+                                            <!-- Tombol Edit & Hapus HANYA MUNCUL jika Admin ATAU Pemilik berita (Operator yang bersangkutan) -->
+                                            @if(Auth::user()->role == 'admin' || $item->id_user == Auth::id())
+                                                <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($item->id_berita)) }}" class="btn btn-warning btn-sm text-white" title="Edit Berita" aria-label="Edit Berita">
+                                                    <i class="mdi mdi-pencil"></i> <span class="d-none d-md-inline ms-1">Edit</span>
+                                                </a>
+
+                                                <form action="{{ route('admin.berita.delete', Crypt::encrypt($item->id_berita)) }}"
+                                                    method="POST" class="d-inline"
+                                                    onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus Berita"
+                                                        aria-label="Hapus Berita">
+                                                        <i class="mdi mdi-delete"></i> <span
+                                                            class="d-none d-md-inline ms-1">Hapus</span>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </td>
 
