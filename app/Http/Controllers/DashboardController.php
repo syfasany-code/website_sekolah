@@ -47,4 +47,9 @@ class DashboardController extends Controller
 
         return view('public.dashboard', compact('profil', 'beritas', 'prestasis', 'ekskuls', 'gurus', 'galeris', 'siswa'));
     }
+
+        public function profilPembuat()
+{
+    return view('public.pembuat'); // Sesuaikan dengan letak file view blade Anda
+}
 }

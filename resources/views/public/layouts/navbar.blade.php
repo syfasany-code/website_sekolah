@@ -62,6 +62,9 @@
                 <li class="nav-item">
                     <a class="nav-link {{ Request::is('galeri*') ? 'active' : '' }}" href="{{ url('/') }}#galeri">Galeri</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ Request::is('pembuat*') ? 'active' : '' }}" href="{{ url('/pembuat') }}#pembuat">Pembuat</a>
+                </li>
             </ul>
         </div>
     </div>

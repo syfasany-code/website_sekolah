@@ -41,6 +41,8 @@ Route::get('/berita/{slug}', [BeritaController::class, 'publicShow'])->name('pub
 Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('public.galeri');
 Route::get('/galeri/{id}', [GaleriController::class, 'publicShow'])->name('public.galeri.show');
 
+Route::view('/pembuat', 'public.pembuat');
+
 /*
 |--------------------------------------------------------------------------
 | ROUTE AUTH (LOGIN & LOGOUT)

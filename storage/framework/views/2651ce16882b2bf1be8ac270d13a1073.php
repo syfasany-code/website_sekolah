@@ -63,6 +63,9 @@
                 <li class="nav-item">
                     <a class="nav-link <?php echo e(Request::is('galeri*') ? 'active' : ''); ?>" href="<?php echo e(url('/')); ?>#galeri">Galeri</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo e(Request::is('pembuat*') ? 'active' : ''); ?>" href="<?php echo e(url('/pembuat')); ?>#pembuat">Pembuat</a>
+                </li>
             </ul>
         </div>
     </div>
