@@ -405,6 +405,54 @@
         </div>
     </section>
 
+    <section id="siswa" class="py-5 bg-white">
+        <div class="container py-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-end mb-4" data-aos="fade-up">
+                <div>
+                    <span class="section-tag">Daftar Peserta Didik</span>
+                    <h2 class="section-title mb-0">Data Siswa</h2>
+                </div>
+            </div>
+            <div class="section-divider" data-aos="fade-up"></div>
+
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden mt-3" data-aos="fade-up">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-dark" style="background-color: var(--primary-navy);">
+                                <tr>
+                                    <th class="py-3 px-4" style="width: 5%;">No</th>
+                                    <th class="py-3 px-4">Nama Siswa</th>
+                                    <th class="py-3 px-4">Kelas</th>
+                                    <th class="py-3 px-4">Jenis Kelamin</th>
+                                    <th class="py-3 px-4">Tahun Masuk</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $__currentLoopData = $siswa; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $s): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <tr>
+                                        <td><?php echo e($loop->iteration); ?></td>
+                                        <td><?php echo e($s->nama_siswa); ?></td>
+                                        <td>
+                                            
+                                            <?php if($s->kelas): ?>
+                                                <span class="badge bg-success"><?php echo e($s->kelas->nama_kelas); ?></span>
+                                            <?php else: ?>
+                                                <span class="badge bg-warning text-dark">Belum ada kelas</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo e($s->jenis_kelamin); ?></td>
+                                        <td><?php echo e($s->tahun_masuk); ?></td>
+                                    </tr>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- GALERI KEGIATAN SEKOLAH -->
     <section id="galeri" class="py-5 bg-white">
         <div class="container py-4">

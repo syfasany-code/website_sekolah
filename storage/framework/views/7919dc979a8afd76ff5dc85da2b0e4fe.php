@@ -157,6 +157,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item <?php echo e(request()->routeIs('admin.kelas*') ? 'active' : ''); ?>">
+                        <a class="nav-link" href="<?php echo e(route('admin.kelas.index')); ?>">
+                            <i class="menu-icon mdi mdi-account-group"></i>
+                            <span class="menu-title">Kelas</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item <?php echo e(request()->routeIs('admin.prestasi*') ? 'active' : ''); ?>">
                         <a class="nav-link" href="<?php echo e(route('admin.prestasi.index')); ?>">
                             <i class="menu-icon mdi mdi-trophy-variant-outline"></i>

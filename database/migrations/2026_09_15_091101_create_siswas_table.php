@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('nama_siswa', 50);
             $table->enum('jenis_kelamin', ['Laki-Laki', 'Perempuan']);
             $table->string('tahun_masuk');
+
+            $table->foreignId('id_kelas')->constrained('kelas', 'id_kelas')->onUpdate('cascade')->onDelete('restrict');
+
             $table->timestamps();
         });
     }

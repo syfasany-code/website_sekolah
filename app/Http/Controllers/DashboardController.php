@@ -43,8 +43,8 @@ class DashboardController extends Controller
         $ekskuls = Ekstrakulikuler::latest()->take(4)->get();
         $gurus = Guru::latest()->take(3)->get();
         $galeris = Galeri::latest()->take(3)->get();
+        $siswa = Siswa::with('kelas')->latest()->get();
 
-        // Kirim variabel ke view
-        return view('public.dashboard', compact('profil', 'beritas', 'prestasis', 'ekskuls', 'gurus', 'galeris'));
+        return view('public.dashboard', compact('profil', 'beritas', 'prestasis', 'ekskuls', 'gurus', 'galeris', 'siswa'));
     }
 }

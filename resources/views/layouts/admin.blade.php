@@ -153,6 +153,13 @@
                         </a>
                     </li>
 
+                    <li class="nav-item {{ request()->routeIs('admin.kelas*') ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.kelas.index') }}">
+                            <i class="menu-icon mdi mdi-account-group"></i>
+                            <span class="menu-title">Kelas</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item {{ request()->routeIs('admin.prestasi*') ? 'active' : '' }}">
                         <a class="nav-link" href="{{ route('admin.prestasi.index') }}">
                             <i class="menu-icon mdi mdi-trophy-variant-outline"></i>

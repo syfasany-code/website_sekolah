@@ -57,6 +57,9 @@
                     <a class="nav-link" href="{{ url('/') }}#guru">Guru & Staf</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="{{ url('/') }}#siswa">Siswa</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {{ Request::is('galeri*') ? 'active' : '' }}" href="{{ url('/') }}#galeri">Galeri</a>
                 </li>
             </ul>

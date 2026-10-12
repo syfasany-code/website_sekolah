@@ -1,7 +1,5 @@
-
-
 @extends('layouts.admin')
-@section('title', 'Data Siswa - MTsN 10 Tasikmalaya')
+@section('title', 'Data Siswa - SMA 1 Yogyakarta')
 
 @section('content')
 
@@ -44,6 +42,7 @@
                                     <th width="5%">No</th>
                                     <th>Nama Siswa</th>
                                     <th>Jenis Kelamin</th>
+                                    <th>Kelas</th>
                                     <th>Tahun Masuk</th>
                                     <th width="20%" class="text-center">Aksi</th>
                                 </tr>
@@ -58,7 +57,7 @@
                                     <!-- NAMA -->
                                     <td>
                                         <div class="font-weight-semibold text-dark">
-                                            {{ $item->nama_siswa }}
+                                            {{ $item->nama_siswa ?? $item->nama }}
                                         </div>
                                     </td>
 
@@ -66,6 +65,13 @@
                                     <td>
                                         <span class="badge {{ strtolower($item->jenis_kelamin) == 'l' || strtolower($item->jenis_kelamin) == 'laki-laki' ? 'bg-primary text-white' : 'bg-pink text-white' }} px-3 py-2" style="{{ strtolower($item->jenis_kelamin) != 'l' && strtolower($item->jenis_kelamin) != 'laki-laki' ? 'background-color: #e83e8c;' : '' }}">
                                             {{ $item->jenis_kelamin }}
+                                        </span>
+                                    </td>
+
+                                    <!-- KELAS (Relasi dari tabel kelas) -->
+                                    <td>
+                                        <span class="badge bg-info text-white font-weight-medium px-2 py-1">
+                                            {{ $item->kelas->nama_kelas ?? ($item->nama_kelas ?? '-') }}
                                         </span>
                                     </td>
 
@@ -79,18 +85,18 @@
                                         <div class="btn-group" role="group">
 
                                             <!-- Detail Siswa -->
-                                            <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}" class="btn btn-info btn-sm text-white" title="Detail Siswa">
+                                            <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa ?? $item->id)) }}" class="btn btn-info btn-sm text-white" title="Detail Siswa">
                                                 <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ml-1">Detail</span>
                                             </a>
 
                                             @if(strcasecmp(auth()->user()->role, 'admin') === 0)
                                                 <!-- Edit Siswa (Menggunakan Crypt::encrypt) -->
-                                                <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa)) }}" class="btn btn-warning btn-sm text-dark font-weight-medium" title="Edit Siswa">
+                                                <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa ?? $item->id)) }}" class="btn btn-warning btn-sm text-dark font-weight-medium" title="Edit Siswa">
                                                     <i class="mdi mdi-pencil"></i> <span class="d-none d-md-inline ml-1">Edit</span>
                                                 </a>
 
                                                 <!-- Hapus Siswa (Menggunakan Crypt::encrypt) -->
-                                                <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa)) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data siswa ini?')">
+                                                <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa ?? $item->id)) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data siswa ini?')">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger btn-sm font-weight-medium" title="Hapus Siswa">
@@ -104,7 +110,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
+                                    <td colspan="6" class="text-center text-muted py-4">
                                         Belum ada data siswa.
                                     </td>
                                 </tr>

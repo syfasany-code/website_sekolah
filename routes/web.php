@@ -10,6 +10,7 @@ use App\Http\Controllers\GaleriController; // Fixed typo 'http' -> 'Http'
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\KelasController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -126,6 +127,13 @@ Route::middleware('auth')->prefix('admin')->group(function () {
             Route::get('/add-edit/{id?}', [GuruController::class, 'addEdit'])->name('admin.guru.addEdit');
             Route::post('/save/{id?}', [GuruController::class, 'save'])->name('admin.guru.save');
             Route::delete('/{id}', [GuruController::class, 'destroy'])->name('admin.guru.delete');
+        });
+
+       Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+            Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
+            Route::get('/kelas/form/{id?}', [KelasController::class, 'form'])->name('kelas.form');
+            Route::post('/kelas/save/{id?}', [KelasController::class, 'save'])->name('kelas.save');
+            Route::delete('/kelas/destroy/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
         });
 
         // CRUD Siswa
