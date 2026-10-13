@@ -1,5 +1,3 @@
-
-
 <?php $__env->startSection('title', 'Profil Pembuat - Raka Danendra Pranajaya Wardoyo'); ?>
 
 <?php $__env->startSection('content'); ?>
