@@ -6,13 +6,10 @@
     <title><?php echo $__env->yieldContent('title', 'SMA Negeri 1 Yogyakarta'); ?></title>
 
     <!-- 1. Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="<?php echo e(asset('dist/css/bootstrap.min.css')); ?>" rel="stylesheet">
 
     <!-- 2. FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- 3. Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="<?php echo e(asset('vendors/font-awesome/css/font-awesome.min.css')); ?>">
 
     <!-- 4. Google Fonts Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

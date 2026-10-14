@@ -37,7 +37,7 @@
                     <div class="card-body p-4 d-flex flex-column">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="badge bg-danger px-2 py-1 rounded-pill"><?php echo e($item->tingkat ?? 'Nasional'); ?></span>
-                            <span class="text-warning small fw-bold"><i class="fas fa-trophy me-1"></i> <?php echo e($item->juara ?? 'Juara'); ?></span>
+                            <span class="text-warning small fw-bold"> <?php echo e($item->juara ?? 'Juara'); ?></span>
                         </div>
 
                         <h5 class="fw-bold text-dark mb-2" style="font-family: var(--font-heading);">
@@ -46,14 +46,14 @@
                         </h5>
 
                         <p class="text-muted small mb-3">
-                            <i class="fas fa-user me-1 text-secondary"></i> <?php echo e($item->nama_peraih ?? $item->pemenang ?? '-'); ?>
+                             <?php echo e($item->nama_peraih ?? $item->pemenang ?? '-'); ?>
 
                         </p>
 
                         <!-- TOMBOL DETAIL PRESTASI -->
                         <div class="mt-auto pt-2">
                             <a href="<?php echo e(route('public.prestasi.show', $idPrestasi)); ?>" class="btn btn-outline-primary btn-sm w-100 rounded-pill fw-semibold">
-                                Lihat Lebih Lengkap <i class="fas fa-chevron-right small ms-1"></i>
+                                Lihat Lebih Lengkap
                             </a>
                         </div>
                     </div>

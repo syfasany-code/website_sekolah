@@ -51,23 +51,22 @@
 
                                         </div>
                                     </td>
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <?php if(strcasecmp(auth()->user()->role, 'admin') === 0): ?>
-                                                <!-- Edit Kelas -->
-                                                <a href="<?php echo e(route('admin.kelas.form', Crypt::encrypt($item->id))); ?>" class="btn btn-warning btn-sm text-dark font-weight-medium" title="Edit Kelas">
-                                                    <i class="mdi mdi-pencil"></i> <span class="d-none d-md-inline ml-1">Edit</span>
-                                                </a>
-
-                                                <!-- Hapus Kelas -->
-                                                <form action="<?php echo e(route('admin.kelas.destroy', Crypt::encrypt($item->id))); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data kelas ini?')">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                    <button type="submit" class="btn btn-danger btn-sm font-weight-medium" title="Hapus Kelas">
-                                                        <i class="mdi mdi-trash-can-outline"></i> <span class="d-none d-md-inline ml-1">Hapus</span>
-                                                    </button>
-                                                </form>
-                                            <?php endif; ?>
+                                    <td  class="tect-center">
+                                        <div class="btn-aksi-group" role="group">
+                                            <a href="<?php echo e(route('admin.kelas.form', Crypt::encrypt($item->id_kelas))); ?>"class="btn btn-warning btn-sm text-white" title="Edit Kelas"aria-label="Edit Kelas">
+                                                <i class="mdi mdi-pencil"></i> <spanclass="d-none d-md-inline ms-1">Edit</spanclass=>
+                                            </a>
+                                            <form action="<?php echo e(route('admin.kelas.destroy', Crypt::encrypt($item->id_kelas))); ?>"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus Kelas"
+                                                    aria-label="Hapus Kelas">
+                                                    <i class="mdi mdi-delete"></i> <span
+                                                        class="d-none d-md-inline ms-1">Hapus</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -29,13 +29,13 @@
                     <div class="row g-3 mb-4">
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3 border-start border-4 border-primary">
-                                <span class="text-muted small d-block mb-1"><i class="fas fa-user-tie text-primary me-1"></i> Pembina / Pelatih</span>
+                                <span class="text-muted small d-block mb-1"> Pembina / Pelatih</span>
                                 <strong class="text-dark fs-6">{{ $ekskul->pembina ?? '-' }}</strong>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded-3 border-start border-4 border-warning">
-                                <span class="text-muted small d-block mb-1"><i class="fas fa-clock text-warning me-1"></i> Jadwal Latihan</span>
+                                <span class="text-muted small d-block mb-1"> Jadwal Latihan</span>
                                 <strong class="text-dark fs-6">{{ $ekskul->jadwal_latihan ?? '-' }}</strong>
                             </div>
                         </div>
@@ -44,7 +44,7 @@
                     <hr class="my-4">
 
                     <div>
-                        <h5 class="fw-bold text-dark mb-3"><i class="fas fa-info-circle text-primary me-2"></i>Deskripsi & Kegiatan</h5>
+                        <h5 class="fw-bold text-dark mb-3">Deskripsi & Kegiatan</h5>
                         <p class="text-muted mb-0" style="white-space: pre-line; line-height: 1.8;">
                             {{ $ekskul->deskripsi ?? 'Belum ada deskripsi untuk ekstrakurikuler ini.' }}
                         </p>

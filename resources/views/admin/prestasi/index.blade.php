@@ -99,30 +99,25 @@
                                     </td>
 
                                     <!-- AKSI -->
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-
-                                            <!-- Detail Prestasi (Semua User Bisa Akses) -->
-                                            <a href="{{ route('admin.prestasi.show', Crypt::encrypt($item->id_prestasi)) }}" class="btn btn-info btn-sm text-white" title="Detail Prestasi">
-                                                <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ml-1">Detail</span>
+                                    <td  class="tect-center">
+                                        <div class="btn-aksi-group" role="group">
+                                            <a href="{{ route('admin.prestasi.show', Crypt::encrypt($item->id_prestasi)) }}"class="btn btn-info btn-sm text-white" title="Detail Prestasi"aria-label="Detail Prestasi">
+                                                <i class="mdi mdi-eye"></i> <spanclass="d-none d-md-inline ms-1">Detail</spanclass=>
                                             </a>
-
-                                            @if(strcasecmp(auth()->user()->role, 'admin') === 0)
-                                                <!-- Edit Prestasi (Khusus Admin) -->
-                                                <a href="{{ route('admin.prestasi.addEdit', Crypt::encrypt($item->id_prestasi)) }}" class="btn btn-warning btn-sm text-dark font-weight-medium" title="Edit Prestasi">
-                                                    <i class="mdi mdi-pencil"></i> <span class="d-none d-md-inline ml-1">Edit</span>
-                                                </a>
-
-                                                <!-- Hapus Prestasi (Khusus Admin) -->
-                                                <form action="{{ route('admin.prestasi.delete', Crypt::encrypt($item->id_prestasi)) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data prestasi ini?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm font-weight-medium" title="Hapus Prestasi">
-                                                        <i class="mdi mdi-trash-can-outline"></i> <span class="d-none d-md-inline ml-1">Hapus</span>
-                                                    </button>
-                                                </form>
-                                            @endif
-
+                                            <a href="{{ route('admin.prestasi.addEdit', Crypt::encrypt($item->id_prestasi)) }}"class="btn btn-warning btn-sm text-white" title="Edit Prestasi"aria-label="Edit Prestasi">
+                                                <i class="mdi mdi-pencil"></i> <spanclass="d-none d-md-inline ms-1">Edit</spanclass=>
+                                            </a>
+                                            <form action="{{ route('admin.prestasi.delete', Crypt::encrypt($item->id_prestasi)) }}"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus Prestasi"
+                                                    aria-label="Hapus Prestasi">
+                                                    <i class="mdi mdi-delete"></i> <span
+                                                        class="d-none d-md-inline ms-1">Hapus</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

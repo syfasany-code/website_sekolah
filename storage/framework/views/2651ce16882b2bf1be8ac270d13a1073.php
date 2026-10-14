@@ -23,9 +23,6 @@
                     <?php echo e($profil->nama_sekolah ?? 'SMAN 1 YOGYAKARTA'); ?>
 
                 </h5>
-                <small class="text-warning fw-semibold tracking-wider d-block" style="font-size: 0.72rem;">
-                    TELADAN JAYAMAHE
-                </small>
             </div>
         </a>
 

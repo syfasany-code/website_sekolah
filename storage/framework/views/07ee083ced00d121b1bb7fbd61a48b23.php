@@ -117,7 +117,7 @@
 
                     <div class="mt-4 pt-2">
                         <button class="btn btn-outline-navy me-2" data-bs-toggle="modal" data-bs-target="#modalVisiMisi">
-                            <i class="fas fa-bullseye me-2"></i>Lihat Visi & Misi
+                            Lihat Visi & Misi
                         </button>
                     </div>
                 </div>
@@ -131,7 +131,7 @@
             <div class="modal-content">
                 <div class="modal-header style-navy" style="background-color: var(--primary-navy); color: #FFF;">
                     <h5 class="modal-header-title fw-bold mb-0" style="font-family: var(--font-heading);">
-                        <i class="fas fa-bullseye me-2 text-warning"></i>Visi & Misi Sekolah
+                        </i>Visi & Misi Sekolah
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
@@ -168,7 +168,7 @@
                     <h2 class="section-title mb-0">Berita & Informasi Terbaru</h2>
                 </div>
                 <a href="<?php echo e(route('public.berita')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
-                    Lihat Semua Berita <i class="fas fa-arrow-right ms-2"></i>
+                    Lihat Semua Berita
                 </a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
@@ -206,7 +206,7 @@
                             <div class="card-footer bg-transparent border-0 px-4 pb-4">
                                 <a href="<?php echo e(route('public.berita.show', $idBerita)); ?>"
                                     class="text-decoration-none fw-bold text-primary">
-                                    Baca Selengkapnya <i class="fas fa-chevron-right small ms-1"></i>
+                                    Baca Selengkapnya
                                 </a>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                     <h2 class="section-title mb-0">Prestasi Terbaru Teladan</h2>
                 </div>
                 <a href="<?php echo e(route('public.prestasi')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
-                    Lihat Lebih Lengkap <i class="fas fa-arrow-right ms-2"></i>
+                    Lihat Lebih Lengkap
                 </a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
@@ -251,13 +251,12 @@
                             <?php else: ?>
                                 <div class="bg-light d-flex align-items-center justify-content-center text-muted"
                                     style="height: 200px;">
-                                    <i class="fas fa-trophy fa-3x text-warning"></i>
                                 </div>
                             <?php endif; ?>
                             <div class="card-body p-4 d-flex flex-column">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="badge bg-danger"><?php echo e($item->tingkat ?? 'Nasional'); ?></span>
-                                    <span class="date-badge"><i class="fas fa-trophy text-warning me-1"></i> Juara</span>
+                                    <span class="date-badge"> Juara</span>
                                 </div>
                                 <h5 class="card-title fw-bold text-dark mb-2"
                                     style="font-family: var(--font-heading); font-size: 1.15rem;">
@@ -265,14 +264,13 @@
 
                                 </h5>
                                 <p class="card-text text-muted small mb-3">
-                                    <i class="fas fa-user me-1 text-secondary"></i>
                                     <?php echo e($item->nama_peraih ?? $item->pemenang); ?>
 
                                 </p>
                                 <div class="mt-auto pt-2">
                                     <a href="<?php echo e(route('public.prestasi.show', $idPrestasi)); ?>"
                                         class="text-decoration-none fw-semibold small text-primary">
-                                        Detail Prestasi <i class="fas fa-chevron-right ms-1 style-xs"></i>
+                                        Detail Prestasi
                                     </a>
                                 </div>
                             </div>
@@ -294,7 +292,7 @@
                     <h2 class="section-title mb-0">Ekstrakurikuler & Organisasi</h2>
                 </div>
                 <a href="<?php echo e(route('public.ekstrakulikuler')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
-                    Lihat Lebih Lengkap <i class="fas fa-arrow-right ms-2"></i>
+                    Lihat Lebih Lengkap
                 </a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
@@ -333,7 +331,7 @@
                                 <div class="mt-auto pt-2">
                                     <a href="<?php echo e(route('public.ekstrakulikuler.show', $idEkskul)); ?>"
                                         class="text-decoration-none fw-semibold small text-primary">
-                                        Detail Ekskul <i class="fas fa-chevron-right ms-1 style-xs"></i>
+                                        Detail Ekskul
                                     </a>
                                 </div>
                             </div>
@@ -359,48 +357,44 @@
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
 
-            <!-- Swiper Container -->
-            <div class="swiper swiperGuru py-3" data-aos="fade-up">
-                <div class="swiper-wrapper">
-                    <?php $__empty_1 = true; $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
-                        <div class="swiper-slide">
-                            <div class="teacher-card text-center p-4 bg-white rounded-4 shadow-sm border h-100">
-                                <div class="teacher-avatar mx-auto mb-3"
-                                    style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-gold);">
-                                    <?php if(isset($item->foto) && $item->foto && Storage::disk('public')->exists('guru/' . $item->foto)): ?>
-                                        <img src="<?php echo e(asset('storage/guru/' . $item->foto)); ?>"
-                                            alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
-                                            class="w-100 h-100 object-fit-cover">
-                                    <?php elseif(isset($item->foto) && $item->foto && Storage::disk('public')->exists($item->foto)): ?>
-                                        <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
-                                            alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
-                                            class="w-100 h-100 object-fit-cover">
-                                    <?php else: ?>
-                                        <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode($item->nama_guru ?? ($item->nama ?? 'Guru'))); ?>&background=002147&color=fff"
-                                            alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
-                                            class="w-100 h-100 object-fit-cover">
-                                    <?php endif; ?>
-                                </div>
-
-                                <h5 class="fw-bold mb-1 text-dark fs-6" style="font-family: var(--font-body);">
-                                    <?php echo e($item->nama_guru ?? ($item->nama ?? 'Nama Guru')); ?>
-
-                                </h5>
-
-                                <p class="text-muted small mb-0">
-                                    <?php echo e($item->mapel ?? ($item->mata_pelajaran ?? 'Pengajar')); ?>
-
-                                </p>
+            <!-- Grid Container (3 Card per Row) -->
+            <div class="row g-4 py-3" data-aos="fade-up">
+                <?php $__empty_1 = true; $__currentLoopData = $gurus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="teacher-card text-center p-4 bg-white rounded-4 shadow-sm border h-100">
+                            <div class="teacher-avatar mx-auto mb-3"
+                                style="width: 110px; height: 110px; border-radius: 50%; overflow: hidden; border: 3px solid var(--accent-gold);">
+                                <?php if(isset($item->foto) && $item->foto && Storage::disk('public')->exists('guru/' . $item->foto)): ?>
+                                    <img src="<?php echo e(asset('storage/guru/' . $item->foto)); ?>"
+                                        alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
+                                        class="w-100 h-100 object-fit-cover">
+                                <?php elseif(isset($item->foto) && $item->foto && Storage::disk('public')->exists($item->foto)): ?>
+                                    <img src="<?php echo e(asset('storage/' . $item->foto)); ?>"
+                                        alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
+                                        class="w-100 h-100 object-fit-cover">
+                                <?php else: ?>
+                                    <img src="https://ui-avatars.com/api/?name=<?php echo e(urlencode($item->nama_guru ?? ($item->nama ?? 'Guru'))); ?>&background=002147&color=fff"
+                                        alt="<?php echo e($item->nama_guru ?? ($item->nama ?? 'Guru')); ?>"
+                                        class="w-100 h-100 object-fit-cover">
+                                <?php endif; ?>
                             </div>
-                        </div>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
-                        <div class="swiper-slide">
-                            <div class="text-center text-muted py-4 w-100">Belum ada data guru.</div>
-                        </div>
-                    <?php endif; ?>
-                </div>
 
-                <div class="swiper-pagination mt-4"></div>
+                            <h5 class="fw-bold mb-1 text-dark fs-6" style="font-family: var(--font-body);">
+                                <?php echo e($item->nama_guru ?? ($item->nama ?? 'Nama Guru')); ?>
+
+                            </h5>
+
+                            <p class="text-muted small mb-0">
+                                <?php echo e($item->mapel ?? ($item->mata_pelajaran ?? 'Pengajar')); ?>
+
+                            </p>
+                        </div>
+                    </div>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                    <div class="col-12">
+                        <div class="text-center text-muted py-4 w-100">Belum ada data guru.</div>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>
@@ -462,7 +456,7 @@
                     <h2 class="section-title mb-0">Galeri & Kegiatan</h2>
                 </div>
                 <a href="<?php echo e(route('public.galeri')); ?>" class="btn btn-outline-navy mt-3 mt-md-0">
-                    Lihat Semua Galeri <i class="fas fa-arrow-right ms-2"></i>
+                    Lihat Semua Galeri
                 </a>
             </div>
             <div class="section-divider" data-aos="fade-up"></div>
@@ -548,73 +542,6 @@
             </div>
         </div>
     </div>
-
 <?php $__env->stopSection(); ?>
-
-<?php $__env->startPush('styles'); ?>
-    <style>
-        .style-gallery-card {
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .style-gallery-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        .gallery-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            top: 0;
-            background: linear-gradient(to top, rgba(0, 33, 71, 0.85) 0%, rgba(0, 33, 71, 0) 60%);
-            opacity: 0.9;
-            transition: opacity 0.3s ease;
-        }
-
-        .style-gallery-card:hover .gallery-overlay {
-            opacity: 1;
-        }
-    </style>
-<?php $__env->stopPush(); ?>
-
-<?php $__env->startPush('scripts'); ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var swiperEl = document.querySelector('.swiperGuru');
-
-            if (swiperEl) {
-                var slideCount = swiperEl.querySelectorAll('.swiper-slide').length;
-
-                new Swiper('.swiperGuru', {
-                    slidesPerView: 1,
-                    spaceBetween: 20,
-                    loop: slideCount > 3,
-                    autoplay: {
-                        delay: 2500,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: true,
-                    },
-                    pagination: {
-                        el: '.swiper-pagination',
-                        clickable: true,
-                    },
-                    breakpoints: {
-                        576: {
-                            slidesPerView: Math.min(2, slideCount),
-                            spaceBetween: 20,
-                        },
-                        992: {
-                            slidesPerView: Math.min(3, slideCount),
-                            spaceBetween: 30,
-                        },
-                    },
-                });
-            }
-        });
-    </script>
-<?php $__env->stopPush(); ?>
 
 <?php echo $__env->make('public.layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH D:\website_sekolah\resources\views/public/dashboard.blade.php ENDPATH**/ ?>

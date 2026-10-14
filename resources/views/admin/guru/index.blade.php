@@ -72,21 +72,25 @@
 
                                     <!-- AKSI (Khusus Admin) -->
 
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-                                            <a href="{{ route('admin.guru.show', Crypt::encrypt($item->id_guru)) }}" class="btn btn-info btn-sm text-white" title="Detail Guru" aria-label="Detail Guru">
-                                                <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ms-1">Detail</span>
+                                    <td  class="tect-center">
+                                        <div class="btn-aksi-group" role="group">
+                                            <a href="{{ route('admin.guru.show', Crypt::encrypt($item->id_guru)) }}"class="btn btn-info btn-sm text-white" title="Detail Guru"aria-label="Detail Guru">
+                                                <i class="mdi mdi-eye"></i> <spanclass="d-none d-md-inline ms-1">Detail</spanclass=>
                                             </a>
-                                            @if(strcasecmp(auth()->user()->role, 'admin') === 0)
-                                                <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}" class="btn btn-warning">
-                                                    Edit
-                                                </a>
-                                                <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger">Hapus</button>
-                                                </form>
-                                            @endif
+                                            <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}"class="btn btn-warning btn-sm text-white" title="Edit Guru"aria-label="Edit Guru">
+                                                <i class="mdi mdi-pencil"></i> <spanclass="d-none d-md-inline ms-1">Edit</spanclass=>
+                                            </a>
+                                            <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus Guru"
+                                                    aria-label="Hapus Guru">
+                                                    <i class="mdi mdi-delete"></i> <span
+                                                        class="d-none d-md-inline ms-1">Hapus</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

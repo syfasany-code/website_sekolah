@@ -86,30 +86,25 @@
                                     </td>
 
                                     <!-- AKSI -->
-                                    <td class="text-center">
-                                        <div class="btn-group" role="group">
-
-                                            <!-- Detail Siswa -->
-                                            <a href="<?php echo e(route('admin.siswa.show', Crypt::encrypt($item->id_siswa ?? $item->id))); ?>" class="btn btn-info btn-sm text-white" title="Detail Siswa">
-                                                <i class="mdi mdi-eye"></i> <span class="d-none d-md-inline ml-1">Detail</span>
+                                    <td  class="tect-center">
+                                        <div class="btn-aksi-group" role="group">
+                                            <a href="<?php echo e(route('admin.siswa.show', Crypt::encrypt($item->id_siswa))); ?>"class="btn btn-info btn-sm text-white" title="Detail Siswa"aria-label="Detail Siswa">
+                                                <i class="mdi mdi-eye"></i> <spanclass="d-none d-md-inline ms-1">Detail</spanclass=>
                                             </a>
-
-                                            <?php if(strcasecmp(auth()->user()->role, 'admin') === 0): ?>
-                                                <!-- Edit Siswa (Menggunakan Crypt::encrypt) -->
-                                                <a href="<?php echo e(route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa ?? $item->id))); ?>" class="btn btn-warning btn-sm text-dark font-weight-medium" title="Edit Siswa">
-                                                    <i class="mdi mdi-pencil"></i> <span class="d-none d-md-inline ml-1">Edit</span>
-                                                </a>
-
-                                                <!-- Hapus Siswa (Menggunakan Crypt::encrypt) -->
-                                                <form action="<?php echo e(route('admin.siswa.delete', Crypt::encrypt($item->id_siswa ?? $item->id))); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data siswa ini?')">
-                                                    <?php echo csrf_field(); ?>
-                                                    <?php echo method_field('DELETE'); ?>
-                                                    <button type="submit" class="btn btn-danger btn-sm font-weight-medium" title="Hapus Siswa">
-                                                        <i class="mdi mdi-trash-can-outline"></i> <span class="d-none d-md-inline ml-1">Hapus</span>
-                                                    </button>
-                                                </form>
-                                            <?php endif; ?>
-
+                                            <a href="<?php echo e(route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa))); ?>"class="btn btn-warning btn-sm text-white" title="Edit Siswa"aria-label="Edit Siswa">
+                                                <i class="mdi mdi-pencil"></i> <spanclass="d-none d-md-inline ms-1">Edit</spanclass=>
+                                            </a>
+                                            <form action="<?php echo e(route('admin.siswa.delete', Crypt::encrypt($item->id_siswa))); ?>"
+                                                method="POST" class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                                <?php echo csrf_field(); ?>
+                                                <?php echo method_field('DELETE'); ?>
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus Siswa"
+                                                    aria-label="Hapus Siswa">
+                                                    <i class="mdi mdi-delete"></i> <span
+                                                        class="d-none d-md-inline ms-1">Hapus</span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>
