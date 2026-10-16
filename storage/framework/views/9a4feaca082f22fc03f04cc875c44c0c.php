@@ -44,7 +44,7 @@
                     <li><a href="<?php echo e(url('/#prestasi')); ?>"><i class="fas fa-chevron-right me-2 text-warning opacity-50"></i>Prestasi Siswa</a></li>
                     <li><a href="<?php echo e(url('/ekstrakurikuler')); ?>"><i class="fas fa-chevron-right me-2 text-warning opacity-50"></i>Ekstrakurikuler</a></li>
                     <li><a href="<?php echo e(url('/#guru')); ?>"><i class="fas fa-chevron-right me-2 text-warning opacity-50"></i>Guru &amp; Staf</a></li>
-                    <li><a href="<?php echo e(url('/#siswa')); ?>"><i class="fas fa-chevron-right me-2 text-warning opacity-50"></i>Guru</a></li>
+                    <li><a href="<?php echo e(url('/#siswa')); ?>"><i class="fas fa-chevron-right me-2 text-warning opacity-50"></i>Siswa</a></li>
                 </ul>
             </div>
 

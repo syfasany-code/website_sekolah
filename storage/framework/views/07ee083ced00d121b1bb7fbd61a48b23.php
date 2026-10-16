@@ -195,7 +195,7 @@
                             <div class="card-body p-4">
                                 <div class="d-flex justify-content-between align-items-center mb-2">
                                     <span class="news-badge"><?php echo e($item->kategori ?? 'Umum'); ?></span>
-                                    <span class="date-badge"><i class="far fa-calendar me-1"></i>
+                                    <span class="date-badge">
                                         <?php echo e($item->created_at ? $item->created_at->format('d M Y') : '-'); ?></span>
                                 </div>
                                 <h5 class="card-title fw-bold text-dark mb-3"
